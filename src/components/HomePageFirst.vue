@@ -121,7 +121,7 @@ const initCarroussel = () => {
 
                     <!-- List of the slides created with Vue.js and 
                      the database -->
-                    <div class="card slide" v-for="recipe in recipes" :key="recipe.id">
+                    <div class="slide" v-for="recipe in recipes" :key="recipe.id">
                         <RecipeCard :recipe="recipe"/>
                     </div>
         
@@ -138,7 +138,7 @@ const initCarroussel = () => {
     </section>
 </template>
 
-<style>
+<style scoped>
 /* Style of the home page */
 .home {
     height: fit-content;
@@ -229,13 +229,14 @@ h1 {
     margin: 0;
 }
 
-.slide.card {
-    height: 27em;
-    border: 1px solid white;
-    aspect-ratio: 0.84;
+.section-carroussel .slide{
     display: none;
-    overflow: hidden;
-    border-radius: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    transition: 0.5s;
 }
 
 .section-carroussel .slide.active{

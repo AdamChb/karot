@@ -6,7 +6,7 @@
     </footer>
 </template>
 
-<style>
+<style scoped>
 /* Style for the footer */
 footer {
     background-color: white;

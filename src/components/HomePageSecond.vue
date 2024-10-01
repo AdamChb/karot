@@ -47,7 +47,7 @@
     </section>
 </template>
 
-<style>
+<style scoped>
 #how-to-use-karot {
     padding: 3em 10em;
 }

@@ -8,22 +8,33 @@ export default {
 </script>
 
 <template>
-    <img class="card-img-top" :src="recipe.image" alt="Card image">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-sm-9 col-8">
-                <h4 class="card-title">{{ recipe.name }}</h4>
-                <p>by {{ recipe.author }}</p>
-            </div>
-            <div class="col-sm-3 col-4">
-                <h4>{{ recipe.like }}</h4>
-                <img src="@/assets/heart.svg" alt="heart">
+    <div class="card">
+        <img class="card-img-top" :src="recipe.image" alt="Card image">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-9 col-8">
+                    <h4 class="card-title">{{ recipe.name }}</h4>
+                    <p>by {{ recipe.author }}</p>
+                </div>
+                <div class="col-sm-3 col-4">
+                    <h4>{{ recipe.like }}</h4>
+                    <img src="@/assets/heart.svg" alt="heart">
+                </div>
             </div>
         </div>
     </div>
 </template>
 
-<style>
+<style scoped>
+.card {
+    height: 27em;
+    border: 1px solid white;
+    aspect-ratio: 0.84;
+    display: none;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
 .card img.card-img-top {
     flex: 1;
     object-fit: cover;

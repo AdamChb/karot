@@ -49,10 +49,8 @@ const toggleMenu = () => {
     </div>
   </header>
 </template>
-  
-<script></script>
-  
-<style>
+    
+<style scoped>
 /* Styles of the header */
 header {
   background-color: white;
