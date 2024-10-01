@@ -30,7 +30,7 @@ export default {
     height: 27em;
     border: 1px solid white;
     aspect-ratio: 0.84;
-    display: none;
+    display: flex;
     overflow: hidden;
     border-radius: 10px;
 }
@@ -45,16 +45,22 @@ export default {
     flex: 0;
 }
 
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
 .card-title {
     margin-bottom: 0;
     width: 100%;
+    font-size: 110%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .card-body p {
-    font-size: 0.7em;
+    font-size: 80%;
 }
 
 .card-body .col-sm-9 {
@@ -64,11 +70,19 @@ export default {
 .card-body .col-sm-3 {
     display: flex;
     align-items: center;
+    padding: 0;
+}
+
+.card-body img {
+    position: absolute;
+    right: 10px;
 }
 
 .card-body .col-sm-3 h4 {
     font-size: 1em;
     margin: 0!important;
     margin-right: 10px!important;
+    position: absolute;
+    right: 35px;
 }
 </style>

@@ -39,24 +39,23 @@
     ]
 </script>
 
+<script>
+import RecipeCard from '@/components/RecipeCard.vue'
+
+export default {
+    name: "HomePageThird",
+    components: {
+        RecipeCard,
+    }
+}
+</script>
+
 <template>
     <section class="orange" id="most-liked-recipes">
         <h1>Most liked recipes</h1>
         <div id="recipes">
-            <div class="card" v-for="recipe in recipes" :key="recipe.id">
-                <img class="card-img-top" :src="recipe.image" alt="Card image">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-8">
-                            <h4 class="card-title">{{ recipe.name }}</h4>
-                            <p>by {{ recipe.author }}</p>
-                        </div>
-                        <div class="col-4">
-                            <h4>{{ recipe.like }}</h4>
-                            <img src="@/assets/heart.svg" alt="heart">
-                        </div>
-                    </div>
-                </div>
+            <div v-for="recipe in recipes" :key="recipe.id">
+                <RecipeCard :recipe="recipe"/>
             </div>
         </div>
     </section>
