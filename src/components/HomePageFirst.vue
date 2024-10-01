@@ -138,7 +138,7 @@ const initCarroussel = () => {
     </section>
 </template>
 
-<style>
+<style scoped>
 /* Style of the home page */
 .home {
     height: fit-content;

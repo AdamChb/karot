@@ -23,7 +23,7 @@ export default {
     </div>
 </template>
 
-<style>
+<style scoped>
 .card img.card-img-top {
     flex: 1;
     object-fit: cover;

@@ -62,7 +62,7 @@
     </section>
 </template>
 
-<style>
+<style scoped>
 #most-liked-recipes {
     padding: 3em 10em;
 }
