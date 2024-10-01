@@ -1,30 +1,51 @@
+<script>
+import HeaderKarot from './components/HeaderKarot'
+import FooterKarot from './components/FooterKarot'
+
+export default {
+  name: "App",
+  components: {
+    HeaderKarot,
+    FooterKarot,
+  },
+};
+</script>
+
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <HeaderKarot />
   <router-view />
+  <FooterKarot />
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-family: Inter;
 }
 
-nav {
-  padding: 30px;
+.blue {
+    background-color: #2f4858;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.orange {
+    background-color: #ea5b0c;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.white {
+    background-color: white;
+}
+
+.txt-orange {
+    color: #ea5b0c
+}
+
+.txt-white {
+    color: white;
 }
 </style>
