@@ -3,11 +3,21 @@
 <template>
   <div id="content">
     <div id="form">
-      <h1 id="title">Log In</h1>
+      <h1 id="title">Sign Up</h1>
       <form>
-        <label for="email" class="subject">Username</label>
+        <label class="subject" for="username">Username</label>
+        <input
+          class="input"
+          type="text"
+          id="username"
+          name="username"
+          required
+        />
+
+        <label class="subject" for="email">Email</label>
         <input class="input" type="email" id="email" name="email" required />
-        <label for="password" class="subject">Password</label>
+
+        <label class="subject" for="password">Password</label>
         <input
           class="input"
           type="password"
@@ -15,10 +25,17 @@
           name="password"
           required
         />
-        <button type="submit" id="submit">Log In</button>
-        <p id="signup">
-          You don’t have an account ? <router-link to="/SignUp"><a>Register now</a></router-link>
-        </p>
+
+        <label class="subject" for="repeat-password">Repeat Password</label>
+        <input
+          class="input"
+          type="password"
+          id="repeat-password"
+          name="repeat-password"
+          required
+        />
+        <button type="submit" id="submit">Sign up</button>
+        <p id="login">You already have an account ? <router-link to="/LogIn"><a>Log in</a></router-link></p>
       </form>
     </div>
   </div>
@@ -34,6 +51,7 @@
   width: 100%;
   padding: 4em 0 2em 0;
   background-color: #2F4858;
+  background-size: cover;
 }
 
 #form {
@@ -45,7 +63,6 @@
   background-color: #ffffff;
   border-radius: 25px;
 }
-
 #title {
   font-size: 1.5em;
   font-weight: 600;
@@ -76,12 +93,12 @@
   border: none;
 }
 
-#signup {
+#login {
   margin-top: 1em;
   font-size: 1em;
 }
 
-#signup a {
+#login a {
   color: #EA5B0C;
   text-decoration: none;
 }
@@ -94,13 +111,13 @@
 
 @media (max-width: 768px) {
   #form {
-    width: 70vw;
+    width: 60vw;
   }
 }
 
 @media (max-width: 480px) {
   #form {
-    width: 90vw;
+    width: 70vw;
   }
 }
 </style>
