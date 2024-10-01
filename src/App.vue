@@ -48,4 +48,5 @@ export default {
 .txt-white {
     color: white;
 }
+
 </style>
