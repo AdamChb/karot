@@ -7,7 +7,6 @@ CREATE TABLE Karot_User(
    Username VARCHAR(50) NOT NULL,
    Email VARCHAR(50) NOT NULL,
    Password VARCHAR(50) NOT NULL,
-   Pseudo VARCHAR(50) NOT NULL,
    PRIMARY KEY(ID_User),
    UNIQUE(Email),
    UNIQUE(Username)

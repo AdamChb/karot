@@ -1,6 +1,6 @@
 <script>
-import HeaderKarot from './components/HeaderKarot'
-import FooterKarot from './components/FooterKarot'
+import HeaderKarot from "./components/HeaderKarot";
+import FooterKarot from "./components/FooterKarot";
 
 export default {
   name: "App",
@@ -18,34 +18,34 @@ export default {
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&display=swap");
 
 * {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    box-sizing: border-box;
-    font-family: Inter;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: Inter;
 }
 
 .blue {
-    background-color: #2f4858;
+  background-color: #2f4858;
 }
 
 .orange {
-    background-color: #ea5b0c;
+  background-color: #ea5b0c;
 }
 
 .white {
-    background-color: white;
+  background-color: white;
 }
 
 .txt-orange {
-    color: #ea5b0c
+  color: #ea5b0c;
 }
 
 .txt-white {
-    color: white;
+  color: white;
 }
 </style>

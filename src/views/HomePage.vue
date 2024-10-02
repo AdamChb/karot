@@ -1,7 +1,7 @@
 <script>
-import HomePageFirst from '../components/HomePageFirst.vue'
-import HomePageSecond from '../components/HomePageSecond.vue'
-import HomePageThird from '../components/HomePageThird.vue'
+import HomePageFirst from "../components/HomePageFirst.vue";
+import HomePageSecond from "../components/HomePageSecond.vue";
+import HomePageThird from "../components/HomePageThird.vue";
 
 export default {
   name: "HomePage",
@@ -14,7 +14,7 @@ export default {
 </script>
 
 <template>
-  <HomePageFirst/>
-  <HomePageSecond/>
-  <HomePageThird/>
+  <HomePageFirst />
+  <HomePageSecond />
+  <HomePageThird />
 </template>
