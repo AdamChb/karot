@@ -1,6 +1,6 @@
 const express = require("express");
-const api_db = require("./api_db");
-const init_db = require("./init_db");
+const api_db = require("../database/api_db");
+const init_db = require("../database/init_db");
 const hostname = "127.0.0.1";
 const port = 3000;
 

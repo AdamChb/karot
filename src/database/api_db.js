@@ -1,5 +1,3 @@
-//Load HTTP module
-
 const mysql = require("mysql2");
 
 async function getMostLiked(limit) {
@@ -20,3 +18,5 @@ async function getMostLiked(limit) {
     );
   });
 }
+
+module.exports = { getMostLiked };

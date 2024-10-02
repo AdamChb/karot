@@ -7,64 +7,84 @@ const port = 3000;
 const fs = require("fs");
 
 //Load MySQL module
-const mysql = require("mysql");
-
-const axios = require("axios");
+const mysql = require("mysql2");
 const path = require("path");
 
-function APIIngredientCall() {
+async function APIIngredientCall() {
   // API link to get all ingredients
   const linkIngredients =
     "https://www.themealdb.com/api/json/v1/1/list.php?i=list";
-  return axios.get(linkIngredients).then((response) => {
-    const ingredients = response.data.meals.map((meal) => meal.strIngredient);
-    return ingredients;
-  });
+  return await fetch(linkIngredients)
+    .then((res) => {
+      res.json();
+    })
+    .then((data) => {
+      const ingredients = data.meals.map((meal) => meal.strIngredient);
+      return ingredients;
+    });
 }
 
-function APIMealCall(letter) {
+async function APIMealCall(letter) {
   // API link to get meals starting with the given letter
   const linkMeals = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
 
-  return axios.get(linkMeals).then((response) => {
-    const mealsData = response.data.meals;
-    if (!mealsData) return [];
+  return await fetch(linkMeals)
+    .then((res) => {
+      res.json();
+    })
+    .then((data) => {
+      const mealsData = data.meals;
+      if (!mealsData) return [];
 
-    var list = [];
+      var list = [];
 
-    mealsData.forEach((meal) => {
-      let ingredients = {};
-      ingredients[meal.strIngredient1] = meal.strMeasure1;
+      mealsData.forEach((meal) => {
+        let ingredients = {};
+        ingredients[meal.strIngredient1] = meal.strMeasure1;
 
-      let count = 2;
-      while (count <= 20 && meal[`strIngredient${count}`]) {
-        ingredients[meal[`strIngredient${count}`]] = meal[`strMeasure${count}`];
-        count++;
-      }
+        let count = 2;
+        while (count <= 20 && meal[`strIngredient${count}`]) {
+          ingredients[meal[`strIngredient${count}`]] =
+            meal[`strMeasure${count}`];
+          count++;
+        }
 
-      list.push({
-        name: meal.strMeal,
-        category: meal.strCategory,
-        steps: meal.strInstructions,
-        image: meal.strMealThumb,
-        ingredients: ingredients,
+        list.push({
+          name: meal.strMeal,
+          category: meal.strCategory,
+          steps: meal.strInstructions,
+          image: meal.strMealThumb,
+          ingredients: ingredients,
+        });
       });
-    });
 
-    return meals;
-  });
+      return list;
+    });
 }
 
 function insertIngredient(list) {
+  const db = mysql.createConnection({
+    host: "localhost",
+    user: "karot_root",
+    password: "efreikarot240",
+    database: "karot",
+  });
   const query = "INSERT INTO Ingredient (Name_Ingredient) VALUES (?)";
   list.forEach((ingredient) => {
     db.query(query, [ingredient], (err) => {
       if (err) throw err;
     });
   });
+  db.end();
 }
 
 function insertRecipe(list) {
+  const db = mysql.createConnection({
+    host: "localhost",
+    user: "karot_root",
+    password: "efreikarot240",
+    database: "karot",
+  });
   list.forEach((recipe) => {
     // Insert the recipe
     db.query(
@@ -111,22 +131,25 @@ function insertRecipe(list) {
       }
     );
   });
+  db.end();
 }
 
 function getLinkImage(letter, number) {
   return path.join(__dirname, `img/${letter}/${letter}${number}.jpg`);
 }
 
-function saveImagesRecipes(letter, number, link) {
+async function saveImagesRecipes(letter, number, link) {
   const newPath = getLinkImage(letter, number);
   if (!link) return newPath;
 
-  return axios
-    .get(link, { responseType: "arraybuffer" })
-    .then((response) => {
+  return await fetch(link)
+    .then((res) => {
+      res.blob();
+    })
+    .then((img) => {
       if (!fs.existsSync("img")) fs.mkdirSync("img");
       if (!fs.existsSync(`img/${letter}`)) fs.mkdirSync(`img/${letter}`);
-      fs.writeFileSync(newPath, response.data);
+      fs.writeFileSync(newPath, img.data);
       return newPath;
     })
     .catch((err) => console.error(err));
@@ -134,14 +157,6 @@ function saveImagesRecipes(letter, number, link) {
 
 async function doAll() {
   // Get the ingredients and insert them into the database
-
-  // Database connection
-  const db = mysql.createConnection({
-    host: "localhost",
-    user: "karot_root",
-    password: "efreikarot240",
-    database: "karot",
-  });
 
   const ingredients = await APIIngredientCall();
   insertIngredient(ingredients);
@@ -157,21 +172,6 @@ async function doAll() {
 
     insertRecipe(meals);
   }
-
-  db.end();
 }
 
-doAll();
-
-//Create HTTP server and listen on port 3000 for requests
-const server = http.createServer((req, res) => {
-  //Set the response HTTP header with HTTP status and Content type
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/plain");
-  res.end("Hello World\n");
-});
-
-//listen for request on port 3000, and as a callback function have the port listened on logged
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+module.exports = { doAll };
