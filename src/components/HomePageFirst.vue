@@ -13,6 +13,7 @@ const recipes = [
         image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
         author: 'Adam',
         like: 47,
+        liked: false,
     },
     {
         id: 2,
@@ -22,6 +23,7 @@ const recipes = [
         image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
         author: 'fgh',
         like: 98,
+        liked: false,
     },
 ]
 
@@ -103,7 +105,9 @@ const initCarroussel = () => {
                     <h1>Delicious Recipes</h1>
                     <p>"Oh no! What am i going to cook with all that stuff?"<br>Easy answer: a delicious recipe from Karot! Enter the ingredients you have, find trendy recipes and create your own!</p>
                     <!-- TEMP : A link to the Sign In page is required -->
-                    <button id="start-now">Start now</button>
+                    <router-link to="/signUp">
+                        <button id="start-now">Start now</button>
+                    </router-link>
                 </div>
             </div>
 
@@ -121,11 +125,9 @@ const initCarroussel = () => {
 
                     <!-- List of the slides created with Vue.js and 
                      the database -->
-                    <router-link to="/recipePage">
-                        <div class="card slide" v-for="recipe in recipes" :key="recipe.id">
-                            <RecipeCard :recipe="recipe"/>
-                        </div>
-                    </router-link>
+                    <div class="card slide" v-for="recipe in recipes" :key="recipe.id">
+                        <RecipeCard :recipe="recipe"/>
+                    </div>
         
                     <!-- Button to activate the next slide -->
                     <div class="nav-box next-box txt-orange">

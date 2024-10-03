@@ -69,6 +69,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'Adam',
                     like: 47,
+                    liked: false,
                 },
                 {
                     id: 2,
@@ -78,6 +79,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'fgh',
                     like: 98,
+                    liked: false,
                 },
                 {
                     id: 3,
@@ -87,6 +89,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'oooo',
                     like: 349,
+                    liked: false,
                 },
                 {
                     id: 4,
@@ -96,6 +99,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'aaaaaaa',
                     like: 3498,
+                    liked: false,
                 },
                 {
                     id: 5,
@@ -105,6 +109,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'Adam',
                     like: 47,
+                    liked: false,
                 },
                 {
                     id: 6,
@@ -114,6 +119,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'fgh',
                     like: 98,
+                    liked: false,
                 },
                 {
                     id: 7,
@@ -123,6 +129,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'oooo',
                     like: 349,
+                    liked: false,
                 },
                 {
                     id: 8,
@@ -132,6 +139,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'aaaaaaa',
                     like: 3498,
+                    liked: false,
                 },
                 {
                     id: 9,
@@ -141,6 +149,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'Adam',
                     like: 47,
+                    liked: false,
                 },
                 {
                     id: 10,
@@ -150,6 +159,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'fgh',
                     like: 98,
+                    liked: false,
                 },
                 {
                     id: 11,
@@ -159,6 +169,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'oooo',
                     like: 349,
+                    liked: false,
                 },
                 {
                     id: 12,
@@ -168,6 +179,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'aaaaaaa',
                     like: 3498,
+                    liked: false,
                 },
                 {
                     id: 13,
@@ -177,6 +189,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'Adam',
                     like: 47,
+                    liked: false,
                 },
                 {
                     id: 14,
@@ -186,6 +199,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'fgh',
                     like: 98,
+                    liked: false,
                 },
                 {
                     id: 15,
@@ -195,6 +209,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'oooo',
                     like: 349,
+                    liked: false,
                 },
                 {
                     id: 16,
@@ -204,6 +219,7 @@ export default {
                     image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
                     author: 'aaaaaaa',
                     like: 3498,
+                    liked: false,
                 },
             ]
         }

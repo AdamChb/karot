@@ -1,6 +1,7 @@
 <template>
     <div class="background">
         <div class="recipe-container">
+          <button @click="test(recipe)">Test</button>
             <div class="top">
                 <!-- Title, creator, like and ingredients of the recipe -->
                 <div class="description">
@@ -12,7 +13,23 @@
                                 <p>by Mathias</p>
                             </div>
                             <div class="head-likes">
-                                <h2>28 <img src="@/assets/liked.svg" alt="heart icon" class="heart-icon"></h2>
+                              <!-- <img
+                                  v-show="!recipe.liked"
+                                  @click="
+                                  toLike(recipe);
+                                  "
+                                  src="../assets/not-liked.svg"
+                                  alt="like icon"
+                              />
+                              <img
+                                  v-show="recipe.liked"
+                                  @click="
+                                  unLike(recipe);
+                                  "
+                                  src="../assets/liked.svg"
+                                  alt="like icon"
+                              /> -->
+                              <!-- {{ recipe.like }} -->
                             </div>
                         </div>
                         <!-- Ingredients -->
@@ -41,6 +58,31 @@
         </div>
     </div>
 </template>
+
+<script setup>
+import { props } from "@/components/RecipeCard.vue"
+
+console.log(props);
+</script>
+
+<script>
+export default {
+  name: "RecipePage",
+  methods: {
+        toLike(recipe) {
+            recipe.liked = !recipe.liked;
+            recipe.like += 1;
+        },
+        unLike(recipe) {
+            recipe.liked = !recipe.liked;
+            recipe.like -= 1;
+        },
+        test(recipe) {
+          console.log(recipe);
+        }
+    },
+}
+</script>
 
 <style scoped>
 .background {
@@ -84,6 +126,7 @@
 
 .recipe-steps {
   margin-top: 20px;
+  text-align: justify;
 }
 
 /* Responsive design for smaller screens */

@@ -8,6 +8,7 @@
             image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
             author: 'Adam',
             like: 47,
+            liked: false,
         },
         {
             id: 2,
@@ -17,6 +18,7 @@
             image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
             author: 'Mathias',
             like: 98,
+            liked: false,
         },
         {
             id: 3,
@@ -26,6 +28,7 @@
             image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
             author: 'Mat',
             like: 39,
+            liked: false,
         },
         {
             id: 4,
@@ -35,6 +38,7 @@
             image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
             author: 'Mat15_the_cook',
             like: 7,
+            liked: false,
         },
         
     ]
