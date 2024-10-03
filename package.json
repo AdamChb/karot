@@ -11,6 +11,8 @@
     "chart.js": "^4.4.4",
     "chartjs-plugin-datalabels": "^2.2.0",
     "core-js": "^3.8.3",
+    "express": "^4.21.0",
+    "mysql2": "^3.11.3",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },
