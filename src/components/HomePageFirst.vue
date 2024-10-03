@@ -121,9 +121,11 @@ const initCarroussel = () => {
 
                     <!-- List of the slides created with Vue.js and 
                      the database -->
-                    <div class="slide" v-for="recipe in recipes" :key="recipe.id">
-                        <RecipeCard :recipe="recipe"/>
-                    </div>
+                    <router-link to="/recipePage">
+                        <div class="card slide" v-for="recipe in recipes" :key="recipe.id">
+                            <RecipeCard :recipe="recipe"/>
+                        </div>
+                    </router-link>
         
                     <!-- Button to activate the next slide -->
                     <div class="nav-box next-box txt-orange">
