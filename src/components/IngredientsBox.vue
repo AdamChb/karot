@@ -22,7 +22,7 @@ export default {
   align-items: center;
   height: fit-content;
   border-radius: 7px;
-  margin: 1em;
+  margin: 0.4em 1em 0.4em 1em;
 }
 p {
   margin-bottom: 0;

@@ -1,10 +1,25 @@
 <script>
-import IngredientsCreate from "@/components/IngredientsCreate.vue";
+import IngredientsSectionCreate from "@/components/IngredientsSectionCreate.vue";
+import MealSectionCreate from "@/components/MealSectionCreate.vue";
 
 export default {
   name: "createMeals",
   components: {
-    IngredientsCreate,
+    IngredientsSectionCreate,
+    MealSectionCreate,
+  },
+  data() {
+    return {
+      generated: "false",
+    };
+  },
+  methods: {
+    generate() {
+      this.generated = "true";
+    },
+    reset() {
+      this.generated = "false";
+    },
   },
 };
 </script>
@@ -12,7 +27,14 @@ export default {
 <template>
   <div id="body-createmeal">
     <div id="ingredients-section">
-      <IngredientsCreate />
+      <IngredientsSectionCreate />
+    </div>
+    <div id="meal-section">
+      <MealSectionCreate
+        :generated="generated"
+        @generate="generate"
+        @reset="reset"
+      />
     </div>
   </div>
 </template>
@@ -23,6 +45,9 @@ export default {
   height: 75vh;
   width: 100vw;
   background-color: #ea5b0c;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+  box-sizing: content-box;
 }
 
 #ingredients-section {
@@ -34,5 +59,15 @@ export default {
   height: 100%;
   width: 40vw;
   margin-left: 10vw;
+}
+
+#meal-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 40%;
+  margin-right: 10vw;
 }
 </style>

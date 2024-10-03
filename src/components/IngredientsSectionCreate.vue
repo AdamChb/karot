@@ -107,7 +107,6 @@ const inactiveColor = "#bfbfbf";
 .container-half-ingredients {
   display: flex;
   width: 100%;
-  height: 50%;
 }
 
 .ingredient-box {
@@ -121,6 +120,7 @@ const inactiveColor = "#bfbfbf";
   flex-wrap: wrap;
   align-items: start;
   align-content: start;
+  height: 70%;
 }
 
 #items-active {
@@ -128,6 +128,7 @@ const inactiveColor = "#bfbfbf";
   flex-wrap: wrap-reverse;
   align-items: end;
   align-content: end;
+  height: 30%;
 }
 </style>
 
