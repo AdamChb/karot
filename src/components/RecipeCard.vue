@@ -45,7 +45,11 @@ export default {
             />
             {{ recipe.like }}
         </div>
-    </div>
+        <div class="col-sm-3 col-4">
+          <h4>{{ recipe.like }}</h4>
+          <img src="@/assets/heart.svg" alt="heart" />
+        </div>
+      </div>
 </template>
 
 <style scoped>
