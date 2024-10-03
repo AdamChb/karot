@@ -109,7 +109,7 @@ const initCarroussel = () => {
                 have, find trendy recipes and create your own!
             </p>
             <!-- TEMP : A link to the Sign In page is required -->
-            <router-link to="/signin">
+            <router-link to="/signUp">
                 <button id="start-now">Start now</button>
             </router-link>
         </div>
