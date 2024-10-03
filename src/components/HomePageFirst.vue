@@ -102,14 +102,16 @@ const initCarroussel = () => {
              with a "Sign In" button -->
       <div class="col-xxl-7 col-12">
         <div class="container-fluid txt-white" id="hook">
-          <h1>Delicious Recipes</h1>
-          <p>
-            "Oh no! What am i going to cook with all that stuff?"<br />Easy
-            answer: a delicious recipe from Karot! Enter the ingredients you
-            have, find trendy recipes and create your own!
-          </p>
-          <!-- TEMP : A link to the Sign In page is required -->
-          <button id="start-now">Start now</button>
+            <h1>Delicious Recipes</h1>
+            <p>
+                "Oh no! What am i going to cook with all that stuff?"<br />Easy
+                answer: a delicious recipe from Karot! Enter the ingredients you
+                have, find trendy recipes and create your own!
+            </p>
+            <!-- TEMP : A link to the Sign In page is required -->
+            <router-link to="/signin">
+                <button id="start-now">Start now</button>
+            </router-link>
         </div>
       </div>
 
