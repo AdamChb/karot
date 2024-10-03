@@ -12,7 +12,7 @@
                                 <p>by Mathias</p>
                             </div>
                             <div class="head-likes">
-                                <h2>28 <img src="@/assets/heart.svg" alt="heart icon" class="heart-icon"></h2>
+                                <h2>28 <img src="@/assets/liked.svg" alt="heart icon" class="heart-icon"></h2>
                             </div>
                         </div>
                         <!-- Ingredients -->
