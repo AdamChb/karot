@@ -54,7 +54,7 @@ export default {
     <section class="orange" id="most-liked-recipes">
         <h1>Most liked recipes</h1>
         <div id="recipes">
-            <div v-for="recipe in recipes" :key="recipe.id">
+            <div class="recipe-card" v-for="recipe in recipes" :key="recipe.id">
                 <RecipeCard :recipe="recipe"/>
             </div>
         </div>
@@ -79,6 +79,12 @@ h1 {
     gap: 10px;
     margin-top: 20px;
     margin-bottom: 1.8em;
+}
+
+.recipe-card {
+    background-color: #2f4858;
+    margin: 1em;
+    border-radius: 0.4em;
 }
 
 .card {

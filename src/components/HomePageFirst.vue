@@ -237,6 +237,9 @@ h1 {
     height: 100%;
     width: 100%;
     transition: 0.5s;
+    font-size: 2em;
+    background-color: #ea5b0c;
+    border-radius: 0.4em;
 }
 
 .section-carroussel .slide.active{
@@ -289,21 +292,5 @@ h1 {
         width: 70vw;
         margin-top: 10vw;
     }
-
-    /* .card-title {
-        font-size: 4vw;
-    }
-
-    .card-body p {
-        font-size: 2.5vw;
-    }
-
-    .card-body .col-sm-3 h4 {
-        font-size: 3vw;
-    }
-
-    .card-body img {
-        width: 4vw;
-    } */
 }
 </style>

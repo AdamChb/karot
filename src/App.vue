@@ -12,6 +12,10 @@ export default {
 </script>
 
 <template>
+  <router-link to="/">HomePage</router-link> |
+  <router-link to="/logIn">LogIn</router-link> |
+  <router-link to="/signUp">SignUp</router-link> |
+  <router-link to="/myAccount">MyAccount</router-link> |
   <HeaderKarot />
   <router-view />
   <FooterKarot />

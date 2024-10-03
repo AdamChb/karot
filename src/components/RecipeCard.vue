@@ -4,85 +4,110 @@ export default {
   props: {
     recipe: Object,
   },
+  methods: {
+        toLike(recipe) {
+            recipe.liked = !recipe.liked;
+            recipe.like += 1;
+        },
+        unLike(recipe) {
+            recipe.liked = !recipe.liked;
+            recipe.like -= 1;
+        },
+    },
 };
 </script>
 
 <template>
-    <div class="card">
-        <img class="card-img-top" :src="recipe.image" alt="Card image">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-9 col-8">
-                    <h4 class="card-title">{{ recipe.name }}</h4>
-                    <p>by {{ recipe.author }}</p>
-                </div>
-                <div class="col-sm-3 col-4">
-                    <h4>{{ recipe.like }}</h4>
-                    <img src="@/assets/heart.svg" alt="heart">
-                </div>
+    <div class="recipe">
+        <router-link to="/recipe" :recipe="recipe">
+            <div class="img">
+                <img :src="recipe.image" alt="recipe image"/>
             </div>
+            <h3>{{ recipe.name }}</h3>
+            <p class="author">{{ recipe.author }}</p>
+        </router-link>
+            <div class="likes">
+            <img
+                v-show="!recipe.liked"
+                @click="
+                toLike(recipe);
+                "
+                src="../assets/not-liked.svg"
+                alt="like icon"
+            />
+            <img
+                v-show="recipe.liked"
+                @click="
+                unLike(recipe);
+                "
+                src="../assets/liked.svg"
+                alt="like icon"
+            />
+            {{ recipe.like }}
         </div>
     </div>
 </template>
 
 <style scoped>
-.card {
-    height: 27em;
-    border: 1px solid white;
-    aspect-ratio: 0.84;
-    display: flex;
-    overflow: hidden;
-    border-radius: 10px;
+.recipe {
+  padding: 1em;
+  transition: 0.3s;
+  border-radius: 0.4em;
+  cursor: pointer;
+  width: 11em;
 }
 
-.card img.card-img-top {
-    flex: 1;
-    object-fit: cover;
+.recipe:hover {
+  transform: scale(1.02);
+  transition: 0.3s;
 }
 
-.card-body {
-    padding: 0!important;
-    flex: 0;
+a {
+    text-decoration: none;
 }
 
-.row {
-    margin-right: 0;
-    margin-left: 0;
-}
-
-.card-title {
-    margin-bottom: 0;
+.img {
     width: 100%;
-    font-size: 110%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.card-body p {
-    font-size: 80%;
-}
-
-.card-body .col-sm-9 {
-    padding-top: 10px;
-}
-
-.card-body .col-sm-3 {
+    height: 10em;
     display: flex;
     align-items: center;
-    padding: 0;
+    justify-content: center;
 }
 
-.card-body img {
-    position: absolute;
-    right: 10px;
+.recipe img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.2em;
+  object-fit: contain;
 }
 
-.card-body .col-sm-3 h4 {
-    font-size: 1em;
-    margin: 0!important;
-    margin-right: 10px!important;
-    position: absolute;
-    right: 35px;
+.recipe h3 {
+  font-size: 1em;
+  font-weight: 700;
+  margin: 0.2em 0 0 0;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recipe p {
+  margin: 0;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.likes {
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.likes img {
+  width: 1em;
+  margin-right: 0.2em;
 }
 </style>
