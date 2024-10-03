@@ -11,31 +11,32 @@
         },
         {
             id: 2,
-            name: 'fdthrthfdghfghf',
+            name: 'Hawaiian pizza',
             ingredients: ['pasta', 'tomato sauce', 'basil'],
             instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
             image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-            author: 'fgh',
+            author: 'Mathias',
             like: 98,
         },
         {
             id: 3,
-            name: 'mkomlkmlmoopkmlko',
+            name: 'Pineapple Pizza',
             ingredients: ['pasta', 'tomato sauce', 'basil'],
             instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
             image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-            author: 'oooo',
-            like: 349,
+            author: 'Mat',
+            like: 39,
         },
         {
             id: 4,
-            name: 'efzazazsqsazSAZQS',
+            name: 'Pizza with pineapple',
             ingredients: ['pasta', 'tomato sauce', 'basil'],
             instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
             image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-            author: 'aaaaaaa',
-            like: 3498,
+            author: 'Mat15_the_cook',
+            like: 7,
         },
+        
     ]
 </script>
 
