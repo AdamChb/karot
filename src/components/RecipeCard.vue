@@ -9,7 +9,6 @@ export default {
 
 <template>
     <div class="card">
-        {{ console.log(recipe.image) }}
         <img class="card-img-top" :src="recipe.image" alt="Card image">
         <div class="card-body">
             <div class="row">
