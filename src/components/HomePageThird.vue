@@ -1,47 +1,50 @@
 <script setup>
-    const recipes = [
-        {
-            id: 1,
-            name: 'Pasta with tomato sauce',
-            ingredients: ['pasta', 'tomato sauce', 'basil'],
-            instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-            image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-            author: 'Adam',
-            like: 47,
-            liked: false,
-        },
-        {
-            id: 2,
-            name: 'Hawaiian pizza',
-            ingredients: ['pasta', 'tomato sauce', 'basil'],
-            instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-            image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-            author: 'Mathias',
-            like: 98,
-            liked: false,
-        },
-        {
-            id: 3,
-            name: 'Pineapple Pizza',
-            ingredients: ['pasta', 'tomato sauce', 'basil'],
-            instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-            image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-            author: 'Mat',
-            like: 39,
-            liked: false,
-        },
-        {
-            id: 4,
-            name: 'Pizza with pineapple',
-            ingredients: ['pasta', 'tomato sauce', 'basil'],
-            instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-            image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-            author: 'Mat15_the_cook',
-            like: 7,
-            liked: false,
-        },
-        
-    ]
+const recipes = [
+  {
+    id: 1,
+    name: "Pasta with tomato sauce",
+    ingredients: ["pasta", "tomato sauce", "basil"],
+    instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+    image:
+      "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+    author: "Adam",
+    like: 47,
+    liked: false,
+  },
+  {
+    id: 2,
+    name: "Hawaiian pizza",
+    ingredients: ["pasta", "tomato sauce", "basil"],
+    instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+    image:
+      "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+    author: "Mathias",
+    like: 98,
+    liked: false,
+  },
+  {
+    id: 3,
+    name: "Pineapple Pizza",
+    ingredients: ["pasta", "tomato sauce", "basil"],
+    instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+    image:
+      "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+    author: "Mat",
+    like: 39,
+    liked: false,
+  },
+  {
+    id: 4,
+    name: "Pizza with pineapple",
+    ingredients: ["pasta", "tomato sauce", "basil"],
+    instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+    image:
+      "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+    author: "Mat15_the_cook",
+    like: 7,
+    liked: false,
+  },
+];
 </script>
 
 <script>
@@ -56,14 +59,14 @@ export default {
 </script>
 
 <template>
-    <section class="orange" id="most-liked-recipes">
-        <h1>Most liked recipes</h1>
-        <div id="recipes">
-            <div class="recipe-card" v-for="recipe in recipes" :key="recipe.id">
-                <RecipeCard :recipe="recipe"/>
-            </div>
-        </div>
-    </section>
+  <section class="orange" id="most-liked-recipes">
+    <h1>Most liked recipes</h1>
+    <div id="recipes">
+      <div class="recipe-card" v-for="recipe in recipes" :key="recipe.id">
+        <RecipeCard :recipe="recipe" />
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>
@@ -87,9 +90,9 @@ h1 {
 }
 
 .recipe-card {
-    background-color: #2f4858;
-    margin: 1em;
-    border-radius: 0.4em;
+  background-color: #2f4858;
+  margin: 1em;
+  border-radius: 0.4em;
 }
 
 .card {

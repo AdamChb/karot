@@ -32,7 +32,7 @@ export default {
         </div>
         <div id="like">
           <p>28</p>
-          <img class="heart" src="@/assets/heart.svg" alt="like" />
+          <img class="heart" src="@/assets/liked-orange.svg" alt="like" />
         </div>
       </div>
       <div id="ingredient-box">

@@ -1,272 +1,344 @@
 <template>
-    <section id="my-account" class="blue">
-        <div id="container1">
-            <div id="account">
-                <h2>Your account</h2>
-                <!-- Username change -->
-                <div class="input-group">
-                    <input type="text" id="username" placeholder="CurrentUsername" />
-                    <button>Change</button>
-                </div>
-                <!-- Password change -->
-                <div class="input-group">
-                    <input type="password" id="password" placeholder="*************" />
-                    <button>Change</button>
-                </div>
-            </div>
-            <div id="ingredients" class="scrollable-parent">
-                <h2>Your ingredients</h2>
-                <div class="scrollable">
-                    <div v-for="(ingredient, i) in ingredients" :key="i">
-                        <div class="ingredient">
-                            <p>{{ ingredient }}</p>
-                            <p>x</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="allergies" class="scrollable-parent">
-                <h2>Your allergies</h2>
-                <div class="scrollable">
-                    <div v-for="(allergy, i) in allergies" :key="i">
-                        <div class="allergy">
-                            <p>{{ allergy }}</p>
-                            <p>x</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <section id="my-account" class="blue">
+    <div id="container1">
+      <div id="account">
+        <h2>Your account</h2>
+        <!-- Username change -->
+        <div class="input-group">
+          <input type="text" id="username" placeholder="CurrentUsername" />
+          <button>Change</button>
         </div>
-        <div id="my-meals" class="scrollable-parent">
-            <h2>Your liked recipes</h2>
-            <div class="scrollable">
-                <div class="blue recipe-card" v-for="(recipe, i) in recipes" :key="i">
-                    <RecipeCard :recipe="recipe"/>
-                </div>
-            </div>
+        <!-- Password change -->
+        <div class="input-group">
+          <input type="password" id="password" placeholder="*************" />
+          <button>Change</button>
         </div>
-    </section>
+      </div>
+      <div id="ingredients" class="scrollable-parent">
+        <h2>Your ingredients</h2>
+        <div class="scrollable">
+          <div v-for="(ingredient, i) in ingredients" :key="i">
+            <div class="ingredient">
+              <p>{{ ingredient }}</p>
+              <p>x</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="allergies" class="scrollable-parent">
+        <h2>Your allergies</h2>
+        <div class="scrollable">
+          <div v-for="(allergy, i) in allergies" :key="i">
+            <div class="allergy">
+              <p>{{ allergy }}</p>
+              <p>x</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="my-meals" class="scrollable-parent">
+      <h2>Your liked recipes</h2>
+      <div class="scrollable">
+        <div class="blue recipe-card" v-for="(recipe, i) in recipes" :key="i">
+          <RecipeCard :recipe="recipe" />
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
-import RecipeCard from '@/components/RecipeCard.vue';
+import RecipeCard from "@/components/RecipeCard.vue";
 
 export default {
-    name: "MyAccount",
-    components: {
-        RecipeCard,
-    },
-    data() {
-        return {
-            ingredients: ["Tomato", "Onion", "Garlic", "Pasta", "Olive oil", "Salt", "Pepper"],
-            allergies: ["Gluten", "Lactose", "Peanuts", "Onion", "Garlic", "Pasta", "Olive oil", "Salt", "Pepper", "Onion", "Garlic", "Pasta", "Olive oil", "Salt", "Pepper", "Onion", "Garlic", "Pasta", "Olive oil", "Salt", "Pepper", "Onion", "Garlic", "Pasta", "Olive oil", "Salt", "Pepper", "Onion", "Garlic", "Pasta", "Olive oil", "Salt", "Pepper", "Onion", "Garlic", "Pasta", "Olive oil", "Salt", "Pepper", "Onion", "Garlic", "Pasta", "Olive oil", "Salt", "Pepper"],
-            recipes: [
-                {
-                    id: 1,
-                    name: 'Pasta with tomato sauce',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'Adam',
-                    like: 47,
-                    liked: false,
-                },
-                {
-                    id: 2,
-                    name: 'fdthrthfdghfghf',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'fgh',
-                    like: 98,
-                    liked: false,
-                },
-                {
-                    id: 3,
-                    name: 'mkomlkmlmoopkmlko',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'oooo',
-                    like: 349,
-                    liked: false,
-                },
-                {
-                    id: 4,
-                    name: 'efzazazsqsazSAZQS',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'aaaaaaa',
-                    like: 3498,
-                    liked: false,
-                },
-                {
-                    id: 5,
-                    name: 'Pasta with tomato sauce',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'Adam',
-                    like: 47,
-                    liked: false,
-                },
-                {
-                    id: 6,
-                    name: 'fdthrthfdghfghf',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'fgh',
-                    like: 98,
-                    liked: false,
-                },
-                {
-                    id: 7,
-                    name: 'mkomlkmlmoopkmlko',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'oooo',
-                    like: 349,
-                    liked: false,
-                },
-                {
-                    id: 8,
-                    name: 'efzazazsqsazSAZQS',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'aaaaaaa',
-                    like: 3498,
-                    liked: false,
-                },
-                {
-                    id: 9,
-                    name: 'Pasta with tomato sauce',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'Adam',
-                    like: 47,
-                    liked: false,
-                },
-                {
-                    id: 10,
-                    name: 'fdthrthfdghfghf',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'fgh',
-                    like: 98,
-                    liked: false,
-                },
-                {
-                    id: 11,
-                    name: 'mkomlkmlmoopkmlko',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'oooo',
-                    like: 349,
-                    liked: false,
-                },
-                {
-                    id: 12,
-                    name: 'efzazazsqsazSAZQS',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'aaaaaaa',
-                    like: 3498,
-                    liked: false,
-                },
-                {
-                    id: 13,
-                    name: 'Pasta with tomato sauce',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'Adam',
-                    like: 47,
-                    liked: false,
-                },
-                {
-                    id: 14,
-                    name: 'fdthrthfdghfghf',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'fgh',
-                    like: 98,
-                    liked: false,
-                },
-                {
-                    id: 15,
-                    name: 'mkomlkmlmoopkmlko',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'oooo',
-                    like: 349,
-                    liked: false,
-                },
-                {
-                    id: 16,
-                    name: 'efzazazsqsazSAZQS',
-                    ingredients: ['pasta', 'tomato sauce', 'basil'],
-                    instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-                    image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-                    author: 'aaaaaaa',
-                    like: 3498,
-                    liked: false,
-                },
-            ]
-        }
-    }
-}
+  name: "MyAccount",
+  components: {
+    RecipeCard,
+  },
+  data() {
+    return {
+      ingredients: [
+        "Tomato",
+        "Onion",
+        "Garlic",
+        "Pasta",
+        "Olive oil",
+        "Salt",
+        "Pepper",
+      ],
+      allergies: [
+        "Gluten",
+        "Lactose",
+        "Peanuts",
+        "Onion",
+        "Garlic",
+        "Pasta",
+        "Olive oil",
+        "Salt",
+        "Pepper",
+        "Onion",
+        "Garlic",
+        "Pasta",
+        "Olive oil",
+        "Salt",
+        "Pepper",
+        "Onion",
+        "Garlic",
+        "Pasta",
+        "Olive oil",
+        "Salt",
+        "Pepper",
+        "Onion",
+        "Garlic",
+        "Pasta",
+        "Olive oil",
+        "Salt",
+        "Pepper",
+        "Onion",
+        "Garlic",
+        "Pasta",
+        "Olive oil",
+        "Salt",
+        "Pepper",
+        "Onion",
+        "Garlic",
+        "Pasta",
+        "Olive oil",
+        "Salt",
+        "Pepper",
+        "Onion",
+        "Garlic",
+        "Pasta",
+        "Olive oil",
+        "Salt",
+        "Pepper",
+      ],
+      recipes: [
+        {
+          id: 1,
+          name: "Pasta with tomato sauce",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "Adam",
+          like: 47,
+          liked: false,
+        },
+        {
+          id: 2,
+          name: "fdthrthfdghfghf",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "fgh",
+          like: 98,
+          liked: false,
+        },
+        {
+          id: 3,
+          name: "mkomlkmlmoopkmlko",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "oooo",
+          like: 349,
+          liked: false,
+        },
+        {
+          id: 4,
+          name: "efzazazsqsazSAZQS",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "aaaaaaa",
+          like: 3498,
+          liked: false,
+        },
+        {
+          id: 5,
+          name: "Pasta with tomato sauce",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "Adam",
+          like: 47,
+          liked: false,
+        },
+        {
+          id: 6,
+          name: "fdthrthfdghfghf",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "fgh",
+          like: 98,
+          liked: false,
+        },
+        {
+          id: 7,
+          name: "mkomlkmlmoopkmlko",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "oooo",
+          like: 349,
+          liked: false,
+        },
+        {
+          id: 8,
+          name: "efzazazsqsazSAZQS",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "aaaaaaa",
+          like: 3498,
+          liked: false,
+        },
+        {
+          id: 9,
+          name: "Pasta with tomato sauce",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "Adam",
+          like: 47,
+          liked: false,
+        },
+        {
+          id: 10,
+          name: "fdthrthfdghfghf",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "fgh",
+          like: 98,
+          liked: false,
+        },
+        {
+          id: 11,
+          name: "mkomlkmlmoopkmlko",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "oooo",
+          like: 349,
+          liked: false,
+        },
+        {
+          id: 12,
+          name: "efzazazsqsazSAZQS",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "aaaaaaa",
+          like: 3498,
+          liked: false,
+        },
+        {
+          id: 13,
+          name: "Pasta with tomato sauce",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "Adam",
+          like: 47,
+          liked: false,
+        },
+        {
+          id: 14,
+          name: "fdthrthfdghfghf",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "fgh",
+          like: 98,
+          liked: false,
+        },
+        {
+          id: 15,
+          name: "mkomlkmlmoopkmlko",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "oooo",
+          like: 349,
+          liked: false,
+        },
+        {
+          id: 16,
+          name: "efzazazsqsazSAZQS",
+          ingredients: ["pasta", "tomato sauce", "basil"],
+          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+          image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+          author: "aaaaaaa",
+          like: 3498,
+          liked: false,
+        },
+      ],
+    };
+  },
+};
 </script>
 
 <style scoped>
 #my-account {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 130vh;
-    padding: 0 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 130vh;
+  padding: 0 10vh;
 }
 
 #container1 {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 30vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 30vw;
 }
 
-#account, #ingredients, #allergies {
-    display: flex;
-    background-color: white;
-    flex-direction: column;
-    align-items: flex-start;
-    height: 35vh;
-    border-radius: 0.4em;
-    margin: 2vh 0;
-    width: 100%;
-    color: black;
-    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
-    padding: 1em 0 1em 1em;
+#account,
+#ingredients,
+#allergies {
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 35vh;
+  border-radius: 0.4em;
+  margin: 2vh 0;
+  width: 100%;
+  color: black;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+  padding: 1em 0 1em 1em;
 }
 
 #account {
-    height: 25vh;
-    padding: 1em;
+  height: 25vh;
+  padding: 1em;
 }
 
 #account h2 {
-    margin-bottom: 0.3em;
+  margin-bottom: 0.3em;
 }
 
 .input-group {
@@ -293,49 +365,50 @@ export default {
   border-radius: 0.4em;
   cursor: pointer;
   overflow: hidden;
-    text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
 
 .input-group button p {
-    
-    margin: 0;
+  margin: 0;
 }
 
-.ingredient, .allergy {
-    display: flex;
-    justify-content: space-between;
-    gap: 1.5em;
-    width: fit-content;
-    padding: 0.3em 0.5em;
-    margin: 0.3em;
-    border-radius: 0.4em;
+.ingredient,
+.allergy {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5em;
+  width: fit-content;
+  padding: 0.3em 0.5em;
+  margin: 0.3em;
+  border-radius: 0.4em;
 }
 
-.ingredient p, .allergy p {
-    margin-bottom: 0;
-    color: white;
+.ingredient p,
+.allergy p {
+  margin-bottom: 0;
+  color: white;
 }
 
 .ingredient {
-    background-color: #9ABD36;
+  background-color: #9abd36;
 }
 
 .allergy {
-    background-color: #EA5B0C;
+  background-color: #ea5b0c;
 }
 
 #my-meals {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    align-items: center;
-    width: 50vw;
-    height: 103vh;
-    border-radius: 0.4em;
-    margin: 5vh 0;
-    padding: 2em 0;
-    color: black;
-    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  align-items: center;
+  width: 50vw;
+  height: 103vh;
+  border-radius: 0.4em;
+  margin: 5vh 0;
+  padding: 2em 0;
+  color: black;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
 }
 
 .scrollable {
@@ -358,39 +431,39 @@ export default {
 
 #ingredients .scrollable,
 #allergies .scrollable {
-    justify-content: flex-start
+  justify-content: flex-start;
 }
 
 .recipe-card {
-    background-color: #ea5b0c   ;
-    margin: 1em;
-    border-radius: 0.4em;
+  background-color: #ea5b0c;
+  margin: 1em;
+  border-radius: 0.4em;
 }
 
 @media only screen and (max-width: 1700px) {
-    .input-group input {
-        width: 50%;
-    }
+  .input-group input {
+    width: 50%;
+  }
 
-    .input-group button {
-        width: 40%;
-    }
+  .input-group button {
+    width: 40%;
+  }
 }
 
 @media only screen and (max-width: 1200px) {
-    #my-account {
-        display: flex;
-        flex-direction: column;
-        height: 220vh;
-    }
+  #my-account {
+    display: flex;
+    flex-direction: column;
+    height: 220vh;
+  }
 
-    #container1 {
-        margin-top: 2em;
-        width: 100%;
-    }
+  #container1 {
+    margin-top: 2em;
+    width: 100%;
+  }
 
-    #my-meals {
-        width: 100%;
-    }
+  #my-meals {
+    width: 100%;
+  }
 }
 </style>

@@ -5,51 +5,43 @@ export default {
     recipe: Object,
   },
   methods: {
-        toLike(recipe) {
-            recipe.liked = !recipe.liked;
-            recipe.like += 1;
-        },
-        unLike(recipe) {
-            recipe.liked = !recipe.liked;
-            recipe.like -= 1;
-        },
+    toLike(recipe) {
+      recipe.liked = !recipe.liked;
+      recipe.like += 1;
     },
+    unLike(recipe) {
+      recipe.liked = !recipe.liked;
+      recipe.like -= 1;
+    },
+  },
 };
 </script>
 
 <template>
-    <div class="recipe">
-        <router-link to="/recipe" :recipe="recipe">
-            <div class="img">
-                <img :src="recipe.image" alt="recipe image"/>
-            </div>
-            <h3>{{ recipe.name }}</h3>
-            <p class="author">{{ recipe.author }}</p>
-        </router-link>
-            <div class="likes">
-            <img
-                v-show="!recipe.liked"
-                @click="
-                toLike(recipe);
-                "
-                src="../assets/not-liked.svg"
-                alt="like icon"
-            />
-            <img
-                v-show="recipe.liked"
-                @click="
-                unLike(recipe);
-                "
-                src="../assets/liked.svg"
-                alt="like icon"
-            />
-            {{ recipe.like }}
-        </div>
-        <div class="col-sm-3 col-4">
-          <h4>{{ recipe.like }}</h4>
-          <img src="@/assets/heart.svg" alt="heart" />
-        </div>
+  <div class="recipe">
+    <router-link to="/recipe" :recipe="recipe">
+      <div class="img">
+        <img :src="recipe.image" alt="recipe image" />
       </div>
+      <h3>{{ recipe.name }}</h3>
+      <p class="author">{{ recipe.author }}</p>
+    </router-link>
+    <div class="likes">
+      <img
+        v-show="!recipe.liked"
+        @click="toLike(recipe)"
+        src="../assets/not-liked.svg"
+        alt="like icon"
+      />
+      <img
+        v-show="recipe.liked"
+        @click="unLike(recipe)"
+        src="../assets/liked.svg"
+        alt="like icon"
+      />
+      {{ recipe.like }}
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -67,15 +59,15 @@ export default {
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .img {
-    width: 100%;
-    height: 10em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 10em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .recipe img {

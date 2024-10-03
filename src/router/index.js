@@ -30,18 +30,18 @@ const routes = [
   {
     path: "/allergies",
     name: "UserAllergies",
-  component: () => import("@/views/UserAllergies.vue"),
+    component: () => import("@/views/UserAllergies.vue"),
   },
   {
     path: "/recipes",
     name: "RecipesPage",
-  component: () => import("@/views/RecipesPage.vue"),
+    component: () => import("@/views/RecipesPage.vue"),
   },
   {
     path: "/recipe",
     name: "RecipePage",
     component: () => import("@/views/RecipePage.vue"),
-  }
+  },
 ];
 
 const router = createRouter({

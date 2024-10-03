@@ -17,7 +17,8 @@
         />
         <button type="submit" id="submit">Log In</button>
         <p id="signup">
-          You don’t have an account ? <router-link to="/SignUp"><a>Register now</a></router-link>
+          You don’t have an account ?
+          <router-link to="/SignUp"><a>Register now</a></router-link>
         </p>
       </form>
     </div>
@@ -33,7 +34,7 @@
   min-height: 50vh;
   width: 100%;
   padding: 4em 0 2em 0;
-  background-color: #2F4858;
+  background-color: #2f4858;
 }
 
 #form {
@@ -70,7 +71,7 @@
   padding: 0.5em;
   width: 17%;
   border-radius: 15px;
-  background-color: #EA5B0C;
+  background-color: #ea5b0c;
   color: white;
   font-weight: 600;
   border: none;
@@ -82,7 +83,7 @@
 }
 
 #signup a {
-  color: #EA5B0C;
+  color: #ea5b0c;
   text-decoration: none;
 }
 

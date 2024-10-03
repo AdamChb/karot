@@ -35,7 +35,10 @@
           required
         />
         <button type="submit" id="submit">Sign up</button>
-        <p id="login">You already have an account ? <router-link to="/LogIn"><a>Log in</a></router-link></p>
+        <p id="login">
+          You already have an account ?
+          <router-link to="/LogIn"><a>Log in</a></router-link>
+        </p>
       </form>
     </div>
   </div>
@@ -50,7 +53,7 @@
   min-height: 50vh;
   width: 100%;
   padding: 4em 0 2em 0;
-  background-color: #2F4858;
+  background-color: #2f4858;
   background-size: cover;
 }
 
@@ -87,7 +90,7 @@
   padding: 0.5em;
   width: 17%;
   border-radius: 15px;
-  background-color: #EA5B0C;
+  background-color: #ea5b0c;
   color: white;
   font-weight: 600;
   border: none;
@@ -99,7 +102,7 @@
 }
 
 #login a {
-  color: #EA5B0C;
+  color: #ea5b0c;
   text-decoration: none;
 }
 

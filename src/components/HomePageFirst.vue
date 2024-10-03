@@ -5,27 +5,29 @@ import { onMounted } from "vue";
 
 // TEMP : Base de données temporaire pour tester le html
 const recipes = [
-    {
-        id: 1,
-        name: 'Pasta with tomato sauce',
-        ingredients: ['pasta', 'tomato sauce', 'basil'],
-        instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-        image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-        author: 'Adam',
-        like: 47,
-        liked: false,
-    },
-    {
-        id: 2,
-        name: 'fdthrthfdghfghf',
-        ingredients: ['pasta', 'tomato sauce', 'basil'],
-        instructions: ['Boil the pasta', 'Add the tomato sauce', 'Add basil'],
-        image: 'https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg',
-        author: 'fgh',
-        like: 98,
-        liked: false,
-    },
-]
+  {
+    id: 1,
+    name: "Pasta with tomato sauce",
+    ingredients: ["pasta", "tomato sauce", "basil"],
+    instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+    image:
+      "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+    author: "Adam",
+    like: 47,
+    liked: false,
+  },
+  {
+    id: 2,
+    name: "fdthrthfdghfghf",
+    ingredients: ["pasta", "tomato sauce", "basil"],
+    instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+    image:
+      "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+    author: "fgh",
+    like: 98,
+    liked: false,
+  },
+];
 
 // Permit to display the first item of the carousel
 onMounted(() => {
@@ -231,17 +233,17 @@ h1 {
   margin: 0;
 }
 
-.section-carroussel .slide{
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    transition: 0.5s;
-    font-size: 2em;
-    background-color: #ea5b0c;
-    border-radius: 0.4em;
+.section-carroussel .slide {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  transition: 0.5s;
+  font-size: 2em;
+  background-color: #ea5b0c;
+  border-radius: 0.4em;
 }
 
 .section-carroussel .slide.active {
@@ -289,10 +291,10 @@ h1 {
     font-size: 1em;
   }
 
-    .slide.card {
-        height: fit-content;
-        width: 70vw;
-        margin-top: 10vw;
-    }
+  .slide.card {
+    height: fit-content;
+    width: 70vw;
+    margin-top: 10vw;
+  }
 }
 </style>

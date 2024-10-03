@@ -1,35 +1,29 @@
 <script>
-
 export default {
   name: "UserAllergies",
-  components: {
-  },
+  components: {},
   data() {
     return {
       ingredients: [
-  "Peanut",
-  "Tree nut",
-  "Fish",
-  "Shellfish",
-  "Soy",
-  "Wheat",
-  "Sesame",
-  "Sulfites",
-  "Mustard",
-  "Celery",
-  "Lupin",
-  "Molluscs",
-  "Gluten",
-  "Lactose"],
-  allergies: [
-  "Peanut",
-  "Tree nut",
-  "Fish",
-  "Lactose"]
-    }
-  }
+        "Peanut",
+        "Tree nut",
+        "Fish",
+        "Shellfish",
+        "Soy",
+        "Wheat",
+        "Sesame",
+        "Sulfites",
+        "Mustard",
+        "Celery",
+        "Lupin",
+        "Molluscs",
+        "Gluten",
+        "Lactose",
+      ],
+      allergies: ["Peanut", "Tree nut", "Fish", "Lactose"],
+    };
+  },
 };
-
 </script>
 
 <template>
@@ -39,15 +33,27 @@ export default {
         <div class="container-fluid" id="hook">
           <div class="container-side">
             <h3>Do you have allergies ?</h3>
-            <input type="search" placeholder="Research an ingredient">
+            <input type="search" placeholder="Research an ingredient" />
             <ul>
-              <li v-for="(ingredient,i) in ingredients" :key="i" class="grey ingredient">{{ingredient}} +</li>
+              <li
+                v-for="(ingredient, i) in ingredients"
+                :key="i"
+                class="grey ingredient"
+              >
+                {{ ingredient }} +
+              </li>
             </ul>
           </div>
           <div class="container-side">
             <h3>My allergies</h3>
             <ul>
-              <li v-for="(allergy,i) in allergies" :key="i" class="orange allergy">{{allergy}} ×</li>
+              <li
+                v-for="(allergy, i) in allergies"
+                :key="i"
+                class="orange allergy"
+              >
+                {{ allergy }} ×
+              </li>
             </ul>
           </div>
         </div>
@@ -57,17 +63,17 @@ export default {
 </template>
 
 <style scoped>
-.col-12{
+.col-12 {
   width: 100%;
 }
-.container-fluid{
+.container-fluid {
   display: flex;
   justify-content: center;
   flex-direction: row;
   flex-wrap: nowrap;
   width: 100%;
 }
-.container-side{
+.container-side {
   width: 100%;
   padding: 2em 3em;
   display: flex;
@@ -78,102 +84,101 @@ export default {
   border-radius: 15px;
 }
 
-input{
+input {
   width: 100%;
-  padding: .3em .5em;
+  padding: 0.3em 0.5em;
   margin: 1em 0;
   border-radius: 7px;
   border: 2px solid black;
-  transition: .3s;
+  transition: 0.3s;
 }
-input:focus{
+input:focus {
   outline: none;
   transform: scale(1.02);
-  transition: .3s;
+  transition: 0.3s;
 }
-input:hover{
+input:hover {
   transform: scale(1.02);
-  transition: .3s;
+  transition: 0.3s;
 }
-ul{
+ul {
   list-style-type: none;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
 }
-li{
-  padding: .5em;
-  margin: .5em .4em;
+li {
+  padding: 0.5em;
+  margin: 0.5em 0.4em;
   border-radius: 7px;
   cursor: pointer;
   width: fit-content;
-  transition: .3s;
+  transition: 0.3s;
 }
 
-li:hover{
+li:hover {
   transform: scale(1.07);
-  transition: .3s;
+  transition: 0.3s;
 }
 
-.ingredient{
+.ingredient {
   background-color: #f0f0f0;
 }
 
-.allergy{
+.allergy {
   color: white;
 }
 
-
 .home {
-    height: fit-content;
-    padding: 2em;
+  height: fit-content;
+  padding: 2em;
 }
 
 .row {
-    height: 100%;
-    margin: 0!important;
+  height: 100%;
+  margin: 0 !important;
 }
 h1 {
-    font-size: 4em!important;
-    margin-bottom: 1em;
-    font-weight: 800!important;
+  font-size: 4em !important;
+  margin-bottom: 1em;
+  font-weight: 800 !important;
 }
 #hook {
-    width: 75%;
-    padding: 5em 0;
+  width: 75%;
+  padding: 5em 0;
 }
 
 #hook h1 {
-    width: 70%;
-    margin-bottom: 0.5em;
-    line-height: 1.1em;
+  width: 70%;
+  margin-bottom: 0.5em;
+  line-height: 1.1em;
 }
 
 #hook p {
-    font-size: 1em;
-    margin-bottom: 3em;
-    font-weight: 400;
+  font-size: 1em;
+  margin-bottom: 3em;
+  font-weight: 400;
 }
 
 #start-now {
-    font-size: 1.3em;
-    font-weight: 500;
-    width: 6em;
-    height: 2em;
-    border-radius: 10px;
-    border: 3px solid white;
-    color: white;
-    background-color: rgba(255, 255, 255, 0.2)
+  font-size: 1.3em;
+  font-weight: 500;
+  width: 6em;
+  height: 2em;
+  border-radius: 10px;
+  border: 3px solid white;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 @media only screen and (max-width: 768px) {
-    /* Responsive style for the page */
-    #hook {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-    }
-    .container-fluid{
-      flex-direction: column;
-    }
+  /* Responsive style for the page */
+  #hook {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .container-fluid {
+    flex-direction: column;
+  }
 }
 </style>
