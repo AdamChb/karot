@@ -66,4 +66,9 @@ CREATE TABLE To_Be_Allergic(
    FOREIGN KEY(ID_Ingredient) REFERENCES Ingredient(ID_Ingredient)
 );
 
-INSERT INTO karot_user (Username, Pseudo, Email, Password) VALUES ("admin", "admin", "admin", "XnO97.5!7ER3$ab");
+INSERT INTO karot_user (Username, Email, Password) VALUES ("admin", "admin", "XnO97.5!7ER3$ab");
+
+
+CREATE USER 'karot_root'@'localhost' IDENTIFIED BY 'efreikarot240';
+GRANT ALL PRIVILEGES ON karot.* TO 'karot_root'@'localhost';
+FLUSH PRIVILEGES;
