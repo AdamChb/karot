@@ -86,7 +86,7 @@ export default {
       </div>
       <div class="container-fluid">
         <div class="container-recipes">
-          <div v-for="recipe in recipes" :key="recipe.id" class="recipe">
+          <div v-for="recipe in recipes" :key="recipe.id" class="recipe-card">
             <RecipeCard :recipe="recipe" />
           </div>
         </div>
@@ -96,10 +96,6 @@ export default {
 </template>
 
 <style scoped>
-.card {
-  width: 13em;
-  height: 16em;
-}
 .container-recipes {
   display: flex;
   flex-direction: row;
@@ -179,5 +175,11 @@ h1 {
 #start-now:hover {
   transform: scale(1.05);
   transition: 0.3s;
+}
+
+.recipe-card {
+  background-color: #2f4858;
+  margin: 1em;
+  border-radius: 0.4em;
 }
 </style>

@@ -6,12 +6,18 @@ export default {
   },
   methods: {
     toLike(recipe) {
+        console.log("+1");
       recipe.liked = !recipe.liked;
+        console.log(recipe.liked);
       recipe.like += 1;
+        console.log(recipe.like);
     },
     unLike(recipe) {
+        console.log("-1");
       recipe.liked = !recipe.liked;
+      console.log(recipe.liked);
       recipe.like -= 1;
+      console.log(recipe.like);
     },
   },
 };

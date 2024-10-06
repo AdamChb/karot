@@ -4,30 +4,7 @@ import { onMounted } from "vue";
 // TEMP : Link to the data base
 
 // TEMP : Base de données temporaire pour tester le html
-const recipes = [
-  {
-    id: 1,
-    name: "Pasta with tomato sauce",
-    ingredients: ["pasta", "tomato sauce", "basil"],
-    instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-    image:
-      "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-    author: "Adam",
-    like: 47,
-    liked: false,
-  },
-  {
-    id: 2,
-    name: "fdthrthfdghfghf",
-    ingredients: ["pasta", "tomato sauce", "basil"],
-    instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-    image:
-      "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-    author: "fgh",
-    like: 98,
-    liked: false,
-  },
-];
+
 
 // Permit to display the first item of the carousel
 onMounted(() => {
@@ -44,6 +21,34 @@ export default {
   components: {
     RecipeCard,
   },
+  data(){
+    return {
+      recipes: [
+        {
+            id: 1,
+            name: "Pasta with tomato sauce",
+            ingredients: ["pasta", "tomato sauce", "basil"],
+            instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+            image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+            author: "Adam",
+            like: 47,
+            liked: false,
+        },
+        {
+            id: 2,
+            name: "fdthrthfdghfghf",
+            ingredients: ["pasta", "tomato sauce", "basil"],
+            instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+            image:
+            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
+            author: "fgh",
+            like: 98,
+            liked: false,
+        },
+    ],
+    }
+  }
 };
 
 // This function is used to animate the carousel
