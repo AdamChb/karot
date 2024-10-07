@@ -19,6 +19,17 @@ server.get("/getMostLiked", async (req, res) => {
   res.send(await api_db.getMostLiked(10));
 });
 
+// Add an allergy
+server.post("/api/add-allergy", async (req, res) => {
+  const { userId, ingredient } = req.body; // Get the data sent by the form
+  try {
+    const result = await api_db.addAllergy(userId, ingredient);
+    res.send(result);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 // The same method exist with POST, PUT and DELETE
 // Request body is in req.body, it contains all the data sent by the client in the request body
 
