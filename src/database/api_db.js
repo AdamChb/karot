@@ -19,4 +19,5 @@ async function getMostLiked(limit) {
   });
 }
 
+// Export the function getMostLiked
 module.exports = { getMostLiked };
