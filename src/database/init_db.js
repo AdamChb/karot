@@ -2,15 +2,8 @@
 const { dir } = require("console");
 const fs = require("fs");
 const mysql = require("mysql2");
+const db = require("./start_db").db;
 const path = require("path");
-
-// Database connection
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "karot_root",
-  password: "efreikarot240",
-  database: "karot",
-});
 
 async function APIIngredientCall() {
   // API link to get all ingredients
