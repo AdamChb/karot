@@ -6,7 +6,7 @@
 //  Eva MAROT
 //  Sacha PORTAL
 //
-//  This file contains the functions to change 
+//  This file contains the functions to change
 //  the data in the database.
 // ------------------------------
 
@@ -15,7 +15,7 @@ const mysql = require("mysql2");
 //Function to get the most-liked recipes
 async function getMostLiked(limit) {
   // TEMP: Demander à Sacha si on recopie à chaque fois les identifiants
-  const db = mysql.createConnection({ 
+  const db = mysql.createConnection({
     host: "localhost",
     user: "karot_root",
     password: "efreikarot240",
@@ -69,6 +69,12 @@ async function addAllergy(userId, ingredient) {
   });
 }
 
+async function getImagesRecipes(link) {
+  // Fetch the image from the API and return it as a buffer
+  return await fetch(link).then(async (response) =>
+    Buffer.from(await response.arrayBuffer())
+  );
+}
+
 // Export the function getMostLiked
-module.exports = { getMostLiked };
-module.exports = { addAllergy };
+module.exports = { getMostLiked, addAllergy, getImagesRecipes };
