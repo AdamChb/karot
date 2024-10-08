@@ -92,7 +92,7 @@
   align-items: center;
   height: auto;
   min-height: 50vh;
-  width: 100%;
+  max-width: 100%;
   padding: 4em 0 2em 0;
   background-color: #2f4858;
   margin-left : 0;

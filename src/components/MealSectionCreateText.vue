@@ -89,6 +89,10 @@ export default {
 }
 
 /* Style of the title */
+.main-text {
+  text-align: center;
+}
+
 .title {
   color: white;
   font-weight: bold;
@@ -150,5 +154,6 @@ export default {
   width: 100%;
   margin: 0;
   margin-top: 1em;
+  justify-content:center;
 }
 </style>

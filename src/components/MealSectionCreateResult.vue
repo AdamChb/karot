@@ -9,24 +9,46 @@
   This component is the result of the meal creation.
 ------------------------------ -->
 
-<script setup>
-const meal = { // TEMP: Base de données temporaire avant de connecter à la base de données
-  name: "Tagliatelle Carbonara",
-  ingredients: {
-    Pasta: "300g",
-    Bacon: "50g",
-    Eggs: "3",
-    Salt: "",
-    Pepper: "",
-    Parmesan: "",
-  },
-  instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-};
-</script>
-
 <script>
 export default {
   name: "MealSectionCreateResult",
+  data() {
+    return {
+      recipe: { // TEMP: Base de données temporaire avant de connecter à la base de données
+        name: "Tagliatelle Carbonara",
+        ingredients: {
+          Pasta: "300g",
+          Bacon: "50g",
+          Eggs: "3",
+          Salt: "",
+          Pepper: "",
+          Parmesan: "",
+        },
+        instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
+        like: 47,
+        liked: false,
+        id: 1,
+      }
+    };
+  },
+  methods: {
+    // Functions to like or dislike a recipe
+    toLike() {
+      this.recipe.liked = !this.recipe.liked;
+      this.recipe.like += 1;
+      // TEMP: Mettre à jour dans la database
+    },
+    unLike() {
+      this.recipe.liked = !this.recipe.liked;
+      this.recipe.like -= 1;
+      // TEMP: Mettre à jour dans la database
+    },
+
+    // Function to go to the recipe page
+    goTo(id) {
+      this.$router.push({ path: "/recipe", query: { id } });
+    },
+  },
 };
 </script>
 
@@ -45,9 +67,21 @@ export default {
         <div>
           <p id="author">by Mathias</p>
         </div>
-        <div id="like">
-          <p>28</p>
-          <img class="heart" src="@/assets/liked-orange.svg" alt="like" />
+        <!-- Like button -->
+        <div class="like">
+          {{ recipe.like }}
+          <img
+            v-show="!recipe.liked"
+            @click="toLike(recipe)"
+            src="../assets/not-liked-orange.svg"
+            alt="like icon"
+          />
+          <img
+            v-show="recipe.liked"
+            @click="unLike(recipe)"
+            src="../assets/liked-orange.svg"
+            alt="like icon"
+          />
         </div>
       </div>
       <div id="ingredient-box">
@@ -55,7 +89,7 @@ export default {
         <ul id="ingredient-list">
           <li
             class="ingredient-required"
-            v-for="(quantity, name, i) in meal.ingredients"
+            v-for="(quantity, name, i) in recipe.ingredients"
             :key="i"
           >
             <span v-if="quantity === ''">{{ name }}</span>
@@ -66,7 +100,7 @@ export default {
 
       <!-- More information about the meal -->
        <!-- TEMP: Mettre un VRAI lien vers une page recette -->
-      <p id="meal-more"><a href="">Click for more</a></p>
+      <p id="meal-more" @click="goTo(recipe.id)">Click for more...</p>
 
       <!-- Buttons to reload or add the meal to the user's meals -->
       <div id="buttons-generated">
@@ -143,7 +177,7 @@ li {
   margin: 0;
 }
 
-#like {
+.like {
   display: flex;
   flex-direction: row;
   width: fit-content;
@@ -153,9 +187,10 @@ li {
   margin: 0;
 }
 
-.heart {
+.like img {
   width: 1em;
   height: 1em;
+  margin-left: 0.3em;
 }
 
 #ingredient-box {
@@ -188,6 +223,8 @@ li {
 #meal-more {
   font-size: 0.8em;
   margin: 0;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 #buttons-generated {

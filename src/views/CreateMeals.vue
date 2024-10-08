@@ -59,7 +59,7 @@ export default {
 #body-createmeal {
   display: flex;
   height: 75vh;
-  width: 100vw;
+  width: 100%;
   background-color: #ea5b0c;
   padding-top: 5vh;
   padding-bottom: 5vh;
