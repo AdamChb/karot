@@ -10,12 +10,14 @@
 ------------------------------ -->
 
 <script>
+import IngredientsBox from "@/components/IngredientsBox.vue";
 import RecipeCard from "@/components/RecipeCard.vue";
 
 export default {
   name: "MyAccount",
   components: {
     RecipeCard,
+    IngredientsBox,
   },
   data() {
     // TEMP: Lier à la base de données pour éviter l'horreur qu'il y a juste en dessous...
@@ -308,10 +310,10 @@ export default {
       <div id="allergies" class="scrollable-parent">
         <h2>Your allergies</h2>
         <div class="scrollable">
-          <div v-for="(allergy, i) in allergies" :key="i">
+          <div v-for="(allergy, i) in allergies" :key="i" @click="deleteAllergy(ingredient)">
             <div class="allergy">
               <p>{{ allergy }}</p>
-              <p>x</p>
+              <IngredientsBox/>
             </div>
           </div>
         </div>

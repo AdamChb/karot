@@ -17,7 +17,7 @@ export default {
     return {
       // TEMP: Lier à la base de données
       ingredients: [
-      { name: "Peanut", id: 1 },
+        { name: "Peanut", id: 1 },
         { name: "Tree nut", id: 2 },
         { name: "Fish", id: 3 },
         { name: "Shellfish", id: 4 },
@@ -76,7 +76,9 @@ export default {
         .then((data) => {
           if (data.message) {
             // Remove the allergy from the list
-            this.allergies = this.allergies.filter((allergy) => allergy !== ingredientId);
+            this.allergies = this.allergies.filter(
+              (allergy) => allergy !== ingredientId
+            );
           } else {
             alert(data.error || "Error deleting allergy");
           }

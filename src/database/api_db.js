@@ -84,6 +84,5 @@ async function deleteAllergy(userId, ingredientId) {
 module.exports = {
   getMostLiked,
   addAllergy,
-  deleteAllergy
+  deleteAllergy,
 };
-
