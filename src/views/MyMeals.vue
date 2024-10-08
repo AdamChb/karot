@@ -1,3 +1,14 @@
+<!-- ------------------------------
+  Karot_2.0 - MyMeals.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This view is the page with all user's saved meals.
+------------------------------ -->
+
 <script>
 import RecipeCard from "../components/RecipeCard.vue";
 
@@ -6,7 +17,7 @@ export default {
   components: {
     RecipeCard,
   },
-  data() {
+  data() { // TEMP: Lier à la base de données
     return {
       recipes: [
         {
@@ -71,12 +82,14 @@ export default {
 <template>
   <section class="orange home">
     <div id="row-home">
-      <!-- This container is the "hook" of the website
-             with a "Sign In" button -->
+
+      <!-- Title -->
       <div class="container-fluid txt-white" id="hook">
         <h1>My meals</h1>
         <p>Check them when they're done !</p>
       </div>
+
+      <!-- Recipes -->
       <div class="container-fluid">
         <div class="container-recipes">
           <div v-for="recipe in recipes" :key="recipe.id" class="recipe">
@@ -89,10 +102,7 @@ export default {
 </template>
 
 <style scoped>
-.card {
-  width: 13em;
-  height: 16em;
-}
+/* Style of the recipes */
 .container-recipes {
   display: flex;
   flex-direction: row;
@@ -100,34 +110,15 @@ export default {
   justify-content: space-between;
 }
 .recipe {
-  padding: 2em 1em;
+  background-color: #2f4858;
+  margin: 1em;
+  border-radius: 0.4em;
 }
-input {
-  width: 100%;
-  padding: 0.3em 0.5em;
-  margin: 1em 0;
-  border-radius: 7px;
-  border: 2px solid black;
-  transition: 0.3s;
-}
-input:focus {
-  outline: none;
-  transform: scale(1.02);
-  transition: 0.3s;
-}
-input:hover {
-  transform: scale(1.02);
-  transition: 0.3s;
-}
+
 /* Style of the home page */
 .home {
   height: fit-content;
   padding: 2em;
-}
-
-.row {
-  height: 100%;
-  margin: 0 !important;
 }
 
 h1 {
@@ -157,21 +148,5 @@ h1 {
 #hook p {
   font-size: 1em;
   font-weight: 400;
-}
-
-#start-now {
-  font-size: 1.3em;
-  font-weight: 500;
-  padding: 0 0.8em;
-  height: 2em;
-  border-radius: 10px;
-  border: 3px solid white;
-  color: white;
-  background-color: rgba(255, 255, 255, 0.2);
-  transition: 0.3s;
-}
-#start-now:hover {
-  transform: scale(1.05);
-  transition: 0.3s;
 }
 </style>
