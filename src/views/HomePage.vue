@@ -1,3 +1,14 @@
+<!-- ------------------------------
+  Karot_2.0 - HomePage.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This view is the home page.
+------------------------------ -->
+
 <script>
 import HomePageFirst from "../components/HomePageFirst.vue";
 import HomePageSecond from "../components/HomePageSecond.vue";
@@ -14,6 +25,7 @@ export default {
 </script>
 
 <template>
+  <!-- Components that form the home page -->
   <HomePageFirst />
   <HomePageSecond />
   <HomePageThird />

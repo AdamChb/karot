@@ -1,4 +1,21 @@
+<!-- ------------------------------
+  Karot_2.0 - IngredientsSearchBar.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This component is the search bar for the ingredients.
+------------------------------ -->
+
+<script>
+// TEMP: Connect to the database
+export default { name: "IngredientsSearchBar" };
+</script>
+
 <template>
+  <!-- Search bar -->
   <div id="ingredients-search-bar">
     <input
       type="search"
@@ -10,7 +27,6 @@
 
 <style scoped>
 /* Search bar's style */
-
 #ingredients-search-bar {
   display: flex;
   width: 100%;
@@ -46,7 +62,3 @@
   background-size: 1em;
 }
 </style>
-
-<script>
-export default { name: "IngredientsSearchBar" };
-</script>

@@ -1,3 +1,14 @@
+<!-- ------------------------------
+  Karot_2.0 - CreateMeals.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This view is the page to create meals.
+------------------------------ -->
+
 <script>
 import IngredientsSectionCreate from "@/components/IngredientsSectionCreate.vue";
 import MealSectionCreate from "@/components/MealSectionCreate.vue";
@@ -14,6 +25,7 @@ export default {
     };
   },
   methods: {
+    // Functions to display the generated meal
     generate() {
       this.generated = "true";
     },
@@ -26,9 +38,12 @@ export default {
 
 <template>
   <div id="body-createmeal">
+    <!-- Component that contains the selection of ingredients -->
     <div id="ingredients-section">
       <IngredientsSectionCreate />
     </div>
+
+    <!-- Component that contains the generated meal -->
     <div id="meal-section">
       <MealSectionCreate
         :generated="generated"
@@ -40,6 +55,7 @@ export default {
 </template>
 
 <style scoped>
+/* Style of the page CreateMeal */
 #body-createmeal {
   display: flex;
   height: 75vh;

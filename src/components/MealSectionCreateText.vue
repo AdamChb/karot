@@ -1,8 +1,20 @@
+<!-- ------------------------------
+  Karot_2.0 - MealSectionCreateText.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This component is the text part of the meal section.
+------------------------------ -->
+
 <script>
 export default {
   name: "MealSectionCreateText",
   props: ["generated"],
   methods: {
+    // Functions to display the generated meal
     generatechild() {
       this.$emit("generate");
     },
@@ -26,6 +38,8 @@ export default {
     :id="generated === 'true' ? 'container-text-meal-generated' : ''"
   >
     <div class="main-text">
+
+      <!-- Title of the CreateMeal page -->
       <p
         class="title"
         :id="generated === 'true' ? 'title-generated' : 'title-not-generated'"
@@ -43,11 +57,15 @@ export default {
         Based on the ingredients you have
       </p>
     </div>
+
+    <!-- Generate button -->
     <div class="generate-button-box">
       <button class="generate-button" @click="triggergenerate(generated)">
         Generate
       </button>
     </div>
+
+    <!-- Instruction -->
     <div v-if="generated === 'false'" class="instruction">
       <p class="instruction-text">
         Don't forget to add ingredients you have in your fridge !
@@ -57,6 +75,7 @@ export default {
 </template>
 
 <style scoped>
+/* Style of the container */
 .container-text-meal {
   display: flex;
   flex-direction: column;
@@ -69,6 +88,7 @@ export default {
   text-align: center;
 }
 
+/* Style of the title */
 .title {
   color: white;
   font-weight: bold;
@@ -83,6 +103,7 @@ export default {
   font-size: 3.5em;
 }
 
+/* Style of the subtitle */
 .subtitle {
   color: white;
   margin: 0;
@@ -96,6 +117,8 @@ export default {
   font-size: 2em;
 }
 
+
+/* Style of the button */
 .generate-button-box {
   display: flex;
   height: fit-content;
@@ -116,6 +139,7 @@ export default {
   cursor: pointer;
 }
 
+/* Style of the instruction */
 .instruction-text {
   font-size: 1em;
   color: white;

@@ -1,7 +1,20 @@
+<!-- ------------------------------
+  Karot_2.0 - IngredientsSectionCreate.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This component is the section where the 
+  user can add ingredients to create a meal.
+------------------------------ -->
+
 <script setup>
 import IngredientsBox from "./IngredientsBox.vue";
 import IngredientsSearchBar from "./IngredientsSearchBar.vue";
 
+// TEMP: Je ne sais pas ce que c'est mais il va falloir le changer...
 const ingredients = [
   {
     id: 1,
@@ -54,10 +67,23 @@ const activeColor = "#9abd36";
 const inactiveColor = "#bfbfbf";
 </script>
 
+<script>
+export default {
+  name: "IngredientsCreate",
+  components: {
+    IngredientsBox,
+    IngredientsSearchBar,
+  },
+};
+</script>
+
 <template>
+  <!-- Ingredient's search bar -->
   <div id="box-search-bar">
     <IngredientsSearchBar />
   </div>
+
+  <!-- Container for inactive ingredients -->
   <div id="container-all-ingredients">
     <div class="container-half-ingredients" id="items-inactive">
       <IngredientsBox
@@ -70,6 +96,8 @@ const inactiveColor = "#bfbfbf";
         :boxColor="inactiveColor"
       />
     </div>
+
+    <!-- Container for active ingredients -->
     <div class="container-half-ingredients" id="items-active">
       <IngredientsBox
         class="ingredient-box"
@@ -85,6 +113,7 @@ const inactiveColor = "#bfbfbf";
 </template>
 
 <style scoped>
+/* Position of the search bar */
 #box-search-bar {
   display: flex;
   justify-content: center;
@@ -93,6 +122,7 @@ const inactiveColor = "#bfbfbf";
   width: 100%;
 }
 
+/* Style of the container for the ingredients */
 #container-all-ingredients {
   display: flex;
   flex-direction: column;
@@ -115,6 +145,7 @@ const inactiveColor = "#bfbfbf";
   width: 25%;
 }
 
+/* Position of the ingredients in the containers */
 #items-inactive {
   display: flex;
   flex-wrap: wrap;
@@ -131,13 +162,3 @@ const inactiveColor = "#bfbfbf";
   height: 30%;
 }
 </style>
-
-<script>
-export default {
-  name: "IngredientsCreate",
-  components: {
-    IngredientsBox,
-    IngredientsSearchBar,
-  },
-};
-</script>

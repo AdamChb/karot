@@ -1,3 +1,14 @@
+<!-- ------------------------------
+  Karot_2.0 - App.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This view is the main page of the website.
+------------------------------ -->
+
 <script>
 import HeaderKarot from "./components/HeaderKarot";
 import FooterKarot from "./components/FooterKarot";
@@ -12,19 +23,24 @@ export default {
 </script>
 
 <template>
+  <!-- TEMP: Ne pas oublier de supprimer cette chose !!!!! -->
   <router-link to="/">HomePage</router-link> |
   <router-link to="/logIn">LogIn</router-link> |
   <router-link to="/signUp">SignUp</router-link> |
   <router-link to="/myAccount">MyAccount</router-link> |
+
+  <!-- General structure of the website -->
   <HeaderKarot />
   <router-view />
   <FooterKarot />
 </template>
 
 <style>
+/* Import of the used font */
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&display=swap");
 
+/* General style of the website */
 * {
   margin: 0;
   padding: 0;

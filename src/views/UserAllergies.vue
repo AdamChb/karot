@@ -1,9 +1,20 @@
+<!-- ------------------------------
+  Karot_2.0 - UserAllergies.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This view is the page to manage the allergies of the user.
+------------------------------ -->
+
 <script>
 export default {
   name: "UserAllergies",
   components: {},
   data() {
-    return {
+    return { // TEMP: Lier à la base de données
       ingredients: [
         "Peanut",
         "Tree nut",
@@ -33,8 +44,12 @@ export default {
         <div class="container-fluid" id="hook">
           <div class="container-side">
             <h3>Do you have allergies ?</h3>
+
+            <!-- Search bar -->
             <input type="search" placeholder="Research an ingredient" />
             <ul>
+
+              <!-- List of ingredients -->
               <li
                 v-for="(ingredient, i) in ingredients"
                 :key="i"
@@ -44,6 +59,8 @@ export default {
               </li>
             </ul>
           </div>
+
+          <!-- List of allergies -->
           <div class="container-side">
             <h3>My allergies</h3>
             <ul>
@@ -63,6 +80,7 @@ export default {
 </template>
 
 <style scoped>
+/* Style of the UserAllergies page */
 .col-12 {
   width: 100%;
 }

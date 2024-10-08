@@ -1,4 +1,17 @@
+<!-- ------------------------------
+  Karot_2.0 - HeaderKarot.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This component is the header of the website. 
+  It is displayed on every page of the website.
+------------------------------ -->
+
 <script setup>
+// Function to toggle the navigation bar for mobile
 const toggleMenu = () => {
   if (document.getElementById("header_nav_burger").style.display === "none") {
     document.getElementById("header_nav_burger").style.display = "flex";
@@ -16,12 +29,14 @@ const toggleMenu = () => {
         <img src="@/assets/logo_header.svg" alt="Logo Karot" />
       </router-link>
 
+      <!-- Navigation bar for pc -->
       <nav id="header_nav">
         <router-link to="/createMeals">Create meals</router-link>
         <router-link to="/recipes">Recipes</router-link>
         <router-link to="/myMeals">My meals</router-link>
         <router-link to="/logIn">Log In</router-link>
       </nav>
+      <!-- TEMP: Modifier le header quand un utilisateur est connecté -->
     </div>
 
     <!-- Header for mobile -->
@@ -46,6 +61,7 @@ const toggleMenu = () => {
         <router-link to="/myMeals">My meals</router-link>
         <router-link to="/logIn">Log In</router-link>
       </nav>
+      <!-- TEMP: Modifier le header quand un utilisateur est connecté -->
     </div>
   </header>
 </template>

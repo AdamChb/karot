@@ -1,4 +1,14 @@
-//import { computed } from "vue";
+// ------------------------------
+//  Karot_2.0 - index.js
+//
+//  Mathias BENOIT
+//  Adam CHABA
+//  Eva MAROT
+//  Sacha PORTAL
+//
+//  This file contains all the router paths
+// ------------------------------
+
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [

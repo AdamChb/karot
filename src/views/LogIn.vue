@@ -1,9 +1,24 @@
-<script setup></script>
+<!-- ------------------------------
+  Karot_2.0 - LogIn.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This view is the Log In page
+------------------------------ -->
+
+<script>
+// TEMP: Lier à la base de données et rediriger vers la page d'accueil
+</script>
 
 <template>
   <div id="content">
     <div id="form">
       <h1 id="title">Log In</h1>
+
+      <!-- Form with the email and the password -->
       <form>
         <label for="email" class="subject">Username</label>
         <input class="input" type="email" id="email" name="email" required />
@@ -15,6 +30,8 @@
           name="password"
           required
         />
+
+        <!-- Button to submit the information -->
         <button type="submit" id="submit">Log In</button>
         <p id="signup">
           You don’t have an account ?
@@ -26,6 +43,7 @@
 </template>
 
 <style scoped>
+/* Style of the page LogIn */
 #content {
   display: flex;
   justify-content: center;

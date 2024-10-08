@@ -1,3 +1,14 @@
+<!-- ------------------------------
+  Karot_2.0 - RecipeCard.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This component is the card for the recipes.
+------------------------------ -->
+
 <script>
 export default {
   name: "RecipeCard",
@@ -5,33 +16,43 @@ export default {
     recipe: Object,
   },
   methods: {
+    // Functions to like or dislike a recipe
     toLike(recipe) {
-        console.log("+1");
       recipe.liked = !recipe.liked;
-        console.log(recipe.liked);
       recipe.like += 1;
-        console.log(recipe.like);
+      // TEMP: Mettre à jour dans la database
     },
     unLike(recipe) {
-        console.log("-1");
       recipe.liked = !recipe.liked;
-      console.log(recipe.liked);
       recipe.like -= 1;
-      console.log(recipe.like);
+      // TEMP: Mettre à jour dans la database
     },
+
+    // Function to go to the recipe page
+    goTo(id) {
+      this.$router.push({ path: "/recipe", query: { id } });
+    }
   },
 };
 </script>
 
 <template>
   <div class="recipe">
-    <router-link to="/recipe" :recipe="recipe">
+
+    <!-- Link to the recipe page -->
+    <div @click="goTo(recipe.id)">
+
+      <!-- Image of the recipe -->
       <div class="img">
         <img :src="recipe.image" alt="recipe image" />
       </div>
+
+      <!-- Name and author of the recipe -->
       <h3>{{ recipe.name }}</h3>
       <p class="author">{{ recipe.author }}</p>
-    </router-link>
+    </div>
+
+    <!-- Like button -->
     <div class="likes">
       <img
         v-show="!recipe.liked"
@@ -51,6 +72,7 @@ export default {
 </template>
 
 <style scoped>
+/* Styles for the recipe card */
 .recipe {
   padding: 1em;
   transition: 0.3s;

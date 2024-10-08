@@ -1,10 +1,18 @@
+<!-- ------------------------------
+  Karot_2.0 - HomePageFirst.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This component is the first block of the home page.
+------------------------------ -->
+
 <script setup>
 import { onMounted } from "vue";
 
 // TEMP : Link to the data base
-
-// TEMP : Base de données temporaire pour tester le html
-
 
 // Permit to display the first item of the carousel
 onMounted(() => {
@@ -22,7 +30,7 @@ export default {
     RecipeCard,
   },
   data(){
-    return {
+    return { // TEMP: Base de donnée temporaire pour tester le front end
       recipes: [
         {
             id: 1,

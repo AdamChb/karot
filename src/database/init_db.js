@@ -1,3 +1,15 @@
+// ------------------------------
+//  Karot_2.0 - init_db.js
+//
+//  Mathias BENOIT
+//  Adam CHABA
+//  Eva MAROT
+//  Sacha PORTAL
+//
+//  This file contain the functions to fill
+//  the database with the API data.
+// ------------------------------
+
 //Load HTTP module
 const http = require("http");
 const hostname = "127.0.0.1";

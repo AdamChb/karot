@@ -1,3 +1,15 @@
+<!-- ------------------------------
+  Karot_2.0 - FooterKarot.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This component is the footer of the website. 
+  It is displayed on every page of the website.
+------------------------------ -->
+
 <template>
   <!-- Footer of the website -->
   <footer>

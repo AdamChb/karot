@@ -1,4 +1,16 @@
+<!-- ------------------------------
+  Karot_2.0 - HomePageSecond.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This component is the second block of the home page.
+------------------------------ -->
+
 <script setup>
+// List of the steps to use Karot
 const steps = [
   {
     number: 1,
@@ -32,6 +44,7 @@ const steps = [
   <section id="how-to-use-karot" class="white">
     <div id="title">
       <div id="text">
+        <!-- Title "How to use Karot ?" -->
         <h1 class="txt-orange">
           How to use <img src="@/assets/logo_header.svg" alt="Logo" /> ?
         </h1>
@@ -39,6 +52,7 @@ const steps = [
       <img src="@/assets/karot-singing.svg" alt="Karot singing" />
     </div>
     <div id="how-to">
+      <!-- List of the steps to use Karot -->
       <div v-for="step in steps" :key="step.number">
         <div class="steps" :class="step.class">
           <div>
@@ -86,7 +100,6 @@ const steps = [
   flex-direction: column;
   justify-content: space-evenly;
   margin: 3em 0;
-  /* padding: 0 10em; */
 }
 
 .steps {

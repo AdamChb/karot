@@ -1,5 +1,16 @@
+<!-- ------------------------------
+  Karot_2.0 - MealSectionCreateResult.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This component is the result of the meal creation.
+------------------------------ -->
+
 <script setup>
-const meal = {
+const meal = { // TEMP: Base de données temporaire avant de connecter à la base de données
   name: "Tagliatelle Carbonara",
   ingredients: {
     Pasta: "300g",
@@ -20,10 +31,14 @@ export default {
 </script>
 
 <template>
+  <!-- Generated meal -->
   <div id="generated-meal">
+    <!-- Image of the generated meal -->
     <div id="meal-img">
       <img src="@/assets/meal.png" alt="meal" />
     </div>
+
+    <!-- Information about the generated meal -->
     <div id="meal-info">
       <p id="meal-name">Pasta with tomato sauce</p>
       <div id="sub-info">
@@ -48,8 +63,14 @@ export default {
           </li>
         </ul>
       </div>
+
+      <!-- More information about the meal -->
+       <!-- TEMP: Mettre un VRAI lien vers une page recette -->
       <p id="meal-more"><a href="">Click for more</a></p>
+
+      <!-- Buttons to reload or add the meal to the user's meals -->
       <div id="buttons-generated">
+        <!-- TEMP: Mettre des fonctions sur ces deux boutons -->
         <button class="button-meal" id="reload">Reload</button>
         <button class="button-meal" id="select">Add to My Meals</button>
       </div>
@@ -58,6 +79,7 @@ export default {
 </template>
 
 <style scoped>
+/* Style of the generated recipe card */
 p {
   margin-bottom: 0;
 }

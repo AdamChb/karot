@@ -1,52 +1,13 @@
-<template>
-  <section id="my-account" class="blue">
-    <div id="container1">
-      <div id="account">
-        <h2>Your account</h2>
-        <!-- Username change -->
-        <div class="input-group">
-          <input type="text" id="username" placeholder="CurrentUsername" />
-          <button>Change</button>
-        </div>
-        <!-- Password change -->
-        <div class="input-group">
-          <input type="password" id="password" placeholder="*************" />
-          <button>Change</button>
-        </div>
-      </div>
-      <div id="ingredients" class="scrollable-parent">
-        <h2>Your ingredients</h2>
-        <div class="scrollable">
-          <div v-for="(ingredient, i) in ingredients" :key="i">
-            <div class="ingredient">
-              <p>{{ ingredient }}</p>
-              <p>x</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="allergies" class="scrollable-parent">
-        <h2>Your allergies</h2>
-        <div class="scrollable">
-          <div v-for="(allergy, i) in allergies" :key="i">
-            <div class="allergy">
-              <p>{{ allergy }}</p>
-              <p>x</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="my-meals" class="scrollable-parent">
-      <h2>Your liked recipes</h2>
-      <div class="scrollable">
-        <div class="blue recipe-card" v-for="(recipe, i) in recipes" :key="i">
-          <RecipeCard :recipe="recipe" />
-        </div>
-      </div>
-    </div>
-  </section>
-</template>
+<!-- ------------------------------
+  Karot_2.0 - MyAccount.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This view is the account page.
+------------------------------ -->
 
 <script>
 import RecipeCard from "@/components/RecipeCard.vue";
@@ -56,7 +17,7 @@ export default {
   components: {
     RecipeCard,
   },
-  data() {
+  data() { // TEMP: Lier à la base de données pour éviter l'horreur qu'il y a juste en dessous...
     return {
       ingredients: [
         "Tomato",
@@ -311,7 +272,66 @@ export default {
 };
 </script>
 
+<template>
+  <section id="my-account" class="blue">
+    <div id="container1">
+
+      <!-- Informations of the user's account -->
+      <div id="account">
+        <h2>Your account</h2>
+        <!-- Username change -->
+        <div class="input-group">
+          <input type="text" id="username" placeholder="CurrentUsername" />
+          <button>Change</button>
+        </div>
+        <!-- Password change -->
+        <div class="input-group">
+          <input type="password" id="password" placeholder="*************" />
+          <button>Change</button>
+        </div>
+      </div>
+
+      <!-- Ingredients in the user's fridge -->
+      <div id="ingredients" class="scrollable-parent">
+        <h2>Your ingredients</h2>
+        <div class="scrollable">
+          <div v-for="(ingredient, i) in ingredients" :key="i">
+            <div class="ingredient">
+              <p>{{ ingredient }}</p>
+              <p>x</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Allergies of the user -->
+      <div id="allergies" class="scrollable-parent">
+        <h2>Your allergies</h2>
+        <div class="scrollable">
+          <div v-for="(allergy, i) in allergies" :key="i">
+            <div class="allergy">
+              <p>{{ allergy }}</p>
+              <p>x</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- List of all the user's liked meals -->
+    <div id="my-meals" class="scrollable-parent">
+      <h2>Your liked recipes</h2>
+      <div class="scrollable">
+        <div class="blue recipe-card" v-for="(recipe, i) in recipes" :key="i">
+          <RecipeCard :recipe="recipe" />
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
 <style scoped>
+/* Style of the page MyAccount */
 #my-account {
   display: flex;
   flex-direction: row;

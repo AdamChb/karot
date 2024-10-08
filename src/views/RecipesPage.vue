@@ -1,3 +1,14 @@
+<!-- ------------------------------
+  Karot_2.0 - Recipespage.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This view is the page to display the recipes.
+------------------------------ -->
+
 <script>
 import RecipeCard from "../components/RecipeCard.vue";
 
@@ -7,7 +18,7 @@ export default {
     RecipeCard,
   },
   data() {
-    return {
+    return { // TEMP: Connecter à la base de données
       recipes: [
         {
           id: 1,
@@ -71,8 +82,7 @@ export default {
 <template>
   <section class="orange home">
     <div id="row-home">
-      <!-- This container is the "hook" of the website
-             with a "Sign In" button -->
+      <!-- Title of the page -->
       <div class="container-fluid txt-white" id="hook">
         <h1>Discover recipes</h1>
         <div>
@@ -81,10 +91,13 @@ export default {
           <button id="start-now">Create your recipe</button>
         </div>
       </div>
+
+      <!-- Search bar -->
       <div class="container-fluid">
         <input type="search" placeholder="Research a recipe" />
       </div>
       <div class="container-fluid">
+        <!-- List of all the recipes corresponding with the research -->
         <div class="container-recipes">
           <div v-for="recipe in recipes" :key="recipe.id" class="recipe-card">
             <RecipeCard :recipe="recipe" />
@@ -96,6 +109,7 @@ export default {
 </template>
 
 <style scoped>
+/* Style of the search bar */
 .container-recipes {
   display: flex;
   flex-direction: row;
@@ -122,7 +136,7 @@ input:hover {
   transform: scale(1.02);
   transition: 0.3s;
 }
-/* Style of the home page */
+
 .home {
   height: fit-content;
   padding: 2em;
@@ -139,7 +153,7 @@ h1 {
   font-weight: 800 !important;
 }
 
-/* Style of the div #hook */
+
 .container-fluid {
   width: 75%;
   padding: 0.5em 0;

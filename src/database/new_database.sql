@@ -1,3 +1,15 @@
+-- ------------------------------
+--  Karot_2.0 - new_database.sql
+--
+--  Mathias BENOIT
+--  Adam CHABA
+--  Eva MAROT
+--  Sacha PORTAL
+--
+--  This file contains the SQL requests 
+--  to create the database of the Karot project.
+-- ------------------------------
+
 CREATE DATABASE karot;
 
 USE karot;

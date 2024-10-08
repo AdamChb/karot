@@ -1,10 +1,24 @@
-<script setup></script>
+<!-- ------------------------------
+  Karot_2.0 - SignUp.vue
+
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
+
+  This view is the page to sign up.
+------------------------------ -->
+
+<script>
+// TEMP: Connecter à la base de données pour pouvoir s'inscrire sur le site
+</script>
 
 <template>
   <div id="content">
     <div id="form">
       <h1 id="title">Sign Up</h1>
       <form>
+        <!-- Username -->
         <label class="subject" for="username">Username</label>
         <input
           class="input"
@@ -14,9 +28,11 @@
           required
         />
 
+        <!-- Email -->
         <label class="subject" for="email">Email</label>
         <input class="input" type="email" id="email" name="email" required />
 
+        <!-- Password -->
         <label class="subject" for="password">Password</label>
         <input
           class="input"
@@ -26,6 +42,7 @@
           required
         />
 
+        <!-- Repeat Password -->
         <label class="subject" for="repeat-password">Repeat Password</label>
         <input
           class="input"
@@ -34,7 +51,11 @@
           name="repeat-password"
           required
         />
+
+        <!-- Button to submit the information -->
         <button type="submit" id="submit">Sign up</button>
+
+        <!-- Link to the LogIn page -->
         <p id="login">
           You already have an account ?
           <router-link to="/LogIn"><a>Log in</a></router-link>
@@ -45,6 +66,7 @@
 </template>
 
 <style scoped>
+/* Style of the page SignUp */
 #content {
   display: flex;
   justify-content: center;
