@@ -36,19 +36,6 @@ server.get("/api/most-liked-recipes", async (req, res) => {
   }
 });
 
-// Add an allergy
-server.post("/api/add-allergy", async (req, res) => {
-  const { userId, ingredientId } = req.body;
-  try {
-    const result = await api_db.addAllergy(userId, ingredientId);
-    res.send(result);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
-
-
-
 // The same method exist with POST, PUT and DELETE
 // Request body is in req.body, it contains all the data sent by the client in the request body
 
@@ -79,6 +66,23 @@ server.get("/api/random-recipes", async (req, res) => {
   try {
     const result = await api_db.getRandomRecipes(5);
     res.json(result);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+// Add a recipe
+server.post("/api/add-recipe", async (req, res) => {
+  const { name, ingredients, steps, image, ID_Creator } = req.body; // Make sure to include the user ID if necessary
+  try {
+    const result = await api_db.addRecipe(
+      name,
+      ingredients,
+      steps,
+      image,
+      ID_Creator
+    ); // Implement this function in api_db.js
+    res.json({ message: "Recipe added successfully!", recipe: result });
   } catch (error) {
     res.status(400).send(error);
   }

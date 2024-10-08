@@ -36,7 +36,6 @@ onMounted(() => {
   }, 300); // Use timeout to ensure recipes are loaded
   initCarroussel();
 });
-
 </script>
 
 <script>
@@ -76,9 +75,7 @@ export default {
       ],
     };
   },
-  methods: {
-    
-  }
+  methods: {},
 };
 
 // This function is used to animate the carousel

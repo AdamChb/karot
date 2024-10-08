@@ -19,7 +19,9 @@ const recipes = ref([]);
 // Fetch most liked recipes from the server
 const fetchMostLikedRecipes = async () => {
   try {
-    const response = await fetch("http://localhost:3000/api/most-liked-recipes");
+    const response = await fetch(
+      "http://localhost:3000/api/most-liked-recipes"
+    );
     const data = await response.json();
     recipes.value = data; // Store fetched recipes in the reactive variable
   } catch (error) {

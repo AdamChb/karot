@@ -16,10 +16,10 @@ const mysql = require("mysql2");
 async function getMostLiked(limit) {
   // TEMP: Demander à Sacha si on recopie à chaque fois les identifiants
   const db = mysql.createConnection({
-    host: "localhost",
-    user: "karot_root",
-    password: "efreikarot240",
-    database: "karot",
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
   });
   return new Promise((resolve, reject) => {
     db.query(
@@ -36,10 +36,10 @@ async function getMostLiked(limit) {
 //Function to add an allergy
 async function addAllergy(userId, ingredientId) {
   const db = mysql.createConnection({
-    host: "localhost",
-    user: "karot_root",
-    password: "efreikarot240",
-    database: "karot",
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
   });
 
   return new Promise((resolve, reject) => {
@@ -63,10 +63,10 @@ async function addAllergy(userId, ingredientId) {
 // Function delete an allergy
 async function deleteAllergy(userId, ingredientId) {
   const db = mysql.createConnection({
-    host: "localhost",
-    user: "karot_root",
-    password: "efreikarot240",
-    database: "karot",
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
   });
 
   return new Promise((resolve, reject) => {
@@ -83,10 +83,10 @@ async function deleteAllergy(userId, ingredientId) {
 // Function to get random recipe
 async function getRandomRecipes(limit) {
   const db = mysql.createConnection({
-    host: "localhost",
-    user: "karot_root",
-    password: "efreikarot240",
-    database: "karot",
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
   });
 
   return new Promise((resolve, reject) => {
@@ -102,10 +102,65 @@ async function getRandomRecipes(limit) {
   });
 }
 
+async function addRecipe(name, ingredients, steps, image, ID_Creator) {
+  const db = mysql.createConnection({
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
+  });
+
+  return new Promise((resolve, reject) => {
+    // Insert the recipe into the Recipe table
+    const insertRecipeQuery = `INSERT INTO Recipe (Name_Recipe, Steps, Image, ID_Creator) VALUES (?, ?, ?, ?)`;
+    db.query(
+      insertRecipeQuery,
+      [name, steps, image, ID_Creator],
+      (err, result) => {
+        if (err) return reject("Error adding recipe: " + err);
+
+        // Get the inserted recipe ID
+        const recipeId = result.insertId;
+
+        // Now insert ingredients into the To_Require table
+        const ingredientPromises = ingredients.map((ingredient) => {
+          return new Promise((resolve, reject) => {
+            // Assume you have a method to get the ingredient ID
+            const checkIngredientQuery = `SELECT ID_Ingredient FROM Ingredient WHERE Name_Ingredient = ?`;
+            db.query(checkIngredientQuery, [ingredient.trim()], (err, rows) => {
+              if (err) return reject(err);
+              if (rows.length > 0) {
+                const ingredientId = rows[0].ID_Ingredient;
+                const insertToRequireQuery = `INSERT INTO To_Require (ID_Ingredient, ID_Recipe, Quantity) VALUES (?, ?, ?)`;
+                db.query(
+                  insertToRequireQuery,
+                  [ingredientId, recipeId, "1"],
+                  (err) => {
+                    if (err) return reject(err);
+                    resolve();
+                  }
+                );
+              } else {
+                // Handle case where ingredient does not exist (optional)
+                resolve(); // Or reject with an error
+              }
+            });
+          });
+        });
+
+        Promise.all(ingredientPromises)
+          .then(() => resolve("Recipe successfully added"))
+          .catch(reject);
+      }
+    );
+  });
+}
+
 // Export the functions
 module.exports = {
   getMostLiked,
   addAllergy,
   deleteAllergy,
   getRandomRecipes,
+  addRecipe,
 };

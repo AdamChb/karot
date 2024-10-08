@@ -31,17 +31,15 @@ export default {
     // Function to go to the recipe page
     goTo(id) {
       this.$router.push({ path: "/recipe", query: { id } });
-    }
+    },
   },
 };
 </script>
 
 <template>
   <div class="recipe">
-
     <!-- Link to the recipe page -->
     <div @click="goTo(recipe.id)">
-
       <!-- Image of the recipe -->
       <div class="img">
         <img :src="recipe.image" alt="recipe image" />
