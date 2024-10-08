@@ -55,6 +55,17 @@ export default {
 
 <template>
   <div class="background">
+    <div class="container-button">
+
+    
+          <!-- Button to bring the user to the last page -->
+        <!-- TEMP - router vers la page précédente -->
+        <router-link to="/category" style="text-decoration: none">
+          <div class="cta-button">
+            <img src="@/assets/back-arrow.svg" alt="arrow icon" />
+            Return
+          </div>
+        </router-link>
     <div class="recipe-container">
       <!-- TEMP: Bouton temporaire pour tester la fonction d'appel à la base de données -->
       <button @click="test(recipe)">Test</button> 
@@ -111,10 +122,17 @@ export default {
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <style scoped>
 /* Style of the RecipePage */
+.container-button {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+}
 .background {
   background-color: #2f4858;
   min-height: 100vh;
@@ -178,6 +196,34 @@ export default {
 .head-likes p {
   margin: 0;
 }
+
+/* Style for the return button */
+.cta-button {
+  box-sizing: border-box;
+  border: 2px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4em 1em 0.4em 0.7em;
+  text-align: center;
+  border-radius: 0.4em;
+  color: white;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: 0.3s;
+  margin-bottom: 1em;
+  animation: fadeInLeft ease 1s;
+}
+.cta-button:hover {
+  transform: scale(1.04);
+  transition: 0.3s;
+}
+
+.cta-button img {
+  width: 20px;
+  margin-right: 10px;
+}
+
 
 /* Responsive design for smaller screens */
 @media (max-width: 1024px) {
