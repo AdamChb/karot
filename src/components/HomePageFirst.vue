@@ -10,15 +10,33 @@
 ------------------------------ -->
 
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 
 // TEMP : Link to the data base
 
+// Use ref to store the recipes
+const recipes = ref([]);
+
+// Fetch random recipes from server
+const fetchRandomRecipes = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/api/random-recipes");
+    const data = await response.json();
+    recipes.value = data;
+  } catch (error) {
+    console.error("Error fetching random recipes:", error);
+  }
+};
+
 // Permit to display the first item of the carousel
 onMounted(() => {
-  document.getElementsByClassName("slide")[0].classList.add("active");
+  fetchRandomRecipes();
+  setTimeout(() => {
+    document.getElementsByClassName("slide")[0]?.classList.add("active");
+  }, 300); // Use timeout to ensure recipes are loaded
   initCarroussel();
 });
+
 </script>
 
 <script>
@@ -58,6 +76,9 @@ export default {
       ],
     };
   },
+  methods: {
+    
+  }
 };
 
 // This function is used to animate the carousel

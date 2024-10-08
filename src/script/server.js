@@ -42,6 +42,22 @@ server.post("/api/add-allergy", async (req, res) => {
   }
 });
 
+
+
+// The same method exist with POST, PUT and DELETE
+// Request body is in req.body, it contains all the data sent by the client in the request body
+
+// Add an allergy
+server.post("/api/add-allergy", async (req, res) => {
+  const { userId, ingredientId } = req.body; // Get the data sent by the form
+  try {
+    const result = await api_db.addAllergy(userId, ingredientId);
+    res.send(result);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 // Delete an allergy
 server.delete("/api/delete-allergy", async (req, res) => {
   const { userId, ingredientId } = req.query;
@@ -53,15 +69,11 @@ server.delete("/api/delete-allergy", async (req, res) => {
   }
 });
 
-// The same method exist with POST, PUT and DELETE
-// Request body is in req.body, it contains all the data sent by the client in the request body
-
-// Add an allergy
-server.post("/api/add-allergy", async (req, res) => {
-  const { userId, ingredientId } = req.body; // Get the data sent by the form
+// Fetch random recipes
+server.get("/api/random-recipes", async (req, res) => {
   try {
-    const result = await api_db.addAllergy(userId, ingredientId);
-    res.send(result);
+    const result = await api_db.getRandomRecipes(5);
+    res.json(result);
   } catch (error) {
     res.status(400).send(error);
   }

@@ -80,9 +80,32 @@ async function deleteAllergy(userId, ingredientId) {
   });
 }
 
+// Function to get random recipe
+async function getRandomRecipes(limit) {
+  const db = mysql.createConnection({
+    host: "localhost",
+    user: "karot_root",
+    password: "efreikarot240",
+    database: "karot",
+  });
+
+  return new Promise((resolve, reject) => {
+    db.query(
+      `SELECT * FROM Recipe ORDER BY RAND() LIMIT ?`,
+      [limit],
+      (err, results) => {
+        db.end();
+        if (err) return reject(err);
+        return resolve(results);
+      }
+    );
+  });
+}
+
 // Export the functions
 module.exports = {
   getMostLiked,
   addAllergy,
   deleteAllergy,
+  getRandomRecipes,
 };
