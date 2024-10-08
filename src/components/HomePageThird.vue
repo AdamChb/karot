@@ -9,65 +9,28 @@
   This component is the third block of the home page.
 ------------------------------ -->
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
 import RecipeCard from "@/components/RecipeCard.vue";
 
-export default {
-  name: "HomePageThird",
-  components: {
-    RecipeCard,
-  },
-  data() {
-    return { // TEMP: Base de données temporaire pour tester le front end
-      recipes: [
-        {
-          id: 1,
-          name: "Pasta with tomato sauce",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "Adam",
-          like: 47,
-          liked: false,
-        },
-        {
-          id: 2,
-          name: "Hawaiian pizza",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "Mathias",
-          like: 98,
-          liked: false,
-        },
-        {
-          id: 3,
-          name: "Pineapple Pizza",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "Mat",
-          like: 39,
-          liked: false,
-        },
-        {
-          id: 4,
-          name: "Pizza with pineapple",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "Mat15_the_cook",
-          like: 7,
-          liked: false,
-        },
-      ],
-    };
+// Reactive state for the recipes
+const recipes = ref([]);
+
+// Fetch most liked recipes from the server
+const fetchMostLikedRecipes = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/api/most-liked-recipes");
+    const data = await response.json();
+    recipes.value = data; // Store fetched recipes in the reactive variable
+  } catch (error) {
+    console.error("Error fetching most liked recipes:", error);
   }
 };
+
+// On mounted, fetch the most liked recipes
+onMounted(() => {
+  fetchMostLikedRecipes();
+});
 </script>
 
 <template>

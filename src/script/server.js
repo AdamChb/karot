@@ -27,8 +27,13 @@ const server = express();
 // When a GET requets is made at the adress /getMostLiked, the server respond (res) with the return of the function getMostLiked
 
 // Function to link to the request getMostLiked
-server.get("/getMostLiked", async (req, res) => {
-  res.send(await api_db.getMostLiked(10));
+server.get("/api/most-liked-recipes", async (req, res) => {
+  try {
+    const result = await api_db.getMostLiked(4);
+    res.json(result);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 // Add an allergy
