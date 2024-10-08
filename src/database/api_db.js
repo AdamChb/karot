@@ -43,7 +43,7 @@ async function addAllergy(userId, ingredient) {
   });
 
   return new Promise((resolve, reject) => {
-    // Request to get the ongredient's ID
+    // Request to get the ingredient's ID
     const queryIngredient = `SELECT ID_Ingredient FROM Ingredient WHERE Name_Ingredient = ?`;
     db.query(queryIngredient, [ingredient], (err, result) => {
       if (err) return reject("Error when retrieving ingredient : " + err);
@@ -76,5 +76,114 @@ async function getImagesRecipes(link) {
   );
 }
 
-// Export the function getMostLiked
-module.exports = { getMostLiked, addAllergy, getImagesRecipes };
+//Function to check a meal (delete it from the user's saved meals)
+async function checkMeal(userId, recipeId) {
+  const db = mysql.createConnection({
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
+  });
+
+  return new Promise((resolve, reject) => {
+    // Delete the meal from the user's saved meals
+    db.query(
+      `DELETE FROM To_Save WHERE ID_User = ${userID} AND ID_Recipe = ${recipeID}`,
+      (err, results) => {
+        db.end();
+        if (err) return reject(err);
+        return resolve(results);
+      }
+    );
+  });
+}
+
+//Function to get the user's planned meals
+async function getPlannedMeals(userId) {
+  const db = mysql.createConnection({
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
+  });
+
+  return new Promise((resolve, reject) => {
+    // Get meals informations from the user's planned meals 
+    db.query(
+      `SELECT
+      r.ID_Recipe,
+      r.Name_Recipe,
+      r.Steps,
+      r.Likes,
+      r.Image,
+      r.Category
+      FROM To_Save ts
+      JOIN Recipe r
+      ON r.ID_Recipe = ts.ID_Recipe 
+      WHERE ts.ID_User = ${userID}`,
+      (err, results) => {
+        db.end();
+        if (err) return reject(err);
+        return resolve(results);
+      }
+    );
+  });
+}
+
+//Function to get the user's planned meals
+async function getPlannedMeals(userId) {
+  const db = mysql.createConnection({
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
+  });
+
+  return new Promise((resolve, reject) => {
+    // Get meals informations from the user's planned meals 
+    db.query(
+      `SELECT
+      r.ID_Recipe,
+      r.Name_Recipe,
+      r.Steps,
+      r.Likes,
+      r.Image,
+      r.Category
+      FROM To_Save ts
+      JOIN Recipe r
+      ON r.ID_Recipe = ts.ID_Recipe 
+      WHERE ts.ID_User = ${userID}`,
+      (err, results) => {
+        db.end();
+        if (err) return reject(err);
+        return resolve(results);
+      }
+    );
+  });
+}
+
+//Function to add a meal to the user's planned meals
+async function addMeal(userId, recipeId) {
+  const db = mysql.createConnection({
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
+  });
+
+  return new Promise((resolve, reject) => {
+    // Insert the recipe ID and the user ID to the planned meals table
+    db.query(
+      `INSERT INTO To_Save (ID_User, ID_Recipe) 
+      VALUES (${userId}, ${recipeId})`,
+      (err, results) => {
+        db.end();
+        if (err) return reject(err);
+        return resolve(results);
+      }
+    );
+  });
+}
+
+// Export the functions
+module.exports = { getMostLiked, addAllergy, getImagesRecipes, checkMeal, getPlannedMeals, addMeal};
