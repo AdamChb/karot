@@ -20,7 +20,13 @@ const port = 3000;
 const { dir } = require("console");
 const fs = require("fs");
 const mysql = require("mysql2");
-const db = require("./start_db").db;
+const db = mysql.createConnection({
+  host: "concordia-db.docsystem.xyz",
+  user: "uml-b-3",
+  password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+  database: "uml-b-3",
+});
+
 const path = require("path");
 
 async function APIIngredientCall() {
