@@ -93,6 +93,7 @@ export default {
       <div class="container-fluid">
         <div class="container-recipes">
           <div v-for="recipe in recipes" :key="recipe.id" class="recipe">
+          <p>×</p>
             <RecipeCard :recipe="recipe" />
           </div>
         </div>
@@ -103,6 +104,14 @@ export default {
 
 <style scoped>
 /* Style of the recipes */
+.container-recipes p{
+  color: white;
+  text-align: right;
+  margin: 0;
+  padding-right: .5em;
+  cursor: pointer;
+  font-size: 1.5em;
+}
 .container-recipes {
   display: flex;
   flex-direction: row;
