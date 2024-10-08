@@ -10,13 +10,13 @@
 ------------------------------ -->
 
 <script>
-  export default {
+export default {
   data() {
     return {
-      recipeName: '',
-      ingredients: '',
-      steps: '',
-      fileName: '', // Store file name instead of image preview
+      recipeName: "",
+      ingredients: "",
+      steps: "",
+      fileName: "", // Store file name instead of image preview
       dragActive: false,
     };
   },
@@ -46,8 +46,8 @@
         alert("Please fill in all fields before submitting the recipe.");
         return;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -55,9 +55,9 @@
   <div class="container">
     <div class="recipe-form">
       <!-- Photo upload -->
-      <div 
-        class="photo-upload" 
-        @dragover.prevent 
+      <div
+        class="photo-upload"
+        @dragover.prevent
         @drop.prevent="onDrop"
         @dragenter="dragActive = true"
         @dragleave="dragActive = false"
@@ -65,7 +65,12 @@
       >
         <!-- Upload button stays inside the drop zone -->
         <button class="upload-btn" @click="uploadImage">Upload a photo</button>
-        <input type="file" @change="onFileChange" style="display:none" ref="fileInput">
+        <input
+          type="file"
+          @change="onFileChange"
+          style="display: none"
+          ref="fileInput"
+        />
         <p>or drop it here</p>
 
         <!-- Only show the file name, no image preview -->
@@ -76,17 +81,30 @@
 
       <!-- Form fields for recipe name, ingredients, and steps -->
       <div class="form-fields">
-        <input type="text" v-model="recipeName" placeholder="Enter the name of the recipe" class="recipe-input"/>
-        <textarea v-model="ingredients" placeholder="Enter the ingredients. Ex: 2 cucumbers, 3 tomatoes..." class="ingredients-input"></textarea>
-        <textarea v-model="steps" placeholder="Enter the steps. Ex: Cut the tomatoes..." class="steps-input"></textarea>
+        <input
+          type="text"
+          v-model="recipeName"
+          placeholder="Enter the name of the recipe"
+          class="recipe-input"
+        />
+        <textarea
+          v-model="ingredients"
+          placeholder="Enter the ingredients. Ex: 2 cucumbers, 3 tomatoes..."
+          class="ingredients-input"
+        ></textarea>
+        <textarea
+          v-model="steps"
+          placeholder="Enter the steps. Ex: Cut the tomatoes..."
+          class="steps-input"
+        ></textarea>
         <button class="submit-btn" @click="submitRecipe">Submit Recipe</button>
       </div>
     </div>
   </div>
 </template>
-  
+
 <style scoped>
-  .container {
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,7 +113,7 @@
   max-width: 100%;
   padding: 4em 0 2em 0;
   background-color: #2f4858;
-  margin-left : 0;
+  margin-left: 0;
   margin-right: 0;
 }
 
@@ -123,11 +141,11 @@
 }
 
 .drag-active {
-  border-color: #EA5B0C; /* Change border color when dragging over */
+  border-color: #ea5b0c; /* Change border color when dragging over */
 }
 
 .upload-btn {
-  background-color: #EA5B0C;
+  background-color: #ea5b0c;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -150,7 +168,9 @@
   width: 55%;
 }
 
-.recipe-input, .ingredients-input, .steps-input {
+.recipe-input,
+.ingredients-input,
+.steps-input {
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
@@ -159,7 +179,7 @@
 }
 
 .submit-btn {
-  background-color: #EA5B0C;
+  background-color: #ea5b0c;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -181,12 +201,12 @@ textarea {
     flex-direction: column; /* Stack the photo upload and form vertically */
   }
 
-  .photo-upload, 
+  .photo-upload,
   .form-fields {
     width: 100%; /* Full width for both the photo upload and form fields */
     margin-bottom: 20px; /* Add space between them */
   }
-  
+
   .photo-upload {
     height: auto; /* Adjust height for better fit */
     padding: 20px; /* Add padding to make the drop zone larger */
@@ -215,5 +235,4 @@ textarea {
     padding: 10px; /* Reduce padding for smaller screens */
   }
 }
-
-</style>  
+</style>

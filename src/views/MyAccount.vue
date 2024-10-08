@@ -17,7 +17,8 @@ export default {
   components: {
     RecipeCard,
   },
-  data() { // TEMP: Lier à la base de données pour éviter l'horreur qu'il y a juste en dessous...
+  data() {
+    // TEMP: Lier à la base de données pour éviter l'horreur qu'il y a juste en dessous...
     return {
       ingredients: [
         "Tomato",
@@ -275,7 +276,6 @@ export default {
 <template>
   <section id="my-account" class="blue">
     <div id="container1">
-
       <!-- Informations of the user's account -->
       <div id="account">
         <h2>Your account</h2>
