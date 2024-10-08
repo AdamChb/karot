@@ -14,8 +14,11 @@
 // You can import local files by using the relative path
 
 const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors")
 const api_db = require("../database/api_db");
 const init_db = require("../database/init_db");
+const account_db = require("../database/account_db")
 
 // Configuration about the server
 const hostname = "127.0.0.1";
@@ -23,6 +26,9 @@ const port = 3000;
 
 // Create a new instance of express
 const server = express();
+
+server.use(cors('*'))
+server.use(bodyParser.json())
 
 // When a GET requets is made at the adress /getMostLiked, the server respond (res) with the return of the function getMostLiked
 
@@ -53,6 +59,28 @@ server.post("/api/add-allergy", async (req, res) => {
     res.send(result);
   } catch (error) {
     res.status(400).send(error);
+  }
+});
+
+// Register a new user
+server.post("/api/new-user", async (req, res) => {
+  const user = req.body;
+  try {
+    const result = await account_db.signUp(user);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// Log in a user
+server.post("/api/log-in", async (req, res) => {
+  const info = req.body;
+  try {
+    const result = await account_db.logIn(info);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
   }
 });
 

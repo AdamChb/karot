@@ -29,6 +29,9 @@ export default {
   components: {
     RecipeCard,
   },
+  props: {
+    isLoggedIn: Boolean,
+  },
   data(){
     return { // TEMP: Base de donnée temporaire pour tester le front end
       recipes: [
@@ -122,8 +125,8 @@ const initCarroussel = () => {
                 have, find trendy recipes and create your own!
             </p>
             <!-- TEMP : A link to the Sign In page is required -->
-            <router-link to="/signUp">
-                <button id="start-now">Start now</button>
+            <router-link :to="isLoggedIn ? '/createMeals' : '/signUp'">
+                <button id="start-now">{{ isLoggedIn ? 'Create your meals now !' : 'Start now' }}</button>
             </router-link>
         </div>
       </div>
@@ -196,7 +199,9 @@ h1 {
 #start-now {
   font-size: 1.3em;
   font-weight: 500;
-  width: 6em;
+  min-width: 6em;
+  max-width: 15em;
+  padding: 0 .7em;
   height: 2em;
   border-radius: 10px;
   border: 3px solid white;
