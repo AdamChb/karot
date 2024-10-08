@@ -155,29 +155,6 @@ function insertRecipe(list) {
   });
 }
 
-async function getImagesRecipes(link) {
-  // Fetch the image from the API and return it as a buffer
-  return await fetch(link).then(async (response) =>
-    Buffer.from(await response.arrayBuffer())
-  );
-}
-
-function saveImagesRecipes(letter, number, image) {
-  const dirPath = path.join(__dirname, "img", letter);
-
-  // Create the directory if it does not exist
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
-  }
-  const imgpath = path.join(dirPath, `${letter + number}.jpg`);
-
-  // Save the image from the last function in the directory
-  fs.writeFileSync(imgpath, image);
-
-  // Return the path to the image
-  return `img/${letter + number}.jpg`;
-}
-
 async function doAll() {
   // Get the ingredients and insert them into the database
 
@@ -189,12 +166,6 @@ async function doAll() {
   for (let i = 97; i <= 122; i++) {
     let letter = String.fromCharCode(i);
     let meals = await APIMealCall(letter);
-
-    // Get the images of the recipes and save them
-    for (let j = 0; j < meals.length; j++) {
-      meals[j].image = await getImagesRecipes(meals[j].image);
-      meals[j].image = saveImagesRecipes(letter, j, meals[j].image);
-    }
 
     // Insert the recipes into the database
     insertRecipe(meals);
