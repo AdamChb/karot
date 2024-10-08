@@ -272,6 +272,33 @@ export default {
       ],
     };
   },
+  methods: {
+    //Delete an allergy
+    deleteAllergy(ingredientId) {
+      const queryParams = new URLSearchParams({
+        userId: this.userId,
+        ingredientId: this.ingredient.id,
+      }).toString();
+
+      fetch(`http://localhost:3000/api/delete-allergy?${queryParams}`, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message) {
+            // Remove the allergy from the list
+            this.allergies = this.allergies.filter(
+              (allergy) => allergy !== ingredientId
+            );
+          } else {
+            alert(data.error || "Error deleting allergy");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
+  },
 };
 </script>
 
@@ -310,10 +337,14 @@ export default {
       <div id="allergies" class="scrollable-parent">
         <h2>Your allergies</h2>
         <div class="scrollable">
-          <div v-for="(allergy, i) in allergies" :key="i" @click="deleteAllergy(ingredient)">
+          <div
+            v-for="(allergy, i) in allergies"
+            :key="i"
+            @click="deleteAllergy(ingredient)"
+          >
             <div class="allergy">
               <p>{{ allergy }}</p>
-              <IngredientsBox/>
+              <IngredientsBox />
             </div>
           </div>
         </div>
