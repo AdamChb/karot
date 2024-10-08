@@ -1,35 +1,14 @@
-<template>
-  <div class="container">
-    <div class="recipe-form">
-      <div 
-        class="photo-upload" 
-        @dragover.prevent 
-        @drop.prevent="onDrop"
-        @dragenter="dragActive = true"
-        @dragleave="dragActive = false"
-        :class="{ 'drag-active': dragActive }"
-      >
-        <!-- Upload button stays inside the drop zone -->
-        <button class="upload-btn" @click="uploadImage">Upload a photo</button>
-        <input type="file" @change="onFileChange" style="display:none" ref="fileInput">
-        <p>or drop it here</p>
+<!-- ------------------------------
+  Karot_2.0 - AddRecipe.vue
 
-        <!-- Only show the file name, no image preview -->
-        <div v-if="fileName">
-          <p class="file-name">{{ fileName }}</p>
-        </div>
-      </div>
+  Mathias BENOIT
+  Adam CHABA
+  Eva MAROT
+  Sacha PORTAL
 
-      <div class="form-fields">
-        <input type="text" v-model="recipeName" placeholder="Enter the name of the recipe" class="recipe-input"/>
-        <textarea v-model="ingredients" placeholder="Enter the ingredients. Ex: 2 cucumbers, 3 tomatoes..." class="ingredients-input"></textarea>
-        <textarea v-model="steps" placeholder="Enter the steps. Ex: Cut the tomatoes..." class="steps-input"></textarea>
-        <button class="submit-btn" @click="submitRecipe">Submit Recipe</button>
-      </div>
-    </div>
-  </div>
-</template>
-  
+  This view is the page where a user can add a new recipe
+------------------------------ -->
+
 <script>
   export default {
   data() {
@@ -72,6 +51,39 @@
 };
 </script>
 
+<template>
+  <div class="container">
+    <div class="recipe-form">
+      <!-- Photo upload -->
+      <div 
+        class="photo-upload" 
+        @dragover.prevent 
+        @drop.prevent="onDrop"
+        @dragenter="dragActive = true"
+        @dragleave="dragActive = false"
+        :class="{ 'drag-active': dragActive }"
+      >
+        <!-- Upload button stays inside the drop zone -->
+        <button class="upload-btn" @click="uploadImage">Upload a photo</button>
+        <input type="file" @change="onFileChange" style="display:none" ref="fileInput">
+        <p>or drop it here</p>
+
+        <!-- Only show the file name, no image preview -->
+        <div v-if="fileName">
+          <p class="file-name">{{ fileName }}</p>
+        </div>
+      </div>
+
+      <!-- Form fields for recipe name, ingredients, and steps -->
+      <div class="form-fields">
+        <input type="text" v-model="recipeName" placeholder="Enter the name of the recipe" class="recipe-input"/>
+        <textarea v-model="ingredients" placeholder="Enter the ingredients. Ex: 2 cucumbers, 3 tomatoes..." class="ingredients-input"></textarea>
+        <textarea v-model="steps" placeholder="Enter the steps. Ex: Cut the tomatoes..." class="steps-input"></textarea>
+        <button class="submit-btn" @click="submitRecipe">Submit Recipe</button>
+      </div>
+    </div>
+  </div>
+</template>
   
 <style scoped>
   .container {
