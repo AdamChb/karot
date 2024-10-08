@@ -88,7 +88,9 @@ export default {
         <div>
           <p>You want to add your own?</p>
           <!-- TEMP : A link to the Recipe Creation page is required -->
-          <button id="start-now">Create your recipe</button>
+          <router-link to="/addRecipe">
+            <button id="start-now">Create your recipe</button>
+          </router-link>
         </div>
       </div>
 

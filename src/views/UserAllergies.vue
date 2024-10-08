@@ -34,6 +34,33 @@ export default {
       allergies: ["Peanut", "Tree nut", "Fish", "Lactose"],
     };
   },
+  methods: {
+    // Méthode pour ajouter une allergie
+    addAllergy(ingredient) {
+      fetch("http://localhost:3000/api/add-allergy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          userId: this.userId,
+          ingredient: ingredient,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message) {
+            // Met à jour la liste des allergies
+            this.allergies.push(ingredient);
+          } else {
+            alert(data.error || "Erreur lors de l'ajout de l'allergie");
+          }
+        })
+        .catch((error) => {
+          console.error("Erreur:", error);
+        });
+    },
+  },
 };
 </script>
 
@@ -54,6 +81,7 @@ export default {
                 v-for="(ingredient, i) in ingredients"
                 :key="i"
                 class="grey ingredient"
+                @click="addAllergy(ingredient)"
               >
                 {{ ingredient }} +
               </li>
