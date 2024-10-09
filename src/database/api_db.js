@@ -82,6 +82,7 @@ async function getImagesRecipes(link) {
   );
 }
 
+// Get a recipe by id
 async function getRecipe(id_user, id_recipe) {
   const db = mysql.createConnection(serv);
   return new Promise((resolve, reject) => {
@@ -90,20 +91,26 @@ async function getRecipe(id_user, id_recipe) {
           r.ID_Recipe,
           r.Name_Recipe,
           r.Steps,
-          r.Likes,
           r.Category,
           r.Image,
           ku.Username AS Author_Name,
-          (CASE WHEN tl.ID_User IS NOT NULL THEN TRUE ELSE FALSE END) AS Has_Liked
+          (SELECT COUNT(*) FROM To_Like tl2 WHERE tl2.ID_Recipe = r.ID_Recipe) AS Likes_Count,
+          (CASE WHEN tl.ID_User IS NOT NULL THEN TRUE ELSE FALSE END) AS Has_Liked,
+          GROUP_CONCAT(CONCAT(i.Name_Ingredient, ' (', tr.Quantity, ')') SEPARATOR ', ') AS Ingredients_With_Quantity
       FROM 
           Recipe r
       JOIN 
           Karot_User ku ON r.ID_Creator = ku.ID_User
       LEFT JOIN 
-          To_Like tl ON r.ID_Recipe = tl.ID_Recipe AND tl.ID_User = ${id_user}
+          To_Like tl ON r.ID_Recipe = tl.ID_Recipe AND tl.ID_User = ?
+      LEFT JOIN 
+          To_Require tr ON r.ID_Recipe = tr.ID_Recipe
+      LEFT JOIN 
+          Ingredient i ON tr.ID_Ingredient = i.ID_Ingredient
       WHERE 
-          r.ID_Recipe = ${id_recipe};
-      `,
+          r.ID_Recipe = ?
+      GROUP BY r.ID_Recipe, r.Name_Recipe, r.Steps, r.Category, r.Image, ku.Username, tl.ID_User;`,
+      [id_user, id_recipe],
       (err, results) => {
         db.end();
         if (err) return reject(err);

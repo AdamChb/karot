@@ -22,9 +22,8 @@ export default {
     }
   },
   async beforeMount() {
+    // Request the database to get the recipe coresponding with the ID_Recipe
     const ID_Recipe = this.$route.query.id;
-    console.log(this.$route.query.id);
-    // TEMP: Faire appel à la base de données pour récupérer la recette
 
     const options = {
       method: 'GET',
@@ -32,29 +31,59 @@ export default {
         'Content-Type': 'application/json',
       }
     };
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/api/get-recipe?id_user=${this.id_user}&id_recipe=${ID_Recipe}`, options);
+      const data = await response.json();
+      this.recipe = data[0];
+      this.recipe.Ingredients_With_Quantity = this.recipe.Ingredients_With_Quantity.split(", ")
+      console.log(this.recipe);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  methods: {
+    async toLike() {
+      if (!this.isLoggedIn) return
+
+      this.recipe.Has_Liked = !this.recipe.Has_Liked;
+      this.recipe.Likes_Count += 1;
+      
+      const info = {
+        id_user: this.id_user,
+        id_recipe: this.recipe.ID_Recipe,
+      };
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(info),
+      };
       try {
-        const response = await fetch(`http://127.0.0.1:3000/api/get-recipe?id_user=${this.id_user}?id_recipe=${ID_Recipe}`, options);
-        const data = await response.json();
-        this.recipe = data[0];
-        console.log(this.recipe);
+        await fetch(`http://127.0.0.1:3000/api/like-recipe`, options);
       } catch (err) {
         console.log(err);
       }
-  },
-  methods: {
-    toLike() {
-      this.recipe.liked = !this.recipe.liked;
-      this.recipe.like += 1;
-      // TEMP: Faire appel à la base de données pour modifier le nombre de likes de la recette
-    },
-    unLike() {
-      this.recipe.liked = !this.recipe.liked;
-      this.recipe.like -= 1;
-      // TEMP: Faire appel à la base de données pour modifier le nombre de likes de la recette
 
+      console.log(this.recipe);
     },
-    test(recipe) { // TEMP: Focntion temporaire pour tester si le code fonctionne bien
-      console.log(recipe);
+    async unLike() {
+      if (!this.isLoggedIn) return
+
+      this.recipe.Has_Liked = !this.recipe.Has_Liked;
+      this.recipe.Likes_Count -= 1;
+      
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      };
+      try {
+        await fetch(`http://127.0.0.1:3000/api/unlike-recipe?id_user=${this.id_user}&id_recipe=${this.recipe.ID_Recipe}`, options);
+      } catch (err) {
+        console.log(err);
+      }
     },
   },  
 };
@@ -63,8 +92,6 @@ export default {
 <template>
   <div class="background">
     <div class="recipe-container">
-      <!-- TEMP: Bouton temporaire pour tester la fonction d'appel à la base de données -->
-      <button @click="test(recipe)">Test</button> 
       <div class="top">
         <!-- Title, creator, like and ingredients of the recipe -->
         <div class="description">
@@ -72,13 +99,13 @@ export default {
           <div class="head">
             <!-- Recipe name and creator -->
             <div class="head-text">
-              <!-- <h1>{{ recipe.Name_Recipe }}</h1>
-              <p>by {{ recipe.ID_Author }}</p> -->
+              <h1>{{ recipe.Name_Recipe }}</h1>
+              <p>by {{ recipe.Author_Name }}</p>
             </div>
             <!-- Like button -->
             <div class="head-likes">
-              <!-- <img
-                v-show="!recipe.liked"
+              <img
+                v-show="!recipe.Has_Liked"
                 @click="
                 toLike
                 "
@@ -86,14 +113,14 @@ export default {
                 alt="like icon"
               />
               <img
-                v-show="recipe.liked"
+                v-show="recipe.Has_Liked"
                 @click="
                 unLike
                 "
                 src="../assets/liked-orange.svg"
                 alt="like icon"
-              /> -->
-              <!-- <p>{{ recipe.like }}</p> -->
+              />
+              <p>{{ recipe.Likes_Count }}</p>
             </div>
           </div>
 
@@ -101,7 +128,7 @@ export default {
           <div class="ingredients">
             <h3>Ingredients</h3>
             <ul>
-              <!-- <li v-for="(ingredient, i) in recipe.ingredients" :key="i">{{ ingredient }}</li> -->
+              <li v-for="(ingredient, i) in recipe.Ingredients_With_Quantity" :key="i">{{ ingredient }}</li>
             </ul>
           </div>
         </div>
@@ -114,7 +141,7 @@ export default {
 
       <!-- Instructions -->
       <div class="recipe-steps">
-        <!-- <p>{{ recipe.instructions }}</p> -->
+        <p>{{ recipe.Steps }}</p>
       </div>
     </div>
   </div>
