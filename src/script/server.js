@@ -19,6 +19,7 @@ const cors = require("cors")
 const api_db = require("../database/api_db");
 const init_db = require("../database/init_db");
 const account_db = require("../database/account_db")
+const like_db = require("../database/like_db")
 
 // Configuration about the server
 const hostname = "127.0.0.1";
@@ -78,6 +79,43 @@ server.post("/api/log-in", async (req, res) => {
   const info = req.body;
   try {
     const result = await account_db.logIn(info);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// Get an specific recipe by id
+server.get("/api/get-recipe", async (req, res) => {
+  const id_user = req.query.id_user;
+  const id_recipe = req.query.id_recipe;
+  try {
+    const result = await api_db.getRecipe(id_user, id_recipe);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// Like a recipe
+server.post("/api/like-recipe", async (req, res) => {
+  const info = req.body;
+  try {
+    const result = await like_db.likeRecipe(info);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// Unlike a recipe
+server.delete("/api/unlike-recipe", async (req, res) => {
+  const info = {
+    id_user: req.query.id_user,
+    id_recipe: req.query.id_recipe,
+  };
+  try {
+    const result = await like_db.unlikeRecipe(info);
     res.send(result);
   } catch (error) {
     res.send(error);

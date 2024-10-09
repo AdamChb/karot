@@ -28,7 +28,8 @@ async function signUp(user) {
     hashPassword(user.password).then((hashedPassword) => {
       // Post the information
       db.query(
-        `INSERT INTO Karot_User(Username, Email, Password) VALUES ('${user.username}','${user.email}','${hashedPassword}')`,
+        `INSERT INTO Karot_User(Username, Email, Password) VALUES (?,?,?)`,
+        [user.name, user.email, hashedPassword],
         (err, results) => {
           db.end();
           if (err) return reject(err);
@@ -39,13 +40,14 @@ async function signUp(user) {
   });
 }
 
+// Function to log in the user
 async function logIn(info) {
   const db = mysql.createConnection(serv);
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT * FROM Karot_User WHERE Email = '${info.email}'`,
+      `SELECT * FROM Karot_User WHERE Email = ?`,
+      [info.email],
       (err, results) => {
-        console.log("test " + results);
         db.end();
         if (err) return reject(err);
         if (results.length === 0) return reject('User not found');
