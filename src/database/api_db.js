@@ -295,6 +295,7 @@ async function checkMeal(userId, recipeId) {
 }
 // Export the functions
 module.exports = {
+  getMostLiked,
   addAllergy,
   deleteAllergy,
   getRandomRecipes,
@@ -304,5 +305,3 @@ module.exports = {
   getPlannedMeals, 
   addMeal
 };
-// Export the function getMostLiked
-module.exports = { getMostLiked, addAllergy, getImagesRecipes, getRecipe };
