@@ -19,6 +19,18 @@ export default {
     HeaderKarot,
     FooterKarot,
   },
+  data() {
+    return {
+      isLoggedIn: false,
+      id_user: 0,
+    }
+  },
+  methods: {
+    loggedInUpdate(id) {
+      this.id_user = id;
+      this.isLoggedIn = this.id_user ? true : false;
+    }
+  }
 };
 </script>
 
@@ -30,8 +42,8 @@ export default {
   <router-link to="/myAccount">MyAccount</router-link> |
 
   <!-- General structure of the website -->
-  <HeaderKarot />
-  <router-view />
+  <HeaderKarot :isLoggedIn="isLoggedIn"/>
+  <router-view :isLoggedIn="isLoggedIn" @loggedInUpdate="loggedInUpdate"/>
   <FooterKarot />
 </template>
 

@@ -21,12 +21,15 @@ export default {
     HomePageSecond,
     HomePageThird,
   },
+  props: {
+    isLoggedIn: Boolean,
+  }
 };
 </script>
 
 <template>
   <!-- Components that form the home page -->
-  <HomePageFirst />
+  <HomePageFirst :isLoggedIn="isLoggedIn"/>
   <HomePageSecond />
   <HomePageThird />
 </template>

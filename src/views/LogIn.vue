@@ -11,6 +11,43 @@
 
 <script>
 // TEMP: Lier à la base de données et rediriger vers la page d'accueil
+export default {
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    loggedInUpdate(id) {
+      console.log("method " + id);
+      this.$emit(`loggedInUpdate`, id);
+    },
+    async checkData(event) {
+      event.preventDefault();
+      const user = {
+        email: this.email,
+        password: this.password,
+      };
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      };
+      try {
+        const response = await fetch(`http://127.0.0.1:3000/api/log-in`, options);
+        const data = await response.json();
+        this.loggedInUpdate(data.ID_User);
+        this.$router.push({ name: "HomePage" });
+      }
+      catch(err) {
+        console.log(err);
+      }
+    }
+  }
+}
 </script>
 
 <template>
@@ -21,18 +58,26 @@
       <!-- Form with the email and the password -->
       <form>
         <label for="email" class="subject">Username</label>
-        <input class="input" type="email" id="email" name="email" required />
+        <input 
+          class="input" 
+          type="email" 
+          id="email" 
+          name="email" 
+          v-model="email" 
+          required 
+        />
         <label for="password" class="subject">Password</label>
         <input
           class="input"
           type="password"
           id="password"
           name="password"
+          v-model="password"
           required
         />
 
         <!-- Button to submit the information -->
-        <button type="submit" id="submit">Log In</button>
+        <button id="submit" @click="checkData">Log In</button>
         <p id="signup">
           You don’t have an account ?
           <router-link to="/SignUp"><a>Register now</a></router-link>

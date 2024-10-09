@@ -21,6 +21,15 @@ const toggleMenu = () => {
 };
 </script>
 
+<script>
+export default {
+  name: "HeaderKarot",
+  props: {
+    isLoggedIn: Boolean,
+  },
+}
+</script>
+
 <template>
   <header>
     <!-- Header for pc -->
@@ -34,7 +43,7 @@ const toggleMenu = () => {
         <router-link to="/createMeals">Create meals</router-link>
         <router-link to="/recipes">Recipes</router-link>
         <router-link to="/myMeals">My meals</router-link>
-        <router-link to="/logIn">Log In</router-link>
+        <router-link :to="isLoggedIn ? '/myAccount' : '/logIn'">{{ isLoggedIn ? 'My account' : 'Log In' }}</router-link>
       </nav>
       <!-- TEMP: Modifier le header quand un utilisateur est connecté -->
     </div>
@@ -42,7 +51,7 @@ const toggleMenu = () => {
     <!-- Header for mobile -->
     <div id="tel">
       <div id="header_tel">
-        <router-link to="/" class="header_logo">
+        <router-link :to="isLoggedIn ? '/myAccount' : '/logIn'" class="header_logo">
           <img src="@/assets/logo_header.svg" alt="Logo Karot" />
         </router-link>
 
@@ -59,7 +68,7 @@ const toggleMenu = () => {
         <router-link to="/createMeals">Create meals</router-link>
         <router-link to="/recipes">Recipes</router-link>
         <router-link to="/myMeals">My meals</router-link>
-        <router-link to="/logIn">Log In</router-link>
+        <router-link to="/logIn">{{ isLoggedIn ? 'My account' : 'Log In' }}</router-link>
       </nav>
       <!-- TEMP: Modifier le header quand un utilisateur est connecté -->
     </div>
@@ -119,7 +128,9 @@ header #pc,
   margin-left: 0;
   background-color: #ea5b0c;
   height: 2em;
-  width: 5em;
+  min-width: 5em;
+  max-width: 9em;
+  padding: 0 .5em;
   display: flex;
   align-items: center;
   justify-content: center;
