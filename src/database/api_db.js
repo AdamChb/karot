@@ -12,40 +12,12 @@
 
 const { use } = require("bcrypt/promises");
 const mysql = require("mysql2");
-const serv = { 
+const serv = {
   host: "concordia-db.docsystem.xyz",
   user: "uml-b-3",
   password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
   database: "uml-b-3",
 };
-
-//Function to get the most-liked recipes
-async function getMostLiked(limit) {
-  // TEMP: Demander à Sacha si on recopie à chaque fois les identifiants
-  const db = mysql.createConnection({
-    host: "concordia-db.docsystem.xyz",
-    user: "uml-b-3",
-    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
-    database: "uml-b-3",
-  });
-  return new Promise((resolve, reject) => {
-    db.query(
-      `SELECT * FROM Recipe ORDER BY Likes DESC LIMIT ?`, [limit],
-      (err, results) => {
-        db.end();
-        if (err) return reject(err);
-        return resolve(results);
-      }
-    );
-  });
-}
-
-async function getImagesRecipes(link) {
-  // Fetch the image from the API and return it as a buffer
-  return await fetch(link).then(async (response) =>
-    Buffer.from(await response.arrayBuffer())
-  );
-}
 
 //Function to add an allergy
 async function addAllergy(userId, ingredientId) {
@@ -62,8 +34,6 @@ async function addAllergy(userId, ingredientId) {
     db.query(checkQuery, [userId, ingredientId], (err, allergyCheck) => {
       if (err) return reject("Error when checking for allergy : " + err);
       if (allergyCheck.length > 0) return reject("Allergy already present");
-
-      
 
       // If allergy doesn't exists, we add it
       const addAllergyQuery = `INSERT INTO To_Be_Allergic (ID_User, ID_Ingredient) VALUES (?, ?)`;
@@ -172,7 +142,6 @@ async function addRecipe(name, ingredients, steps, image, ID_Creator) {
   });
 }
 
-
 async function getImagesRecipes(link) {
   // Fetch the image from the API and return it as a buffer
   return await fetch(link).then(async (response) =>
@@ -227,7 +196,8 @@ async function getPlannedMeals(userId) {
     database: "uml-b-3",
   });
   return new Promise((resolve, reject) => {
-    db.query(`
+    db.query(
+      `
       SELECT 
           r.ID_Recipe, 
           r.Name_Recipe, 
@@ -246,14 +216,18 @@ async function getPlannedMeals(userId) {
       LEFT JOIN 
           To_Like tl ON r.ID_Recipe = tl.ID_Recipe AND ts.ID_User = ?
       WHERE 
-          ts.ID_User = ?`,[userId, userId, userId], (err, meals) => { // Query the database for planned meals
-      db.end(); // Close the connection
-      if (err){
-        console.error("Error fetching planned meals:", err);
-        reject(err); // Propagate the error for handling in the route
+          ts.ID_User = ?`,
+      [userId, userId, userId],
+      (err, meals) => {
+        // Query the database for planned meals
+        db.end(); // Close the connection
+        if (err) {
+          console.error("Error fetching planned meals:", err);
+          reject(err); // Propagate the error for handling in the route
+        }
+        return resolve(meals); // Return the retrieved meals
       }
-      return resolve(meals); // Return the retrieved meals
-    });
+    );
   });
 }
 
@@ -266,14 +240,20 @@ async function addMeal(userId, recipeId) {
     database: "uml-b-3",
   });
   try {
-    const existingMeal = await db.query("SELECT * FROM To_Save WHERE ID_User = ? AND ID_Recipe = ?", [userId, recipeId]);
-    
+    const existingMeal = await db.query(
+      "SELECT * FROM To_Save WHERE ID_User = ? AND ID_Recipe = ?",
+      [userId, recipeId]
+    );
+
     // Prevent adding the same meal twice
     if (existingMeal.length > 0) {
       throw new Error("Meal already exists for this user.");
     }
 
-    const result = await db.query("INSERT INTO meals (ID_User, ID_Recipe) VALUES (?, ?)", [userId, recipeId]);
+    const result = await db.query(
+      "INSERT INTO meals (ID_User, ID_Recipe) VALUES (?, ?)",
+      [userId, recipeId]
+    );
     return result; // Return the result of the insertion
   } catch (error) {
     console.error("Error adding meal:", error);
@@ -290,8 +270,11 @@ async function checkMeal(userId, recipeId) {
     database: "uml-b-3",
   });
   try {
-    const result = await db.query("DELETE FROM To_Save WHERE ID_User = ? AND recipeId = ?", [userId, recipeId]);
-    
+    const result = await db.query(
+      "DELETE FROM To_Save WHERE ID_User = ? AND recipeId = ?",
+      [userId, recipeId]
+    );
+
     if (result.affectedRows === 0) {
       throw new Error("No meal found to delete."); // Handle case where no meal was found
     }
@@ -311,7 +294,7 @@ module.exports = {
   addRecipe,
   getImagesRecipes,
   checkMeal,
-  getPlannedMeals, 
+  getPlannedMeals,
   addMeal,
-  getRecipe
+  getRecipe,
 };

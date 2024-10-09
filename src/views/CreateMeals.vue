@@ -86,4 +86,21 @@ export default {
   width: 40%;
   margin-right: 10vw;
 }
+
+@media screen and (max-width: 1024px) {
+  #body-createmeal {
+    flex-direction: column-reverse;
+    height: 100vh;
+  }
+
+  #ingredients-section {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  #meal-section {
+    width: 100%;
+    margin-right: 0;
+  }
+}
 </style>

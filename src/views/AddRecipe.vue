@@ -75,8 +75,10 @@ export default {
   methods: {
     onFileChange(event) {
       const file = event.target.files[0];
+      console.log(file);
       if (file) {
         this.fileName = file.name; // Set the file name
+        this.file = file;
       }
     },
 
@@ -87,8 +89,10 @@ export default {
     onDrop(event) {
       this.dragActive = false; // Reset drag-active state
       const file = event.dataTransfer.files[0]; // Get the dropped file
+      console.log(file);
       if (file) {
         this.fileName = file.name; // Set the file name on drop
+        this.file = file;
       }
     },
 

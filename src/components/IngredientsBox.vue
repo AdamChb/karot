@@ -11,7 +11,14 @@
 
 <script>
 export default {
-  props: ["ingredient", "boxColor"],
+  name: "IngredientsBox",
+  props: ["ingredient", "boxColor", "active"],
+  methods: {
+    // Function to change the state of the ingredient
+    changeState() {
+      this.$emit("changeState", this.ingredient.id);
+    },
+  },
 };
 </script>
 
@@ -19,8 +26,10 @@ export default {
   <!-- Structure of the ingredient box -->
   <div class="ingredient-box" v-bind:style="{ 'background-color': boxColor }">
     <p class="ingredient-name">{{ ingredient.name }}</p>
-    <img v-if="ingredient.active" src="@/assets/cross.svg" alt="remove" />
-    <img v-else src="@/assets/add.svg" alt="add" />
+    <div id="img-box" @click="changeState()">
+      <img v-if="active" src="@/assets/cross.svg" alt="remove" />
+      <img v-else src="@/assets/add.svg" alt="add" />
+    </div>
   </div>
 </template>
 
@@ -41,5 +50,14 @@ p {
 img {
   width: 0.5em;
   height: 0.5em;
+}
+
+#img-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  cursor: pointer;
 }
 </style>

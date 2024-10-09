@@ -11,7 +11,15 @@
 
 <script>
 // TEMP: Connect to the database
-export default { name: "IngredientsSearchBar" };
+export default {
+  name: "IngredientsSearchBar",
+  methods: {
+    // Function to search an ingredient
+    search(event) {
+      this.$emit("search", event.target.value);
+    },
+  },
+};
 </script>
 
 <template>
@@ -21,6 +29,7 @@ export default { name: "IngredientsSearchBar" };
       type="search"
       placeholder="Research an ingredient"
       class="searchbar"
+      @input="search"
     />
   </div>
 </template>
