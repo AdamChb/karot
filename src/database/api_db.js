@@ -186,37 +186,6 @@ async function checkMeal(userId, recipeId) {
   });
 }
 
-//Function to get the user's planned meals
-async function getPlannedMeals(userId) {
-  const db = mysql.createConnection({
-    host: "concordia-db.docsystem.xyz",
-    user: "uml-b-3",
-    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
-    database: "uml-b-3",
-  });
-
-  return new Promise((resolve, reject) => {
-    // Get meals informations from the user's planned meals 
-    db.query(
-      `SELECT
-      r.ID_Recipe,
-      r.Name_Recipe,
-      r.Steps,
-      r.Likes,
-      r.Image,
-      r.Category
-      FROM To_Save ts
-      JOIN Recipe r
-      ON r.ID_Recipe = ts.ID_Recipe 
-      WHERE ts.ID_User = ${userID}`,
-      (err, results) => {
-        db.end();
-        if (err) return reject(err);
-        return resolve(results);
-      }
-    );
-  });
-}
 
 //Function to get the user's planned meals
 async function getPlannedMeals(userId) {
