@@ -10,30 +10,11 @@
 ------------------------------ -->
 
 <script setup>
-import { ref, onMounted } from "vue";
-
-// TEMP : Link to the data base
-
-// Use ref to store the recipes
-const recipes = ref([]);
-
-// Fetch random recipes from server
-const fetchRandomRecipes = async () => {
-  try {
-    const response = await fetch("http://localhost:3000/api/random-recipes");
-    const data = await response.json();
-    recipes.value = data;
-  } catch (error) {
-    console.error("Error fetching random recipes:", error);
-  }
-};
+import { onMounted } from "vue";
 
 // Permit to display the first item of the carousel
 onMounted(() => {
-  fetchRandomRecipes();
-  setTimeout(() => {
-    document.getElementsByClassName("slide")[0]?.classList.add("active");
-  }, 300); // Use timeout to ensure recipes are loaded
+    document.getElementsByClassName("slide")[0].classList.add("active");
   initCarroussel();
 });
 </script>
@@ -49,33 +30,20 @@ export default {
   data() {
     return {
       // TEMP: Base de donnée temporaire pour tester le front end
-      recipes: [
-        {
-          id: 1,
-          name: "Pasta with tomato sauce",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "Adam",
-          like: 47,
-          liked: false,
-        },
-        {
-          id: 2,
-          name: "fdthrthfdghfghf",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "fgh",
-          like: 98,
-          liked: false,
-        },
-      ],
+      recipes: [{}],
     };
   },
-  methods: {},
+  methods: {
+    async beforeMount() {
+      try {
+        const response = await fetch("http://localhost:3000/api/random-recipes");
+        const data = await response.json();
+        this.recipes.value = data;
+      } catch (error) {
+        console.error("Error fetching random recipes:", error);
+      }
+    }
+  },
 };
 
 // This function is used to animate the carousel
