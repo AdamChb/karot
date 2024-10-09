@@ -23,17 +23,21 @@ export default {
       recipes: [{}],
     };
   },
-  methods: {
-    async beforeMount() {
-      try {
-      const response = await fetch("http://localhost:3000/api/most-liked-recipes");
-      const data = await response.json();
-      this.recipes.value = data; // Store fetched recipes in the reactive variable
-      } catch (error) {
-      console.error("Error fetching most liked recipes:", error);
-      }
+  async beforeMount() {
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+    const response = await fetch("http://localhost:3000/api/most-liked-recipes", options);
+    const data = await response.json();
+    this.recipes.value = data; // Store fetched recipes in the reactive variable
+    } catch (error) {
+    console.error("Error fetching most liked recipes:", error);
     }
-  },
+  }
 }
 </script>
 

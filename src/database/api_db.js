@@ -24,7 +24,7 @@ async function getMostLiked(limit) {
   });
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT * FROM Recipe ORDER BY Likes DESC LIMIT ${limit}`,
+      `SELECT * FROM Recipe ORDER BY Likes DESC LIMIT ?`, [limit],
       (err, results) => {
         db.end();
         if (err) return reject(err);

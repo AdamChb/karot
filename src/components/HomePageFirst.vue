@@ -14,7 +14,7 @@ import { onMounted } from "vue";
 
 // Permit to display the first item of the carousel
 onMounted(() => {
-    document.getElementsByClassName("slide")[0].classList.add("active");
+  document.getElementsByClassName("slide")[0].classList.add("active");
   initCarroussel();
 });
 </script>
@@ -36,15 +36,22 @@ export default {
       recipes: [{}],
     };
   },
-  methods: {
-    async beforeMount() {
-      try {
-        const response = await fetch("http://localhost:3000/api/random-recipes");
-        const data = await response.json();
-        this.recipes.value = data;
-      } catch (error) {
-        console.error("Error fetching random recipes:", error);
-      }
+  async beforeMount() {
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/random-recipes",
+        options
+      );
+      const data = await response.json();
+      this.recipes = data;
+    } catch (error) {
+      console.error("Error fetching random recipes:", error);
     }
   },
 };
@@ -105,16 +112,18 @@ const initCarroussel = () => {
              with a "Sign In" button -->
       <div class="col-xxl-7 col-12">
         <div class="container-fluid txt-white" id="hook">
-            <h1>Delicious Recipes</h1>
-            <p>
-                "Oh no! What am i going to cook with all that stuff?"<br />Easy
-                answer: a delicious recipe from Karot! Enter the ingredients you
-                have, find trendy recipes and create your own!
-            </p>
-            <!-- TEMP : A link to the Sign In page is required -->
-            <router-link :to="isLoggedIn ? '/createMeals' : '/signUp'">
-                <button id="start-now">{{ isLoggedIn ? 'Create your meals now !' : 'Start now' }}</button>
-            </router-link>
+          <h1>Delicious Recipes</h1>
+          <p>
+            "Oh no! What am i going to cook with all that stuff?"<br />Easy
+            answer: a delicious recipe from Karot! Enter the ingredients you
+            have, find trendy recipes and create your own!
+          </p>
+          <!-- TEMP : A link to the Sign In page is required -->
+          <router-link :to="isLoggedIn ? '/createMeals' : '/signUp'">
+            <button id="start-now">
+              {{ isLoggedIn ? "Create your meals now !" : "Start now" }}
+            </button>
+          </router-link>
         </div>
       </div>
 
@@ -188,7 +197,7 @@ h1 {
   font-weight: 500;
   min-width: 6em;
   max-width: 15em;
-  padding: 0 .7em;
+  padding: 0 0.7em;
   height: 2em;
   border-radius: 10px;
   border: 3px solid white;

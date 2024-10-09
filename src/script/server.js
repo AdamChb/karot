@@ -93,7 +93,7 @@ server.post("/api/log-in", async (req, res) => {
 server.get("/api/random-recipes", async (req, res) => {
   try {
     const result = await api_db.getRandomRecipes(5);
-    res.json(result);
+    res.send(result);
   } catch (error) {
     res.status(400).send(error);
   }
