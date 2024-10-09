@@ -13,10 +13,22 @@
 <template>
   <!-- Footer of the website -->
   <footer>
-    <img src="@/assets/logo_header.svg" />
+    <img :src="logo" alt="logo" />
     <p>© 2024 Mathias BENOIT – Adam CHABA – Eva MAROT – Sacha PORTAL</p>
   </footer>
 </template>
+
+<script>
+import logo from "@/assets/logo_header.svg";
+
+export default {
+  data() {
+    return {
+      logo,
+    };
+  },
+};
+</script>
 
 <style scoped>
 /* Style for the footer */
