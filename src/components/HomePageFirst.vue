@@ -10,30 +10,11 @@
 ------------------------------ -->
 
 <script setup>
-import { ref, onMounted } from "vue";
-
-// TEMP : Link to the data base
-
-// Use ref to store the recipes
-const recipes = ref([]);
-
-// Fetch random recipes from server
-const fetchRandomRecipes = async () => {
-  try {
-    const response = await fetch("http://localhost:3000/api/random-recipes");
-    const data = await response.json();
-    recipes.value = data;
-  } catch (error) {
-    console.error("Error fetching random recipes:", error);
-  }
-};
+import { onMounted } from "vue";
 
 // Permit to display the first item of the carousel
 onMounted(() => {
-  fetchRandomRecipes();
-  setTimeout(() => {
-    document.getElementsByClassName("slide")[0]?.classList.add("active");
-  }, 300); // Use timeout to ensure recipes are loaded
+  document.getElementsByClassName("slide")[0].classList.add("active");
   initCarroussel();
 });
 </script>
@@ -49,35 +30,30 @@ export default {
   props: {
     isLoggedIn: Boolean,
   },
-  data(){
-    return { // TEMP: Base de donnée temporaire pour tester le front end
-      recipes: [
-        {
-          id: 1,
-          name: "Pasta with tomato sauce",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "Adam",
-          like: 47,
-          liked: false,
-        },
-        {
-          id: 2,
-          name: "fdthrthfdghfghf",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "fgh",
-          like: 98,
-          liked: false,
-        },
-      ],
+  data() {
+    return {
+      // TEMP: Base de donnée temporaire pour tester le front end
+      recipes: [{}],
     };
   },
-  methods: {},
+  async beforeMount() {
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/random-recipes",
+        options
+      );
+      const data = await response.json();
+      this.recipes = data;
+    } catch (error) {
+      console.error("Error fetching random recipes:", error);
+    }
+  },
 };
 
 // This function is used to animate the carousel
@@ -136,16 +112,18 @@ const initCarroussel = () => {
              with a "Sign In" button -->
       <div class="col-xxl-7 col-12">
         <div class="container-fluid txt-white" id="hook">
-            <h1>Delicious Recipes</h1>
-            <p>
-                "Oh no! What am i going to cook with all that stuff?"<br />Easy
-                answer: a delicious recipe from Karot! Enter the ingredients you
-                have, find trendy recipes and create your own!
-            </p>
-            <!-- TEMP : A link to the Sign In page is required -->
-            <router-link :to="isLoggedIn ? '/createMeals' : '/signUp'">
-                <button id="start-now">{{ isLoggedIn ? 'Create your meals now !' : 'Start now' }}</button>
-            </router-link>
+          <h1>Delicious Recipes</h1>
+          <p>
+            "Oh no! What am i going to cook with all that stuff?"<br />Easy
+            answer: a delicious recipe from Karot! Enter the ingredients you
+            have, find trendy recipes and create your own!
+          </p>
+          <!-- TEMP : A link to the Sign In page is required -->
+          <router-link :to="isLoggedIn ? '/createMeals' : '/signUp'">
+            <button id="start-now">
+              {{ isLoggedIn ? "Create your meals now !" : "Start now" }}
+            </button>
+          </router-link>
         </div>
       </div>
 
@@ -219,7 +197,7 @@ h1 {
   font-weight: 500;
   min-width: 6em;
   max-width: 15em;
-  padding: 0 .7em;
+  padding: 0 0.7em;
   height: 2em;
   border-radius: 10px;
   border: 3px solid white;

@@ -16,23 +16,8 @@ export default {
   data() {
     return {
       // TEMP: Lier à la base de données
-      ingredients: [
-        { name: "Peanut", id: 1 },
-        { name: "Tree nut", id: 2 },
-        { name: "Fish", id: 3 },
-        { name: "Shellfish", id: 4 },
-        { name: "Soy", id: 5 },
-        { name: "Wheat", id: 6 },
-        { name: "Sesame", id: 7 },
-        { name: "Sulfites", id: 8 },
-        { name: "Mustard", id: 9 },
-        { name: "Celery", id: 10 },
-        { name: "Lupin", id: 11 },
-        { name: "Molluscs", id: 12 },
-        { name: "Gluten", id: 13 },
-        { name: "Lactose", id: 14 },
-      ],
-      allergies: ["Peanut", "Tree nut", "Fish", "Lactose"],
+      ingredients: [{}],
+      allergies: [{}],
     };
   },
   methods: {

@@ -43,7 +43,9 @@ export default {
         <router-link to="/createMeals">Create meals</router-link>
         <router-link to="/recipes">Recipes</router-link>
         <router-link to="/myMeals">My meals</router-link>
-        <router-link :to="isLoggedIn ? '/myAccount' : '/logIn'">{{ isLoggedIn ? 'My account' : 'Log In' }}</router-link>
+        <router-link :to="isLoggedIn ? '/myAccount' : '/logIn'">
+          {{ isLoggedIn ? 'My account' : 'Log In' }}
+        </router-link>
       </nav>
       <!-- TEMP: Modifier le header quand un utilisateur est connecté -->
     </div>
@@ -51,7 +53,7 @@ export default {
     <!-- Header for mobile -->
     <div id="tel">
       <div id="header_tel">
-        <router-link :to="isLoggedIn ? '/myAccount' : '/logIn'" class="header_logo">
+        <router-link to="/" class="header_logo">
           <img src="@/assets/logo_header.svg" alt="Logo Karot" />
         </router-link>
 
@@ -68,7 +70,9 @@ export default {
         <router-link to="/createMeals">Create meals</router-link>
         <router-link to="/recipes">Recipes</router-link>
         <router-link to="/myMeals">My meals</router-link>
-        <router-link to="/logIn">{{ isLoggedIn ? 'My account' : 'Log In' }}</router-link>
+        <router-link :to="isLoggedIn ? '/myAccount' : '/logIn'">
+          {{ isLoggedIn ? 'My account' : 'Log In' }}
+        </router-link>
       </nav>
       <!-- TEMP: Modifier le header quand un utilisateur est connecté -->
     </div>

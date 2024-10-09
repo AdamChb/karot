@@ -9,31 +9,38 @@
   This component is the third block of the home page.
 ------------------------------ -->
 
-<script setup>
-import { ref, onMounted } from "vue";
+<script>
 import RecipeCard from "@/components/RecipeCard.vue";
 
-// Reactive state for the recipes
-const recipes = ref([]);
-
-// Fetch most liked recipes from the server
-const fetchMostLikedRecipes = async () => {
-  try {
-    const response = await fetch(
-      "http://localhost:3000/api/most-liked-recipes"
-    );
+export default {
+  name: "HomePageThird",
+  components: {
+    RecipeCard,
+  },
+  data() {
+    return {
+      // TEMP: Base de donnée temporaire pour tester le front end
+      recipes: [{}],
+    };
+  },
+  async beforeMount() {
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+    const response = await fetch("http://localhost:3000/api/most-liked-recipes", options);
     const data = await response.json();
-    recipes.value = data; // Store fetched recipes in the reactive variable
-  } catch (error) {
+    this.recipes.value = data; // Store fetched recipes in the reactive variable
+    } catch (error) {
     console.error("Error fetching most liked recipes:", error);
+    }
   }
-};
-
-// On mounted, fetch the most liked recipes
-onMounted(() => {
-  fetchMostLikedRecipes();
-});
+}
 </script>
+
 
 <template>
   <section class="orange" id="most-liked-recipes">

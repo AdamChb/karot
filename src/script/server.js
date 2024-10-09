@@ -69,11 +69,33 @@ server.delete("/api/delete-allergy", async (req, res) => {
 });
 
 
+// Register a new user
+server.post("/api/new-user", async (req, res) => {
+  const user = req.body;
+  try {
+    const result = await account_db.signUp(user);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// Log in a user
+server.post("/api/log-in", async (req, res) => {
+  const info = req.body;
+  try {
+    const result = await account_db.logIn(info);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 // Fetch random recipes
 server.get("/api/random-recipes", async (req, res) => {
   try {
     const result = await api_db.getRandomRecipes(5);
-    res.json(result);
+    res.send(result);
   } catch (error) {
     res.status(400).send(error);
   }
