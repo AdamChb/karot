@@ -35,7 +35,6 @@ CREATE TABLE Recipe(
    ID_Recipe INT AUTO_INCREMENT,
    Name_Recipe VARCHAR(100),
    Steps VARCHAR(8000) NOT NULL,
-   Likes INT DEFAULT 0,
    Category VARCHAR(50),
    Image VARCHAR(50),
    ID_Creator INT NOT NULL,
@@ -64,7 +63,6 @@ CREATE TABLE To_Like(
 CREATE TABLE To_Save(
    ID_User INT,
    ID_Recipe INT,
-   Meal_Date DATETIME NOT NULL,
    PRIMARY KEY(ID_User, ID_Recipe),
    FOREIGN KEY(ID_User) REFERENCES Karot_User(ID_User),
    FOREIGN KEY(ID_Recipe) REFERENCES Recipe(ID_Recipe)

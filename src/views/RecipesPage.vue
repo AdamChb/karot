@@ -18,7 +18,8 @@ export default {
     RecipeCard,
   },
   data() {
-    return { // TEMP: Connecter à la base de données
+    return {
+      // TEMP: Connecter à la base de données
       recipes: [
         {
           id: 1,
@@ -154,7 +155,6 @@ h1 {
   margin-bottom: 1em;
   font-weight: 800 !important;
 }
-
 
 .container-fluid {
   width: 75%;

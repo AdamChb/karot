@@ -10,14 +10,17 @@
 ------------------------------ -->
 
 <script>
+import IngredientsBox from "@/components/IngredientsBox.vue";
 import RecipeCard from "@/components/RecipeCard.vue";
 
 export default {
   name: "MyAccount",
   components: {
     RecipeCard,
+    IngredientsBox,
   },
-  data() { // TEMP: Lier à la base de données pour éviter l'horreur qu'il y a juste en dessous...
+  data() {
+    // TEMP: Lier à la base de données pour éviter l'horreur qu'il y a juste en dessous...
     return {
       ingredients: [
         "Tomato",
@@ -269,13 +272,39 @@ export default {
       ],
     };
   },
+  methods: {
+    //Delete an allergy
+    deleteAllergy(ingredientId) {
+      const queryParams = new URLSearchParams({
+        userId: this.userId,
+        ingredientId: this.ingredient.id,
+      }).toString();
+
+      fetch(`http://localhost:3000/api/delete-allergy?${queryParams}`, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message) {
+            // Remove the allergy from the list
+            this.allergies = this.allergies.filter(
+              (allergy) => allergy !== ingredientId
+            );
+          } else {
+            alert(data.error || "Error deleting allergy");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
+  },
 };
 </script>
 
 <template>
   <section id="my-account" class="blue">
     <div id="container1">
-
       <!-- Informations of the user's account -->
       <div id="account">
         <h2>Your account</h2>
@@ -308,10 +337,14 @@ export default {
       <div id="allergies" class="scrollable-parent">
         <h2>Your allergies</h2>
         <div class="scrollable">
-          <div v-for="(allergy, i) in allergies" :key="i">
+          <div
+            v-for="(allergy, i) in allergies"
+            :key="i"
+            @click="deleteAllergy(ingredient)"
+          >
             <div class="allergy">
               <p>{{ allergy }}</p>
-              <p>x</p>
+              <IngredientsBox />
             </div>
           </div>
         </div>

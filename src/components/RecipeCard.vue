@@ -31,42 +31,40 @@ export default {
     // Function to go to the recipe page
     goTo(id) {
       this.$router.push({ path: "/recipe", query: { id } });
-    }
+    },
   },
 };
 </script>
 
 <template>
   <div class="recipe">
-
     <!-- Link to the recipe page -->
-    <div @click="goTo(recipe.id)">
-
+    <div @click="goTo(recipe.ID_Recipe)">
       <!-- Image of the recipe -->
       <div class="img">
-        <img :src="recipe.image" alt="recipe image" />
+        <img :src="recipe.Image" alt="recipe image" />
       </div>
 
       <!-- Name and author of the recipe -->
-      <h3>{{ recipe.name }}</h3>
-      <p class="author">{{ recipe.author }}</p>
+      <h3>{{ recipe.Name_Recipe }}</h3>
+      <p class="author">{{ recipe.Author_Name}}</p>
     </div>
 
     <!-- Like button -->
     <div class="likes">
       <img
-        v-show="!recipe.liked"
+        v-show="!recipe.Has_Liked"
         @click="toLike(recipe)"
         src="../assets/not-liked.svg"
         alt="like icon"
       />
       <img
-        v-show="recipe.liked"
+        v-show="recipe.Has_Liked"
         @click="unLike(recipe)"
         src="../assets/liked.svg"
         alt="like icon"
       />
-      {{ recipe.like }}
+      {{ recipe.Likes_Count }}
     </div>
   </div>
 </template>
