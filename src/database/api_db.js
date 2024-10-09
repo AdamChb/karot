@@ -248,5 +248,8 @@ module.exports = {
   deleteAllergy,
   getRandomRecipes,
   addRecipe,
-  getImagesRecipes, checkMeal, getPlannedMeals, addMeal
+  getImagesRecipes,
+  checkMeal,
+  getPlannedMeals, 
+  addMeal
 };
