@@ -84,6 +84,19 @@ server.post("/api/log-in", async (req, res) => {
   }
 });
 
+// Get an specific recipe by id
+server.get("/api/get-recipe", async (req, res) => {
+  const id_user = req.query.id_user;
+  const id_recipe = req.query.id_recipe;
+  try {
+    const result = await api_db.getRecipe(id_user, id_recipe);
+    console.log(result);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 // The same method exist with POST, PUT and DELETE
 // Request body is in req.body, it contains all the data sent by the client in the request body
 

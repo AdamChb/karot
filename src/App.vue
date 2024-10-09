@@ -43,7 +43,7 @@ export default {
 
   <!-- General structure of the website -->
   <HeaderKarot :isLoggedIn="isLoggedIn"/>
-  <router-view :isLoggedIn="isLoggedIn" @loggedInUpdate="loggedInUpdate"/>
+  <router-view :isLoggedIn="isLoggedIn" :id_user="id_user" @loggedInUpdate="loggedInUpdate"/>
   <FooterKarot />
 </template>
 
