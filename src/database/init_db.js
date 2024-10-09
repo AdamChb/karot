@@ -20,6 +20,7 @@ const port = 3000;
 const { dir } = require("console");
 const fs = require("fs");
 const mysql = require("mysql2");
+
 const db = mysql.createConnection({
   host: "concordia-db.docsystem.xyz",
   user: "uml-b-3",
@@ -104,10 +105,17 @@ function insertIngredient(list) {
 
 function insertRecipe(list) {
   list.forEach((recipe) => {
+    console.log(recipe.image);
     // Insert the recipe
     db.query(
-      "INSERT INTO Recipe (Name_Recipe, Category, Steps, Image, Id_Creator) VALUES (?, ?, ?, ?, ?)",
-      [recipe.name, recipe.category, recipe.steps, recipe.image, 1],
+      "INSERT INTO Recipe (Name_Recipe, Category, Steps, Image, Id_Creator) VALUES (?, ?, ?, BINARY(?), ?)",
+      [
+        recipe.name,
+        recipe.category,
+        recipe.steps,
+        new Buffer.from(fs.readFileSync(recipe.image)),
+        1,
+      ],
       (err, results) => {
         if (err) throw err;
 
@@ -155,6 +163,29 @@ function insertRecipe(list) {
   });
 }
 
+async function getImagesRecipes(link) {
+  // Fetch the image from the API and return it as a buffer
+  return await fetch(link).then(async (response) =>
+    Buffer.from(await response.arrayBuffer())
+  );
+}
+
+function saveImagesRecipes(letter, number, image) {
+  const dirPath = path.join(__dirname, "img", letter);
+
+  // Create the directory if it does not exist
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+  const imgpath = path.join(dirPath, `${letter + number}.jpg`);
+
+  // Save the image from the last function in the directory
+  fs.writeFileSync(imgpath, image);
+
+  // Return the path to the image
+  return `src/database/img/${letter}/${letter + number}.jpg`;
+}
+
 async function doAll() {
   // Get the ingredients and insert them into the database
 
@@ -166,6 +197,10 @@ async function doAll() {
   for (let i = 97; i <= 122; i++) {
     let letter = String.fromCharCode(i);
     let meals = await APIMealCall(letter);
+    for (let j = 0; j < meals.length; j++) {
+      meals[j].image = await getImagesRecipes(meals[j].image);
+      meals[j].image = saveImagesRecipes(letter, j, meals[j].image);
+    }
 
     // Insert the recipes into the database
     insertRecipe(meals);

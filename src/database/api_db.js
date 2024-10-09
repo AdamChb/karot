@@ -16,10 +16,10 @@ const mysql = require("mysql2");
 async function getMostLiked(limit) {
   // TEMP: Demander à Sacha si on recopie à chaque fois les identifiants
   const db = mysql.createConnection({
-    host: "localhost",
-    user: "karot_root",
-    password: "efreikarot240",
-    database: "karot",
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
   });
   return new Promise((resolve, reject) => {
     db.query(
@@ -36,10 +36,10 @@ async function getMostLiked(limit) {
 //Function to add an allergy
 async function addAllergy(userId, ingredient) {
   const db = mysql.createConnection({
-    host: "localhost",
-    user: "karot_root",
-    password: "efreikarot240",
-    database: "karot",
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
   });
 
   return new Promise((resolve, reject) => {
@@ -69,12 +69,5 @@ async function addAllergy(userId, ingredient) {
   });
 }
 
-async function getImagesRecipes(link) {
-  // Fetch the image from the API and return it as a buffer
-  return await fetch(link).then(async (response) =>
-    Buffer.from(await response.arrayBuffer())
-  );
-}
-
 // Export the function getMostLiked
-module.exports = { getMostLiked, addAllergy, getImagesRecipes };
+module.exports = { getMostLiked, addAllergy };
