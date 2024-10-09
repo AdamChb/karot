@@ -312,5 +312,6 @@ module.exports = {
   getImagesRecipes,
   checkMeal,
   getPlannedMeals, 
-  addMeal
+  addMeal,
+  getRecipe
 };
