@@ -6,7 +6,7 @@
 //  Eva MAROT
 //  Sacha PORTAL
 //
-//  This file contains the functions to connect the 
+//  This file contains the functions to connect the
 //  request functions to the database server.
 // ------------------------------
 
@@ -27,16 +27,10 @@ const server = express();
 // When a GET requets is made at the adress /getMostLiked, the server respond (res) with the return of the function getMostLiked
 
 // Function to link to the request getMostLiked
-server.get("/getMostLiked", async (req, res) => {
-  res.send(await api_db.getMostLiked(10));
-});
-
-// Add an allergy
-server.post("/api/add-allergy", async (req, res) => {
-  const { userId, ingredient } = req.body; // Get the data sent by the form
+server.get("/api/most-liked-recipes", async (req, res) => {
   try {
-    const result = await api_db.addAllergy(userId, ingredient);
-    res.send(result);
+    const result = await api_db.getMostLiked(4);
+    res.json(result);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -47,14 +41,54 @@ server.post("/api/add-allergy", async (req, res) => {
 
 // Add an allergy
 server.post("/api/add-allergy", async (req, res) => {
-  const { userId, ingredient } = req.body; // Get the data sent by the form
+  const { userId, ingredientId } = req.body; // Get the data sent by the form
   try {
-    const result = await api_db.addAllergy(userId, ingredient);
+    const result = await api_db.addAllergy(userId, ingredientId);
     res.send(result);
   } catch (error) {
     res.status(400).send(error);
   }
 });
+
+// Delete an allergy
+server.delete("/api/delete-allergy", async (req, res) => {
+  const { userId, ingredientId } = req.query;
+  try {
+    const result = await api_db.deleteAllergy(userId, ingredientId);
+    res.send(result);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+
+// Fetch random recipes
+server.get("/api/random-recipes", async (req, res) => {
+  try {
+    const result = await api_db.getRandomRecipes(5);
+    res.json(result);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+// Add a recipe
+server.post("/api/add-recipe", async (req, res) => {
+  const { name, ingredients, steps, image, ID_Creator } = req.body; // Make sure to include the user ID if necessary
+  try {
+    const result = await api_db.addRecipe(
+      name,
+      ingredients,
+      steps,
+      image,
+      ID_Creator
+    ); // Implement this function in api_db.js
+    res.json({ message: "Recipe added successfully!", recipe: result });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 
 // Ckeck Meal
 server.delete("/api/check-meal", async (req, res) => {

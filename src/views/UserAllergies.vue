@@ -14,29 +14,30 @@ export default {
   name: "UserAllergies",
   components: {},
   data() {
-    return { // TEMP: Lier à la base de données
+    return {
+      // TEMP: Lier à la base de données
       ingredients: [
-        "Peanut",
-        "Tree nut",
-        "Fish",
-        "Shellfish",
-        "Soy",
-        "Wheat",
-        "Sesame",
-        "Sulfites",
-        "Mustard",
-        "Celery",
-        "Lupin",
-        "Molluscs",
-        "Gluten",
-        "Lactose",
+        { name: "Peanut", id: 1 },
+        { name: "Tree nut", id: 2 },
+        { name: "Fish", id: 3 },
+        { name: "Shellfish", id: 4 },
+        { name: "Soy", id: 5 },
+        { name: "Wheat", id: 6 },
+        { name: "Sesame", id: 7 },
+        { name: "Sulfites", id: 8 },
+        { name: "Mustard", id: 9 },
+        { name: "Celery", id: 10 },
+        { name: "Lupin", id: 11 },
+        { name: "Molluscs", id: 12 },
+        { name: "Gluten", id: 13 },
+        { name: "Lactose", id: 14 },
       ],
       allergies: ["Peanut", "Tree nut", "Fish", "Lactose"],
     };
   },
   methods: {
-    // Méthode pour ajouter une allergie
-    addAllergy(ingredient) {
+    // Method to add an allergy
+    addAllergy(ingredientId) {
       fetch("http://localhost:3000/api/add-allergy", {
         method: "POST",
         headers: {
@@ -44,20 +45,46 @@ export default {
         },
         body: new URLSearchParams({
           userId: this.userId,
-          ingredient: ingredient,
+          ingredientId: this.ingredient.id,
         }),
       })
         .then((response) => response.json())
         .then((data) => {
           if (data.message) {
-            // Met à jour la liste des allergies
-            this.allergies.push(ingredient);
+            // Update the list of allergies
+            this.allergies.push(ingredientId);
           } else {
-            alert(data.error || "Erreur lors de l'ajout de l'allergie");
+            alert(data.error || "Error adding allergy");
           }
         })
         .catch((error) => {
           console.error("Erreur:", error);
+        });
+    },
+
+    //Delete an allergy
+    deleteAllergy(ingredientId) {
+      const queryParams = new URLSearchParams({
+        userId: this.userId,
+        ingredientId: this.ingredient.id,
+      }).toString();
+
+      fetch(`http://localhost:3000/api/delete-allergy?${queryParams}`, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message) {
+            // Remove the allergy from the list
+            this.allergies = this.allergies.filter(
+              (allergy) => allergy !== ingredientId
+            );
+          } else {
+            alert(data.error || "Error deleting allergy");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
         });
     },
   },
@@ -75,7 +102,6 @@ export default {
             <!-- Search bar -->
             <input type="search" placeholder="Research an ingredient" />
             <ul>
-
               <!-- List of ingredients -->
               <li
                 v-for="(ingredient, i) in ingredients"
@@ -96,6 +122,7 @@ export default {
                 v-for="(allergy, i) in allergies"
                 :key="i"
                 class="orange allergy"
+                @click="deleteAllergy(ingredient)"
               >
                 {{ allergy }} ×
               </li>

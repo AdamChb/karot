@@ -9,14 +9,66 @@
   This view is the page where a user can add a new recipe
 ------------------------------ -->
 
+<template>
+  <div class="container">
+    <div class="recipe-form">
+      <!-- Photo upload -->
+      <div
+        class="photo-upload"
+        @dragover.prevent
+        @drop.prevent="onDrop"
+        @dragenter="dragActive = true"
+        @dragleave="dragActive = false"
+        :class="{ 'drag-active': dragActive }"
+      >
+        <!-- Upload button stays inside the drop zone -->
+        <button class="upload-btn" @click="uploadImage">Upload a photo</button>
+        <input
+          type="file"
+          @change="onFileChange"
+          style="display: none"
+          ref="fileInput"
+        />
+        <p>or drop it here</p>
+
+        <!-- Only show the file name, no image preview -->
+        <div v-if="fileName">
+          <p class="file-name">{{ fileName }}</p>
+        </div>
+      </div>
+
+      <!-- Form fields for recipe name, ingredients, and steps -->
+      <div class="form-fields">
+        <input
+          type="text"
+          v-model="recipeName"
+          placeholder="Enter the name of the recipe"
+          class="recipe-input"
+        />
+        <textarea
+          v-model="ingredients"
+          placeholder="Enter the ingredients. Ex: 2 cucumbers, 3 tomatoes..."
+          class="ingredients-input"
+        ></textarea>
+        <textarea
+          v-model="steps"
+          placeholder="Enter the steps. Ex: Cut the tomatoes..."
+          class="steps-input"
+        ></textarea>
+        <button class="submit-btn" @click="submitRecipe">Submit Recipe</button>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script>
-  export default {
+export default {
   data() {
     return {
-      recipeName: '',
-      ingredients: '',
-      steps: '',
-      fileName: '', // Store file name instead of image preview
+      recipeName: "",
+      ingredients: "",
+      steps: "",
+      fileName: "", // Store file name instead of image preview
       dragActive: false,
     };
   },
@@ -41,78 +93,82 @@
     },
 
     // Method to handle recipe submission
-    submitRecipe() {
+    async submitRecipe() {
       if (!this.recipeName || !this.ingredients || !this.steps) {
         alert("Please fill in all fields before submitting the recipe.");
         return;
       }
-    }
-  }
+
+      // Prepare the data to send
+      const recipeData = {
+        name: this.recipeName,
+        ingredients: this.ingredients.split(","), // Convert string to array
+        steps: this.steps,
+        image: this.fileName, // Adjust this if you are handling the image differently
+        // Include ID_Creator if necessary; make sure to get the current user's ID
+        // ID_Creator: currentUserId,
+      };
+
+      try {
+        const response = await fetch("http://localhost:3000/api/add-recipe", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(recipeData),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          alert("Recipe added successfully!");
+          // Reset the form fields
+          this.recipeName = "";
+          this.ingredients = "";
+          this.steps = "";
+          this.fileName = "";
+        } else {
+          alert(data.error || "Error adding recipe");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while adding the recipe.");
+      }
+    },
+  },
 };
 </script>
 
-<template>
-  <div class="container">
-    <div class="recipe-form">
-      <!-- Photo upload -->
-      <div 
-        class="photo-upload" 
-        @dragover.prevent 
-        @drop.prevent="onDrop"
-        @dragenter="dragActive = true"
-        @dragleave="dragActive = false"
-        :class="{ 'drag-active': dragActive }"
-      >
-        <!-- Upload button stays inside the drop zone -->
-        <button class="upload-btn" @click="uploadImage">Upload a photo</button>
-        <input type="file" @change="onFileChange" style="display:none" ref="fileInput">
-        <p>or drop it here</p>
-
-        <!-- Only show the file name, no image preview -->
-        <div v-if="fileName">
-          <p class="file-name">{{ fileName }}</p>
-        </div>
-      </div>
-
-      <!-- Form fields for recipe name, ingredients, and steps -->
-      <div class="form-fields">
-        <input type="text" v-model="recipeName" placeholder="Enter the name of the recipe" class="recipe-input"/>
-        <textarea v-model="ingredients" placeholder="Enter the ingredients. Ex: 2 cucumbers, 3 tomatoes..." class="ingredients-input"></textarea>
-        <textarea v-model="steps" placeholder="Enter the steps. Ex: Cut the tomatoes..." class="steps-input"></textarea>
-        <button class="submit-btn" @click="submitRecipe">Submit Recipe</button>
-      </div>
-    </div>
-  </div>
-</template>
-  
 <style scoped>
-  .container {
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: auto;
-  min-height: 50vh;
+  min-height: 78vh;
   max-width: 100%;
-  padding: 4em 0 2em 0;
+  padding: 4rem 0 2rem 0;
   background-color: #2f4858;
-  margin-left : 0;
+  margin-left: 0;
   margin-right: 0;
 }
 
 .recipe-form {
   display: flex;
   justify-content: space-between;
-  background-color: #f2f2f2;
-  padding: 20px;
-  border-radius: 10px;
+  background-color: rgba(242, 242, 242, 0.9);
+  padding: 2.5rem;
+  border-radius: 0.625rem;
+  width: 70%;
+  max-width: 62.5rem;
+  backdrop-filter: blur(0.625rem);
 }
 
 .photo-upload {
   width: 40%;
-  height: 200px; /* Height for the drop zone */
+  height: 12.5rem;
   text-align: center;
-  border: 2px dashed #ccc; /* Dashed border */
-  border-radius: 10px;
+  border: 0.125rem dashed #ccc;
+  border-radius: 0.625rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -123,15 +179,15 @@
 }
 
 .drag-active {
-  border-color: #EA5B0C; /* Change border color when dragging over */
+  border-color: #ea5b0c;
 }
 
 .upload-btn {
-  background-color: #EA5B0C;
+  background-color: #ea5b0c;
   color: white;
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   cursor: pointer;
 }
 
@@ -140,30 +196,32 @@
 }
 
 .file-name {
-  margin-top: 10px;
-  font-size: 14px;
+  margin-top: 0.625rem;
+  font-size: 0.875rem;
   color: #333;
-  word-break: break-all; /* Ensure long file names wrap inside the box */
+  word-break: break-all;
 }
 
 .form-fields {
   width: 55%;
 }
 
-.recipe-input, .ingredients-input, .steps-input {
+.recipe-input,
+.ingredients-input,
+.steps-input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 0.625rem;
+  margin-bottom: 1.25rem;
+  border: 0.0625rem solid #ccc;
+  border-radius: 0.3125rem;
 }
 
 .submit-btn {
-  background-color: #EA5B0C;
+  background-color: #ea5b0c;
   color: white;
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   cursor: pointer;
   width: 100%;
 }
@@ -176,44 +234,43 @@ textarea {
   resize: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .recipe-form {
-    flex-direction: column; /* Stack the photo upload and form vertically */
+    flex-direction: column;
   }
 
-  .photo-upload, 
+  .photo-upload,
   .form-fields {
-    width: 100%; /* Full width for both the photo upload and form fields */
-    margin-bottom: 20px; /* Add space between them */
+    width: 100%;
+    margin-bottom: 1.25rem;
   }
-  
+
   .photo-upload {
-    height: auto; /* Adjust height for better fit */
-    padding: 20px; /* Add padding to make the drop zone larger */
+    height: auto;
+    padding: 1.25rem;
   }
 
   .file-name {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 30rem) {
   .upload-btn {
-    width: 100%; /* Make the upload button full width on smaller screens */
-    padding: 15px;
+    width: 100%;
+    padding: 0.9375rem;
   }
 
   .submit-btn {
-    padding: 15px;
+    padding: 0.9375rem;
   }
 
   .photo-upload {
-    padding: 15px;
+    padding: 0.9375rem;
   }
 
   .container {
-    padding: 10px; /* Reduce padding for smaller screens */
+    padding: 0.625rem;
   }
 }
-
-</style>  
+</style>
