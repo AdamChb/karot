@@ -12,27 +12,6 @@
 
 const mysql = require("mysql2");
 
-//Function to get the most-liked recipes
-async function getMostLiked(limit) {
-  // TEMP: Demander à Sacha si on recopie à chaque fois les identifiants
-  const db = mysql.createConnection({
-    host: "concordia-db.docsystem.xyz",
-    user: "uml-b-3",
-    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
-    database: "uml-b-3",
-  });
-  return new Promise((resolve, reject) => {
-    db.query(
-      `SELECT * FROM Recipe ORDER BY Likes DESC LIMIT ${limit}`,
-      (err, results) => {
-        db.end();
-        if (err) return reject(err);
-        return resolve(results);
-      }
-    );
-  });
-}
-
 //Function to add an allergy
 async function addAllergy(userId, ingredient) {
   const db = mysql.createConnection({
@@ -70,4 +49,4 @@ async function addAllergy(userId, ingredient) {
 }
 
 // Export the function getMostLiked
-module.exports = { getMostLiked, addAllergy };
+module.exports = { addAllergy };

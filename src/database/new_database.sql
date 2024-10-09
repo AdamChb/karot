@@ -35,7 +35,6 @@ CREATE TABLE Recipe(
    ID_Recipe INT AUTO_INCREMENT,
    Name_Recipe VARCHAR(100),
    Steps VARCHAR(8000) NOT NULL,
-   Likes INT DEFAULT 0,
    Category VARCHAR(50),
    Image VARCHAR(50),
    ID_Creator INT NOT NULL,
