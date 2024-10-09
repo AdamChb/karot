@@ -98,7 +98,7 @@ server.post("/api/add-recipe", async (req, res) => {
 
 // Ckeck Meal
 server.delete("/api/check-meal", async (req, res) => {
-  const { userId, recipeId } = req.body; // Get the data sent by the user
+
   try {
     const result = await api_db.checkMeal(userId, recipeId);
     res.send(result);
@@ -109,7 +109,19 @@ server.delete("/api/check-meal", async (req, res) => {
 
 // Get Planned Meals
 server.get("/api/get-planned-meals", async (req, res) => {
+  const userId = req.query.userId;
   res.send(await api_db.getPlannedMeals(userId));
+});
+
+// Add a meal
+server.post("/api/add-meal", async (req, res) => {
+  const {userId, recipeId} = req.body;
+  try {
+    const result = await api_db.addMeal(userId, recipeId);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 // Register a new user
