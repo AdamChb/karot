@@ -14,13 +14,16 @@ import RecipeCard from "../components/RecipeCard.vue";
 
 export default {
   name: "RecipesPage",
+  props: {
+    isLoggedIn: Boolean,
+    id_user: Number,
+  },
   components: {
     RecipeCard,
   },
   data() {
     return {
       recipes: [], // Updated to be populated from the backend
-      userId: 6,   // Example userId; adjust dynamically as needed
     };
   },
   async created() {
@@ -30,7 +33,7 @@ export default {
     // Fetch meals from the backend
     async fetchMeals() {
       try {
-        const response = await fetch(`http://localhost:3000/api/get-planned-meals?userId=${this.userId}`);
+        const response = await fetch(`http://localhost:3000/api/get-planned-meals?userId=${this.id_user}`);
         if (!response.ok) {
           throw new Error(`Error fetching meals: ${response.statusText}`);
         }
@@ -41,32 +44,10 @@ export default {
       }
     },
 
-    // Add meal to the user's planned meals
-    async addMeal(recipeId) {
-      try {
-        const response = await fetch("/api/add-meal", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: this.userId,
-            recipeId,
-          }),
-        });
-        if (!response.ok) {
-          throw new Error(`Error adding meal: ${response.statusText}`);
-        }
-        await this.fetchMeals(); // Refresh the meals list
-      } catch (error) {
-        console.error("Error adding meal:", error);
-      }
-    },
-
     // Delete meal from the user's planned meals
     async deleteMeal(recipeId) {
       try {
-        const response = await fetch(`/api/delete-allergy?userId=${this.userId}&recipeId=${recipeId}`, {
+        const response = await fetch(`http://localhost:3000/api/check-meal?userId=${this.id_user}&recipeId=${recipeId}`, {
           method: "DELETE",
         });
         if (!response.ok) {

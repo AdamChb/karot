@@ -119,9 +119,9 @@ server.post("/api/add-recipe", async (req, res) => {
 });
 
 
-// Ckeck Meal
+// Check Meal
 server.delete("/api/check-meal", async (req, res) => {
-
+  const { userId, recipeId } = req.query;
   try {
     const result = await api_db.checkMeal(userId, recipeId);
     res.send(result);

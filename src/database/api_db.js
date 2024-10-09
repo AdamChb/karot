@@ -228,7 +228,7 @@ async function getPlannedMeals(userId) {
   });
   return new Promise((resolve, reject) => {
     db.query(`
-      SELECT 
+      SELECT DISTINCT
           r.ID_Recipe, 
           r.Name_Recipe, 
           r.Category,
@@ -265,21 +265,50 @@ async function addMeal(userId, recipeId) {
     password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
     database: "uml-b-3",
   });
-  try {
-    const existingMeal = await db.query("SELECT * FROM To_Save WHERE ID_User = ? AND ID_Recipe = ?", [userId, recipeId]);
-    
-    // Prevent adding the same meal twice
-    if (existingMeal.length > 0) {
-      throw new Error("Meal already exists for this user.");
-    }
 
-    const result = await db.query("INSERT INTO meals (ID_User, ID_Recipe) VALUES (?, ?)", [userId, recipeId]);
-    return result; // Return the result of the insertion
-  } catch (error) {
-    console.error("Error adding meal:", error);
-    throw error; // Propagate the error for handling in the route
-  }
+  return new Promise((resolve, reject) => {
+    // First, check if the meal is already saved
+    db.query(
+      `
+      SELECT * FROM To_Save 
+      WHERE ID_User = ? 
+      AND ID_Recipe = ?`,
+      [userId, recipeId],
+      (err, results) => {
+        if (err) {
+          db.end();
+          console.error("Error checking if meal is already saved:", err);
+          return reject(err);
+        }
+
+        if (results.length > 0) {
+          // Meal is already saved
+          db.end();
+          return resolve({ success: false, message: "Meal is already saved." });
+        }
+
+        // If meal is not already saved, proceed to insert it
+        db.query(
+          `
+          INSERT INTO To_Save (ID_User, ID_Recipe) 
+          VALUES (?, ?)`,
+          [userId, recipeId],
+          (err, result) => {
+            db.end(); // Close the connection
+            if (err) {
+              console.error("Error adding the meal:", err);
+              return reject(err); // Propagate the error for handling
+            }
+            // Successfully added the meal
+            resolve({ success: true, message: "Meal added successfully." });
+          }
+        );
+      }
+    );
+  });
 }
+
+
 
 // Function to delete a meal for a specific user
 async function checkMeal(userId, recipeId) {
@@ -289,19 +318,33 @@ async function checkMeal(userId, recipeId) {
     password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
     database: "uml-b-3",
   });
-  try {
-    const result = await db.query("DELETE FROM To_Save WHERE ID_User = ? AND recipeId = ?", [userId, recipeId]);
-    
-    if (result.affectedRows === 0) {
-      throw new Error("No meal found to delete."); // Handle case where no meal was found
-    }
 
-    return result; // Return the result of the deletion
-  } catch (error) {
-    console.error("Error deleting meal:", error);
-    throw error; // Propagate the error for handling in the route
-  }
+  return new Promise((resolve, reject) => {
+    db.query(`
+      DELETE FROM To_Save
+      WHERE ID_User = ?
+      AND ID_Recipe = ?`,
+      [userId, recipeId],
+      (err, result) => {
+        db.end(); // Close the connection
+        if (err) {
+          console.error("Error deleting the meal:", err);
+          reject(err); // Propagate the error for handling
+        } else if (result.affectedRows === 0) {
+          // No rows were deleted, meaning the meal was not found
+          resolve({ success: false, message: "No meal found to delete." });
+        } else {
+          // Successfully deleted the meal
+          resolve({ success: true, message: "Meal deleted successfully." });
+        }
+      }
+    );
+  });
 }
+
+
+
+
 // Export the functions
 module.exports = {
   getMostLiked,
