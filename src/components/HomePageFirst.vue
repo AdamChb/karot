@@ -9,16 +9,6 @@
   This component is the first block of the home page.
 ------------------------------ -->
 
-<script setup>
-import { onMounted } from "vue";
-
-// Permit to display the first item of the carousel
-onMounted(() => {
-  document.getElementsByClassName("slide")[0].classList.add("active");
-  initCarroussel();
-});
-</script>
-
 <script>
 import RecipeCard from "@/components/RecipeCard.vue";
 
@@ -53,6 +43,10 @@ export default {
     } catch (error) {
       console.error("Error fetching random recipes:", error);
     }
+  },
+  mounted() {
+    document.getElementsByClassName("slide")[0].classList.add("active");
+    initCarroussel();
   },
 };
 

@@ -7,7 +7,6 @@
 //  Sacha PORTAL
 //
 //  This file contains the functions to change
-//  This file contains the functions to change
 //  the data in the database.
 // ------------------------------
 
@@ -310,10 +309,8 @@ module.exports = {
   deleteAllergy,
   getRandomRecipes,
   addRecipe,
-
   getImagesRecipes,
   checkMeal,
   getPlannedMeals, 
   addMeal
 };
->>>>>>>>> Temporary merge branch 2
