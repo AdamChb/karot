@@ -14,18 +14,12 @@ export default {
   name: "MealSectionCreateText",
   props: ["generated"],
   methods: {
-    // Functions to display the generated meal
-    generatechild() {
-      this.$emit("generate");
-    },
-    resetchild() {
-      this.$emit("reset");
-    },
+    // Function to display the generated meal
     triggergenerate(state) {
       if (state === "false") {
-        this.generatechild();
+        this.$emit("generate");
       } else {
-        this.resetchild();
+        this.$emit("reset");
       }
     },
   },
@@ -38,7 +32,6 @@ export default {
     :id="generated === 'true' ? 'container-text-meal-generated' : ''"
   >
     <div class="main-text">
-
       <!-- Title of the CreateMeal page -->
       <p
         class="title"
@@ -121,7 +114,6 @@ export default {
   font-size: 2em;
 }
 
-
 /* Style of the button */
 .generate-button-box {
   display: flex;
@@ -154,6 +146,6 @@ export default {
   width: 100%;
   margin: 0;
   margin-top: 1em;
-  justify-content:center;
+  justify-content: center;
 }
 </style>

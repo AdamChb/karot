@@ -74,6 +74,12 @@ export default {
     IngredientsBox,
     IngredientsSearchBar,
   },
+  methods: {
+    // Function to change the state of an ingredient
+    changeState(ingredient) {
+      ingredient.active = !ingredient.active;
+    },
+  },
 };
 </script>
 
@@ -94,6 +100,7 @@ export default {
         :key="ingredient.id"
         :ingredient="ingredient"
         :boxColor="inactiveColor"
+        @changeState="changeState(ingredient)"
       />
     </div>
 
@@ -107,6 +114,7 @@ export default {
         :key="ingredient.id"
         :ingredient="ingredient"
         :boxColor="activeColor"
+        @changeState="changeState(ingredient)"
       />
     </div>
   </div>
