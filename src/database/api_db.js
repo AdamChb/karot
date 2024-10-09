@@ -7,6 +7,7 @@
 //  Sacha PORTAL
 //
 //  This file contains the functions to change
+//  This file contains the functions to change
 //  the data in the database.
 // ------------------------------
 
@@ -33,6 +34,13 @@ async function getMostLiked(limit) {
   });
 }
 
+async function getImagesRecipes(link) {
+  // Fetch the image from the API and return it as a buffer
+  return await fetch(link).then(async (response) =>
+    Buffer.from(await response.arrayBuffer())
+  );
+}
+
 //Function to add an allergy
 async function addAllergy(userId, ingredientId) {
   const db = mysql.createConnection({
@@ -48,6 +56,8 @@ async function addAllergy(userId, ingredientId) {
     db.query(checkQuery, [userId, ingredientId], (err, allergyCheck) => {
       if (err) return reject("Error when checking for allergy : " + err);
       if (allergyCheck.length > 0) return reject("Allergy already present");
+
+      
 
       // If allergy doesn't exists, we add it
       const addAllergyQuery = `INSERT INTO To_Be_Allergic (ID_User, ID_Ingredient) VALUES (?, ?)`;
@@ -163,4 +173,5 @@ module.exports = {
   deleteAllergy,
   getRandomRecipes,
   addRecipe,
+  getImagesRecipes,
 };

@@ -11,6 +11,53 @@
 
 <script>
 // TEMP: Connecter à la base de données pour pouvoir s'inscrire sur le site
+export default {
+  data() {
+    return {
+      username: "",
+      email: "",
+      password: "",
+      repeat_password: "",
+    };
+  },
+  props: {
+    isLoggedIn: Boolean,
+  },
+  methods: {
+    loggedInUpdate(id) {
+      this.$emit(`loggedInUpdate`, id);
+    },
+    async checkData(event) {
+      event.preventDefault()
+      if (this.password === this.repeat_password) {
+        const user = {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+        }
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
+        };
+        try {
+          await fetch('http://127.0.0.1:3000/api/new-user', options);
+          const response = await fetch(`http://127.0.0.1:3000/api/log-in`, options);
+          const data = await response.json();
+          this.loggedInUpdate(data.ID_User);
+          this.$router.push({ name: 'HomePage' });
+        }
+        catch(err) {
+          console.log(err);
+        }
+      } else {
+        alert("The passwords do not match.");
+      }
+    },
+  },
+}
 </script>
 
 <template>
@@ -25,12 +72,13 @@
           type="text"
           id="username"
           name="username"
+          v-model="username"
           required
         />
 
         <!-- Email -->
         <label class="subject" for="email">Email</label>
-        <input class="input" type="email" id="email" name="email" required />
+        <input class="input" type="email" id="email" name="email" v-model="email" required />
 
         <!-- Password -->
         <label class="subject" for="password">Password</label>
@@ -39,6 +87,7 @@
           type="password"
           id="password"
           name="password"
+          v-model="password"
           required
         />
 
@@ -49,11 +98,12 @@
           type="password"
           id="repeat-password"
           name="repeat-password"
+          v-model="repeat_password"
           required
         />
 
         <!-- Button to submit the information -->
-        <button type="submit" id="submit">Sign up</button>
+        <button id="submit" @click="checkData">Sign up</button>
 
         <!-- Link to the LogIn page -->
         <p id="login">

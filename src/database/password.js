@@ -16,10 +16,10 @@ async function hashPassword(password) {
   const saltRounds = 10;
   try {
     const hash = await bcrypt.hash(password, saltRounds);
-    console.log('Mot de passe haché :', hash);
-    return hash;  // Stocke ce hachage
+    console.log('Mot de passe haché :', hash); // TEMP: A supprimer
+    return hash;
   } catch (err) {
-    console.error('Erreur lors du hachage :', err);
+    console.error(err);
   }
 }
 
@@ -27,14 +27,14 @@ async function hashPassword(password) {
 async function verifyPassword(password, hashedPassword) {
     try {
       const match = await bcrypt.compare(password, hashedPassword);
-      if (match) {
+      if (match) { // TEMP: A supprimer
         console.log('Mot de passe correct');
       } else {
         console.log('Mot de passe incorrect');
       }
       return match;
     } catch (err) {
-      console.error('Erreur lors de la comparaison :', err);
+      console.error(err);
     }
   }
 
