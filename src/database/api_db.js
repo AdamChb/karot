@@ -19,26 +19,50 @@ const serv = {
   database: "uml-b-3",
 };
 
-//Function to get the most-liked recipes
-async function getMostLiked(limit) {
-  // TEMP: Demander à Sacha si on recopie à chaque fois les identifiants
+// Function to get the most-liked recipes
+async function getMostLiked(limit, userId) {
+  // Create a connection to the database
   const db = mysql.createConnection({
     host: "concordia-db.docsystem.xyz",
     user: "uml-b-3",
     password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
     database: "uml-b-3",
   });
+  
   return new Promise((resolve, reject) => {
+    // Connect to the database
+    db.connect(err => {
+      if (err) return reject(err); // Handle connection errors
+    });
+
+    // SQL Query to select the most liked recipes
     db.query(
-      `SELECT * FROM Recipe ORDER BY Likes DESC LIMIT ?`, [limit],
+      `SELECT 
+          r.ID_Recipe,
+          r.Name_Recipe,
+          r.Steps,
+          r.Category,
+          r.Image,
+          ku.Username AS Author_Name,
+          (SELECT COUNT(*) FROM To_Like tl2 WHERE tl2.ID_Recipe = r.ID_Recipe) AS Likes_Count,
+          (CASE WHEN tl.ID_User IS NOT NULL THEN TRUE ELSE FALSE END) AS Has_Liked
+      FROM 
+          Recipe r
+      JOIN 
+          Karot_User ku ON r.ID_Creator = ku.ID_User
+      LEFT JOIN 
+          To_Like tl ON r.ID_Recipe = tl.ID_Recipe AND tl.ID_User = ?
+      ORDER BY Likes_Count DESC LIMIT ?`, 
+      [userId, limit], 
       (err, results) => {
-        db.end();
+        db.end();  // close the connection
         if (err) return reject(err);
         return resolve(results);
       }
     );
   });
 }
+
 
 async function getImagesRecipes(link) {
   // Fetch the image from the API and return it as a buffer
@@ -97,7 +121,7 @@ async function deleteAllergy(userId, ingredientId) {
 }
 
 // Function to get random recipe
-async function getRandomRecipes(limit) {
+async function getRandomRecipes(limit, userId) {
   const db = mysql.createConnection({
     host: "concordia-db.docsystem.xyz",
     user: "uml-b-3",
@@ -107,8 +131,23 @@ async function getRandomRecipes(limit) {
 
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT * FROM Recipe ORDER BY RAND() LIMIT ?`,
-      [limit],
+      `SELECT 
+          r.ID_Recipe,
+          r.Name_Recipe,
+          r.Steps,
+          r.Category,
+          r.Image,
+          ku.Username AS Author_Name,
+          (SELECT COUNT(*) FROM To_Like tl2 WHERE tl2.ID_Recipe = r.ID_Recipe) AS Likes_Count,
+          (CASE WHEN tl.ID_User IS NOT NULL THEN TRUE ELSE FALSE END) AS Has_Liked
+      FROM 
+          Recipe r
+      JOIN 
+          Karot_User ku ON r.ID_Creator = ku.ID_User
+      LEFT JOIN 
+          To_Like tl ON r.ID_Recipe = tl.ID_Recipe AND tl.ID_User = ?
+      ORDER BY RAND() LIMIT ?`,
+      [userId, limit],
       (err, results) => {
         db.end();
         if (err) return reject(err);

@@ -13,9 +13,10 @@
 <script setup>
 import IngredientsBox from "./IngredientsBox.vue";
 import IngredientsSearchBar from "./IngredientsSearchBar.vue";
+import { reactive } from "vue";
 
-// TEMP: Je ne sais pas ce que c'est mais il va falloir le changer...
-const ingredients = [
+// Make ingredients reactive
+const ingredients = reactive([
   {
     id: 1,
     name: "Pasta",
@@ -61,10 +62,11 @@ const ingredients = [
     name: "Bread",
     active: true,
   },
-];
+]);
 
 const activeColor = "#9abd36";
 const inactiveColor = "#bfbfbf";
+console.log(ingredients);
 </script>
 
 <script>

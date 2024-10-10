@@ -19,11 +19,13 @@ export default {
   },
   props: {
     isLoggedIn: Boolean,
+    id_user: Number,
   },
   data() {
     return {
       // TEMP: Base de donnée temporaire pour tester le front end
-      recipes: [{}],
+      recipes: [],
+      currentIndex: 0,
     };
   },
   async beforeMount() {
@@ -35,68 +37,34 @@ export default {
     };
     try {
       const response = await fetch(
-        "http://localhost:3000/api/random-recipes",
+        `http://localhost:3000/api/random-recipes?userId=${this.id_user}`,
         options
       );
       const data = await response.json();
-      this.recipes = data;
+      if (Array.isArray(data) && data.length > 0) {
+        this.recipes = data;
+      } else {
+        console.error("No recipes found");
+      }
     } catch (error) {
       console.error("Error fetching random recipes:", error);
     }
   },
-  mounted() {
-    document.getElementsByClassName("slide")[0].classList.add("active");
-    initCarroussel();
+  computed: {
+    currentRecipe() {
+      return this.recipes[this.currentIndex];
+    },
+  },
+  methods: {
+    nextSlide() {
+      this.currentIndex = (this.currentIndex + 1) % this.recipes.length;
+    },
+    prevSlide() {
+      this.currentIndex = (this.currentIndex - 1 + this.recipes.length) % this.recipes.length;
+    },
   },
 };
 
-// This function is used to animate the carousel
-const initCarroussel = () => {
-  // Initialize all of the elements of the carousel
-  const slides = document.querySelectorAll(`.slide`);
-  const prev = document.querySelector(`.prev`);
-  const next = document.querySelector(`.next`);
-  let index = 0;
-
-  // Change the active slide
-  const activeSlide = (n) => {
-    for (let slide of slides) {
-      slide.classList.remove("active");
-    }
-    slides[n].classList.add("active");
-  };
-
-  // Active the desired slide
-  const prepareCurrentSlide = (ind) => {
-    activeSlide(ind);
-  };
-
-  // Active the next slide
-  const nextSlide = () => {
-    if (index == slides.length - 1) {
-      index = 0;
-      prepareCurrentSlide(index);
-    } else {
-      index++;
-      prepareCurrentSlide(index);
-    }
-  };
-
-  // Active the previous slide
-  const prevSlide = () => {
-    if (index == 0) {
-      index = slides.length - 1;
-      prepareCurrentSlide(index);
-    } else {
-      index--;
-      prepareCurrentSlide(index);
-    }
-  };
-
-  // Add the event listeners to the buttons
-  if (next) next.addEventListener("click", nextSlide);
-  if (prev) prev.addEventListener("click", prevSlide);
-};
 </script>
 
 <template>
@@ -121,25 +89,22 @@ const initCarroussel = () => {
         </div>
       </div>
 
-      <!-- This container display a carousel with some of 
+      <!-- This container displays a carousel with some of 
              the most liked meals of the database -->
       <div class="col-xxl-5 col-12" id="div-carousel">
         <div class="section-carroussel">
           <!-- Button to activate the previous slide -->
-          <div class="nav-box prev-box txt-orange">
+          <div class="nav-box prev-box txt-orange" @click="prevSlide">
             <div class="navv prev">
               <p>&#10094;</p>
             </div>
           </div>
-
-          <!-- List of the slides created with Vue.js and 
-                     the database -->
-          <div class="slide" v-for="recipe in recipes" :key="recipe.id">
-            <RecipeCard :recipe="recipe" />
+          <!-- Slide display for the current recipe -->
+          <div class="slide" v-if="currentRecipe" :key="currentRecipe.id">
+            <RecipeCard :recipe="currentRecipe" :isLoggedIn="isLoggedIn" :id_user="id_user"/>
           </div>
-
           <!-- Button to activate the next slide -->
-          <div class="nav-box next-box txt-orange">
+          <div class="nav-box next-box txt-orange" @click="nextSlide">
             <div class="navv next">
               <p>&#10095;</p>
             </div>
@@ -243,8 +208,8 @@ h1 {
   margin: 0;
 }
 
-.section-carroussel .slide {
-  display: none;
+.slide {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -256,9 +221,7 @@ h1 {
   border-radius: 0.4em;
 }
 
-.section-carroussel .slide.active {
-  display: flex;
-}
+/* No need for .active class anymore since we directly control visibility with v-if */
 
 @media only screen and (max-width: 768px) {
   /* Responsive style for the page */

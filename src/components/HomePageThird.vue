@@ -17,10 +17,13 @@ export default {
   components: {
     RecipeCard,
   },
+  props: {
+    id_user: Number,
+    isLoggedIn: Boolean,
+  },
   data() {
     return {
-      // TEMP: Base de donnée temporaire pour tester le front end
-      recipes: [{}],
+      recipes: [], // Initialize as an empty array
     };
   },
   async beforeMount() {
@@ -31,24 +34,23 @@ export default {
       },
     };
     try {
-    const response = await fetch("http://localhost:3000/api/most-liked-recipes", options);
-    const data = await response.json();
-    this.recipes.value = data; // Store fetched recipes in the reactive variable
+      const response = await fetch(`http://localhost:3000/api/get-most-liked?userId=${this.id_user}`, options);
+      const data = await response.json();
+      this.recipes = data; // Store fetched recipes directly in the reactive variable
     } catch (error) {
-    console.error("Error fetching most liked recipes:", error);
+      console.error("Error fetching most liked recipes:", error);
     }
   }
 }
 </script>
-
 
 <template>
   <section class="orange" id="most-liked-recipes">
     <h1>Most liked recipes</h1>
     <div id="recipes">
       <!-- List of most liked recipes -->
-      <div class="recipe-card" v-for="recipe in recipes" :key="recipe.id">
-        <RecipeCard :recipe="recipe" />
+      <div class="recipe-card" v-for="recipe in recipes" :key="recipe.ID_Recipe">
+        <RecipeCard :recipe="recipe" :isLoggedIn="isLoggedIn" :id_user="id_user"/>
       </div>
     </div>
   </section>

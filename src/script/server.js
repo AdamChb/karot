@@ -34,13 +34,9 @@ server.use(bodyParser.json())
 // When a GET requets is made at the adress /getMostLiked, the server respond (res) with the return of the function getMostLiked
 
 // Function to link to the request getMostLiked
-server.get("/api/most-liked-recipes", async (req, res) => {
-  try {
-    const result = await api_db.getMostLiked(4);
-    res.json(result);
-  } catch (error) {
-    res.status(400).send(error);
-  }
+server.get("/api/get-most-liked", async (req, res) => {
+  const userId = req.query.userId;
+  res.send(await api_db.getMostLiked(4,userId));
 });
 
 // The same method exist with POST, PUT and DELETE
@@ -94,7 +90,7 @@ server.post("/api/log-in", async (req, res) => {
 // Fetch random recipes
 server.get("/api/random-recipes", async (req, res) => {
   try {
-    const result = await api_db.getRandomRecipes(5);
+    const result = await api_db.getRandomRecipes(5, req.query.userId);
     res.send(result);
   } catch (error) {
     res.status(400).send(error);

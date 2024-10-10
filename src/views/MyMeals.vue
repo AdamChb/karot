@@ -69,12 +69,20 @@ export default {
       <!-- Title -->
       <div class="container-fluid txt-white" id="hook">
         <h1>My meals</h1>
-        <p>Check them when they're done !</p>
+        <p v-if="isLoggedIn">Check them when they're done !</p>
+        <p v-if="!isLoggedIn">You need to be logged in to see your saved meals.</p>
       </div>
 
       <!-- Recipes -->
       <div class="container-fluid">
         <div class="container-recipes">
+          <div v-if="!isLoggedIn">
+            <router-link :to="'/logIn'">
+            <button id="start-now">
+              Log in
+            </button>
+            </router-link>
+          </div>
           <div v-for="recipe in recipes" :key="recipe.ID_Recipe" class="recipe">
             <p @click="deleteMeal(recipe.ID_Recipe)">×</p>
             <RecipeCard :recipe="recipe"/>
@@ -105,6 +113,20 @@ export default {
   background-color: #2f4858;
   margin: 1em;
   border-radius: 0.4em;
+}
+
+/* Style of the button */
+#start-now {
+  font-size: 1.3em;
+  font-weight: 500;
+  min-width: 6em;
+  max-width: 15em;
+  padding: 0 0.7em;
+  height: 2em;
+  border-radius: 10px;
+  border: 3px solid white;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Style of the home page */

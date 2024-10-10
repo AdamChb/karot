@@ -96,12 +96,12 @@ export default {
     
           <!-- Button to bring the user to the last page -->
         <!-- TEMP - router vers la page précédente -->
-        <router-link to="/category" style="text-decoration: none">
-          <div class="cta-button">
+
+          <div class="cta-button" @click="this.$router.go(-1);">
             <img src="@/assets/back-arrow.svg" alt="arrow icon" />
             Return
           </div>
-        </router-link>
+
     <div class="recipe-container">
       <div class="top">
         <!-- Title, creator, like and ingredients of the recipe -->
@@ -247,6 +247,7 @@ export default {
   transition: 0.3s;
   margin-bottom: 1em;
   animation: fadeInLeft ease 1s;
+  cursor: pointer;
 }
 .cta-button:hover {
   transform: scale(1.04);

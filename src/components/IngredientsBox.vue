@@ -11,8 +11,15 @@
 
 <script>
 export default {
-  props: ["ingredient", "boxColor"],
+  props: {
+    ingredient: Object,
+    boxColor: String,
+  },
+  mounted() {
+    console.log(this.ingredient); // Move console.log inside the lifecycle hook for proper debugging
+  },
 };
+
 </script>
 
 <template>

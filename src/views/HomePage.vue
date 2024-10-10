@@ -23,13 +23,14 @@ export default {
   },
   props: {
     isLoggedIn: Boolean,
+    id_user: Number,
   }
 };
 </script>
 
 <template>
   <!-- Components that form the home page -->
-  <HomePageFirst :isLoggedIn="isLoggedIn"/>
+  <HomePageFirst :isLoggedIn="isLoggedIn" :id_user="id_user"/>
   <HomePageSecond />
-  <HomePageThird />
+  <HomePageThird :isLoggedIn="isLoggedIn" :id_user="id_user"/>
 </template>
