@@ -11,7 +11,7 @@
 
 const mysql = require("mysql2");
 
-async function getRequiredIngredients(id) {
+async function getRequiredIngredients(recipeId) {
   const db = mysql.createConnection({
     host: "concordia-db.docsystem.xyz",
     user: "uml-b-3",
@@ -21,7 +21,7 @@ async function getRequiredIngredients(id) {
   return new Promise((resolve, reject) => {
     db.query(
       "SELECT * FROM To_Require WHERE ID_Recipe = ?",
-      [id],
+      [recipeId],
       (err, results) => {
         db.end();
         if (err) return reject(err);
@@ -31,7 +31,7 @@ async function getRequiredIngredients(id) {
   });
 }
 
-async function insertRequiredIngredient(ingredient) {
+async function insertRequiredIngredient(recipeId, ingredientId, quantity) {
   const db = mysql.createConnection({
     host: "concordia-db.docsystem.xyz",
     user: "uml-b-3",
@@ -41,7 +41,27 @@ async function insertRequiredIngredient(ingredient) {
   return new Promise((resolve, reject) => {
     db.query(
       "INSERT INTO To_Require (ID_Recipe, ID_Ingredient, Quantity) VALUES (?, ?, ?)",
-      [ingredient.recipeId, ingredient.ingredientId, ingredient.quantity],
+      [recipeId, ingredientId, quantity],
+      (err, results) => {
+        db.end();
+        if (err) return reject(err);
+        return resolve(results);
+      }
+    );
+  });
+}
+
+async function getRequiredRecipe(ingredientId) {
+  const db = mysql.createConnection({
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
+  });
+  return new Promise((resolve, reject) => {
+    db.query(
+      "SELECT ID_Recipe FROM To_Require WHERE ID_Ingredient = ?",
+      [ingredientId],
       (err, results) => {
         db.end();
         if (err) return reject(err);
@@ -58,21 +78,20 @@ async function getGenerateMeals(ingredients) {
     password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
     database: "uml-b-3",
   });
-  return new Promise((resolve, reject) => {
-    db.query(
-      "SELECT r.ID_Recipe FROM Recipe r WHERE NOT EXISTS ( SELECT 1 FROM To_Require tr WHERE tr.ID_Recipe = r.ID_Recipe AND tr.ID_Ingredient NOT IN (?)",
-      [ingredients],
-      (err, results) => {
-        db.end();
-        if (err) return reject(err);
-        return resolve(results);
-      }
-    );
-  });
+  db.query(
+    "SELECT r.ID_Recipe FROM Recipe r WHERE NOT EXISTS ( SELECT 1 FROM To_Require tr WHERE tr.ID_Recipe = r.ID_Recipe AND tr.ID_Ingredient NOT IN (?)",
+    [ingredients],
+    (err, results) => {
+      db.end();
+      if (err) return reject(err);
+      return resolve(results);
+    }
+  );
 }
 
 module.exports = {
   getRequiredIngredients,
   insertRequiredIngredient,
+  getRequiredRecipe,
   getGenerateMeals,
 };
