@@ -57,7 +57,7 @@ export default {
   <div id="generated-meal">
     <!-- Image of the generated meal -->
     <div id="meal-img">
-      <img src="@/assets/meal.png" alt="meal" />
+      <!-- <img src="@/assets/meal.png" alt="meal" /> -->
     </div>
 
     <!-- Information about the generated meal -->

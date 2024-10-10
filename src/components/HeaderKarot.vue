@@ -35,7 +35,7 @@ export default {
     <!-- Header for pc -->
     <div id="pc">
       <router-link to="/" class="header_logo">
-        <img src="@/assets/logo_header.svg" alt="Logo Karot" />
+        <!-- <img src="@/assets/logo_header.svg" alt="Logo Karot" /> -->
       </router-link>
 
       <!-- Navigation bar for pc -->
@@ -54,7 +54,7 @@ export default {
     <div id="tel">
       <div id="header_tel">
         <router-link to="/" class="header_logo">
-          <img src="@/assets/logo_header.svg" alt="Logo Karot" />
+          <!-- <img src="@/assets/logo_header.svg" alt="Logo Karot" /> -->
         </router-link>
 
         <!-- Burger button -->

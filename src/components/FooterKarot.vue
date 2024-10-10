@@ -12,27 +12,17 @@
 
 <template>
   <!-- Footer of the website -->
-  <footer>
-    <img :src="logo" alt="logo" />
-    <p>© 2024 Mathias BENOIT – Adam CHABA – Eva MAROT – Sacha PORTAL</p>
+  <footer class="footer">
+    <!-- <img src="@/assets/logo_header.svg" alt="logo" /> -->
+    <p class="footer-text">
+      © 2024 Mathias BENOIT – Adam CHABA – Eva MAROT – Sacha PORTAL
+    </p>
   </footer>
 </template>
 
-<script>
-import logo from "@/assets/logo_header.svg";
-
-export default {
-  data() {
-    return {
-      logo,
-    };
-  },
-};
-</script>
-
 <style scoped>
 /* Style for the footer */
-footer {
+.footer {
   background-color: white;
   display: flex;
   justify-content: space-around;
@@ -40,7 +30,7 @@ footer {
   align-items: center;
 }
 
-footer p {
+.footer-text {
   font-family: Inter;
   font-size: 0.7em;
   font-weight: 400;

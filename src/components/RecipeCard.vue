@@ -42,28 +42,28 @@ export default {
     <div @click="goTo(recipe.ID_Recipe)">
       <!-- Image of the recipe -->
       <div class="img">
-        <img :src="recipe.Image" alt="recipe image" />
+        <!-- <img :src="recipe.Image" alt="recipe image" /> -->
       </div>
 
       <!-- Name and author of the recipe -->
       <h3>{{ recipe.Name_Recipe }}</h3>
-      <p class="author">{{ recipe.Author_Name}}</p>
+      <p class="author">{{ recipe.Author_Name }}</p>
     </div>
 
     <!-- Like button -->
     <div class="likes">
-      <img
+      <!-- <img
         v-show="!recipe.Has_Liked"
         @click="toLike(recipe)"
         src="../assets/not-liked.svg"
         alt="like icon"
-      />
-      <img
+      /> -->
+      <!-- <img
         v-show="recipe.Has_Liked"
         @click="unLike(recipe)"
         src="../assets/liked.svg"
         alt="like icon"
-      />
+      /> -->
       {{ recipe.Likes_Count }}
     </div>
   </div>

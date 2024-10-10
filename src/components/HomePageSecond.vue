@@ -46,10 +46,10 @@ const steps = [
       <div id="text">
         <!-- Title "How to use Karot ?" -->
         <h1 class="txt-orange">
-          How to use <img src="@/assets/logo_header.svg" alt="Logo" /> ?
+          <!-- How to use <img src="@/assets/logo_header.svg" alt="Logo" /> ? -->
         </h1>
       </div>
-      <img src="@/assets/karot-singing.svg" alt="Karot singing" />
+      <!-- <img src="@/assets/karot-singing.svg" alt="Karot singing" /> -->
     </div>
     <div id="how-to">
       <!-- List of the steps to use Karot -->
