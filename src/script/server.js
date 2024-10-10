@@ -38,8 +38,9 @@ server.use(bodyParser.json());
 // When a GET requets is made at the adress /getMostLiked, the server respond (res) with the return of the function getMostLiked
 
 // Function to link to the request getMostLiked
-server.get("/getMostLiked", async (req, res) => {
-  res.send(await recipe_db.getMostLiked(10));
+server.get("/api/get-most-liked", async (req, res) => {
+  const userId = req.query.userId;
+  res.send(await api_db.getMostLiked(4,userId));
 });
 
 server.get("/getRecipe", async (req, res) => {
@@ -129,7 +130,7 @@ server.post("/api/log-in", async (req, res) => {
 // Fetch random recipes
 server.get("/api/random-recipes", async (req, res) => {
   try {
-    const result = await api_db.getRandomRecipes(5);
+    const result = await api_db.getRandomRecipes(5, req.query.userId);
     res.send(result);
   } catch (error) {
     res.status(400).send(error);
@@ -153,8 +154,9 @@ server.post("/api/add-recipe", async (req, res) => {
   }
 });
 
-// Ckeck Meal
+// Check Meal
 server.delete("/api/check-meal", async (req, res) => {
+  const { userId, recipeId } = req.query;
   try {
     const result = await api_db.checkMeal(userId, recipeId);
     res.send(result);

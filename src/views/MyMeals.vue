@@ -14,13 +14,16 @@ import RecipeCard from "../components/RecipeCard.vue";
 
 export default {
   name: "RecipesPage",
+  props: {
+    isLoggedIn: Boolean,
+    id_user: Number,
+  },
   components: {
     RecipeCard,
   },
   data() {
     return {
       recipes: [], // Updated to be populated from the backend
-      userId: 6,   // Example userId; adjust dynamically as needed
     };
   },
   async created() {
@@ -30,7 +33,7 @@ export default {
     // Fetch meals from the backend
     async fetchMeals() {
       try {
-        const response = await fetch(`http://localhost:3000/api/get-planned-meals?userId=${this.userId}`);
+        const response = await fetch(`http://localhost:3000/api/get-planned-meals?userId=${this.id_user}`);
         if (!response.ok) {
           throw new Error(`Error fetching meals: ${response.statusText}`);
         }
@@ -41,32 +44,10 @@ export default {
       }
     },
 
-    // Add meal to the user's planned meals
-    async addMeal(recipeId) {
-      try {
-        const response = await fetch("/api/add-meal", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: this.userId,
-            recipeId,
-          }),
-        });
-        if (!response.ok) {
-          throw new Error(`Error adding meal: ${response.statusText}`);
-        }
-        await this.fetchMeals(); // Refresh the meals list
-      } catch (error) {
-        console.error("Error adding meal:", error);
-      }
-    },
-
     // Delete meal from the user's planned meals
     async deleteMeal(recipeId) {
       try {
-        const response = await fetch(`/api/delete-allergy?userId=${this.userId}&recipeId=${recipeId}`, {
+        const response = await fetch(`http://localhost:3000/api/check-meal?userId=${this.id_user}&recipeId=${recipeId}`, {
           method: "DELETE",
         });
         if (!response.ok) {
@@ -88,12 +69,20 @@ export default {
       <!-- Title -->
       <div class="container-fluid txt-white" id="hook">
         <h1>My meals</h1>
-        <p>Check them when they're done !</p>
+        <p v-if="isLoggedIn">Check them when they're done !</p>
+        <p v-if="!isLoggedIn">You need to be logged in to see your saved meals.</p>
       </div>
 
       <!-- Recipes -->
       <div class="container-fluid">
         <div class="container-recipes">
+          <div v-if="!isLoggedIn">
+            <router-link :to="'/logIn'">
+            <button id="start-now">
+              Log in
+            </button>
+            </router-link>
+          </div>
           <div v-for="recipe in recipes" :key="recipe.ID_Recipe" class="recipe">
             <p @click="deleteMeal(recipe.ID_Recipe)">×</p>
             <RecipeCard :recipe="recipe"/>
@@ -124,6 +113,20 @@ export default {
   background-color: #2f4858;
   margin: 1em;
   border-radius: 0.4em;
+}
+
+/* Style of the button */
+#start-now {
+  font-size: 1.3em;
+  font-weight: 500;
+  min-width: 6em;
+  max-width: 15em;
+  padding: 0 0.7em;
+  height: 2em;
+  border-radius: 10px;
+  border: 3px solid white;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Style of the home page */

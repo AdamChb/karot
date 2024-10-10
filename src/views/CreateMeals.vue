@@ -19,12 +19,36 @@ export default {
     IngredientsSectionCreate,
     MealSectionCreate,
   },
+  props: {
+    id_user: Number,
+  },
   data() {
     return {
       generated: "false",
     };
   },
   methods: {
+     // Add meal to the user's planned meals
+     async addMeal(recipeId) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/check-meal?userId=${this.id_user}&recipeId=${recipeId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: this.id_user,
+            recipeId,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error(`Error adding meal: ${response.statusText}`);
+        }
+        alert("Meal added to your planned meals!");
+      } catch (error) {
+        console.error("Error adding meal:", error);
+      }
+    },
     // Functions to display the generated meal
     generate() {
       this.generated = "true";

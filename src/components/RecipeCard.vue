@@ -14,18 +14,54 @@ export default {
   name: "RecipeCard",
   props: {
     recipe: Object,
+    isLoggedIn: Boolean,
+    id_user: Number
   },
   methods: {
     // Functions to like or dislike a recipe
-    toLike(recipe) {
-      recipe.liked = !recipe.liked;
-      recipe.like += 1;
-      // TEMP: Mettre à jour dans la database
+    async toLike(recipe) {
+      if (!this.isLoggedIn){
+        alert("You need to be logged in to like a recipe!");
+        return
+      } 
+
+      recipe.Has_Liked = !recipe.Has_Liked;
+      recipe.Likes_Count += 1;
+      
+      const info = {
+        id_user: this.id_user,
+        id_recipe: recipe.ID_Recipe,
+      };
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(info),
+      };
+      try {
+        await fetch(`http://127.0.0.1:3000/api/like-recipe`, options);
+      } catch (err) {
+        console.log(err);
+      }
     },
-    unLike(recipe) {
-      recipe.liked = !recipe.liked;
-      recipe.like -= 1;
-      // TEMP: Mettre à jour dans la database
+    async unLike(recipe) {
+      if (!this.isLoggedIn) return
+
+      recipe.Has_Liked = !recipe.Has_Liked;
+      recipe.Likes_Count -= 1;
+      
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      };
+      try {
+        await fetch(`http://127.0.0.1:3000/api/unlike-recipe?id_user=${this.id_user}&id_recipe=${recipe.ID_Recipe}`, options);
+      } catch (err) {
+        console.log(err);
+      }
     },
 
     // Function to go to the recipe page
