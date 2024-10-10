@@ -19,8 +19,7 @@ const cors = require("cors");
 const api_db = require("../database/api_db");
 const init_db = require("../database/init_db");
 const account_db = require("../database/account_db");
-const like_db = require("../database/like_db");
-const account_db = require("../database/account_db");
+const to_like_db = require("../database/to_like_db");
 const recipe_db = require("../database/recipe_db");
 const to_require_db = require("../database/to_require_db");
 const ingredient_db = require("../database/ingredient_db");
@@ -40,7 +39,7 @@ server.use(bodyParser.json());
 // Function to link to the request getMostLiked
 server.get("/api/get-most-liked", async (req, res) => {
   const userId = req.query.userId;
-  res.send(await api_db.getMostLiked(4,userId));
+  res.send(await api_db.getMostLiked(4, userId));
 });
 
 server.get("/getRecipe", async (req, res) => {
@@ -220,7 +219,7 @@ server.get("/api/get-recipe", async (req, res) => {
 server.post("/api/like-recipe", async (req, res) => {
   const info = req.body;
   try {
-    const result = await like_db.likeRecipe(info);
+    const result = await to_like_db.likeRecipe(info);
     res.send(result);
   } catch (error) {
     res.send(error);
@@ -234,7 +233,7 @@ server.delete("/api/unlike-recipe", async (req, res) => {
     id_recipe: req.query.id_recipe,
   };
   try {
-    const result = await like_db.unlikeRecipe(info);
+    const result = await to_like_db.unlikeRecipe(info);
     res.send(result);
   } catch (error) {
     res.send(error);

@@ -10,7 +10,6 @@
 //  the data in the database.
 // ------------------------------
 
-const { use } = require("bcrypt/promises");
 const mysql = require("mysql2");
 const serv = {
   host: "concordia-db.docsystem.xyz",
@@ -28,10 +27,10 @@ async function getMostLiked(limit, userId) {
     password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
     database: "uml-b-3",
   });
-  
+
   return new Promise((resolve, reject) => {
     // Connect to the database
-    db.connect(err => {
+    db.connect((err) => {
       if (err) return reject(err); // Handle connection errors
     });
 
@@ -52,17 +51,16 @@ async function getMostLiked(limit, userId) {
           Karot_User ku ON r.ID_Creator = ku.ID_User
       LEFT JOIN 
           To_Like tl ON r.ID_Recipe = tl.ID_Recipe AND tl.ID_User = ?
-      ORDER BY Likes_Count DESC LIMIT ?`, 
-      [userId, limit], 
+      ORDER BY Likes_Count DESC LIMIT ?`,
+      [userId, limit],
       (err, results) => {
-        db.end();  // close the connection
+        db.end(); // close the connection
         if (err) return reject(err);
         return resolve(results);
       }
     );
   });
 }
-
 
 async function getImagesRecipes(link) {
   // Fetch the image from the API and return it as a buffer
@@ -263,7 +261,8 @@ async function getPlannedMeals(userId) {
     database: "uml-b-3",
   });
   return new Promise((resolve, reject) => {
-    db.query(`
+    db.query(
+      `
       SELECT DISTINCT
           r.ID_Recipe, 
           r.Name_Recipe, 
@@ -348,8 +347,6 @@ async function addMeal(userId, recipeId) {
   });
 }
 
-
-
 // Function to delete a meal for a specific user
 async function checkMeal(userId, recipeId) {
   const db = mysql.createConnection({
@@ -360,7 +357,8 @@ async function checkMeal(userId, recipeId) {
   });
 
   return new Promise((resolve, reject) => {
-    db.query(`
+    db.query(
+      `
       DELETE FROM To_Save
       WHERE ID_User = ?
       AND ID_Recipe = ?`,
@@ -382,9 +380,6 @@ async function checkMeal(userId, recipeId) {
   });
 }
 
-
-
-
 // Export the functions
 module.exports = {
   getMostLiked,
@@ -394,7 +389,7 @@ module.exports = {
   addRecipe,
   getImagesRecipes,
   checkMeal,
-  getPlannedMeals, 
+  getPlannedMeals,
   addMeal,
-  getRecipe
+  getRecipe,
 };
