@@ -35,15 +35,17 @@ export default {
       const response = await fetch(`http://127.0.0.1:3000/api/get-recipe?id_user=${this.id_user}&id_recipe=${ID_Recipe}`, options);
       const data = await response.json();
       this.recipe = data[0];
-      this.recipe.Ingredients_With_Quantity = this.recipe.Ingredients_With_Quantity.split(", ")
-      console.log(this.recipe);
+      this.recipe.Ingredients_With_Quantity = this.recipe.Ingredients_With_Quantity.split(", ");
     } catch (err) {
       console.log(err);
     }
   },
   methods: {
     async toLike() {
-      if (!this.isLoggedIn) return
+      if (!this.isLoggedIn){
+        alert("You need to be logged in to like a recipe!");
+        return
+      } 
 
       this.recipe.Has_Liked = !this.recipe.Has_Liked;
       this.recipe.Likes_Count += 1;
@@ -64,8 +66,6 @@ export default {
       } catch (err) {
         console.log(err);
       }
-
-      console.log(this.recipe);
     },
     async unLike() {
       if (!this.isLoggedIn) return
@@ -168,7 +168,7 @@ export default {
 
         <!-- Meal image -->
         <div class="photo">
-          <!-- <img :src="recipe.image" :alt="recipe.name" /> -->
+          <img :src="`data:image/jpeg;base64,${recipe.Image}`" :alt="recipe.Name_Recipe" />
         </div>
         <!-- <div class="ai">
           <p>The Karot AI tip (based on OpenAI):</p>
@@ -250,6 +250,7 @@ export default {
   width: 1.2em;
   height: 1.2em;
   margin-right: 0.3em;
+  cursor: pointer;
 }
 
 .head-likes p {

@@ -23,9 +23,20 @@ async function getRecipe(id) {
       "SELECT * FROM Recipe WHERE ID_Recipe = ?",
       [id],
       (err, results) => {
+        // Check if a recipe was found
+        if (results.length > 0) {
+          let recipe = results[0]; // Get the first recipe
+
+          // Check if the image exists and is a buffer
+          if (recipe.Image) {
+            // Convert the binary image data to a base64 string
+            recipe.Image = recipe.Image.toString('base64');
+          }
+          console.log(recipe);
+        }
         db.end();
         if (err) return reject(err);
-        return resolve(results);
+        return resolve(recipe);
       }
     );
   });

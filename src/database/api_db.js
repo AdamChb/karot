@@ -45,6 +45,18 @@ async function getMostLiked(limit, userId) {
       ORDER BY Likes_Count DESC LIMIT ?`,
       [userId, limit]
     );
+   // Check if results contain any recipes
+   if (results.length > 0) {
+    // Loop through each recipe
+    results.forEach(recipe => {
+      // Ensure that recipe.Image is a Buffer before converting
+      if (recipe.Image && Buffer.isBuffer(recipe.Image)) {
+        recipe.Image = recipe.Image.toString('base64'); // Convert to Base64 string
+      } else {
+        recipe.Image = null; // Handle case with no image or incorrect type
+      }
+    });
+  }
     return results;
   } catch (err) {
     throw new Error(`Error fetching most liked recipes: ${err.message}`);
@@ -111,6 +123,18 @@ async function getRandomRecipes(limit, userId) {
       ORDER BY RAND() LIMIT ?`,
       [userId, limit]
     );
+  // Check if results contain any recipes
+  if (results.length > 0) {
+    // Loop through each recipe
+    results.forEach(recipe => {
+      // Ensure that recipe.Image is a Buffer before converting
+      if (recipe.Image && Buffer.isBuffer(recipe.Image)) {
+        recipe.Image = recipe.Image.toString('base64'); // Convert to Base64 string
+      } else {
+        recipe.Image = null; // Handle case with no image or incorrect type
+      }
+    });
+  }
     return results;
   } catch (err) {
     throw new Error(`Error fetching random recipes: ${err.message}`);
@@ -187,6 +211,18 @@ async function getRecipe(id_user, id_recipe) {
       GROUP BY r.ID_Recipe, r.Name_Recipe, r.Steps, r.Category, r.Image, ku.Username, tl.ID_User`,
       [id_user, id_recipe]
     );
+    // Check if results contain any recipes
+    if (results.length > 0) {
+      // Loop through each recipe
+      results.forEach(recipe => {
+        // Ensure that recipe.Image is a Buffer before converting
+        if (recipe.Image && Buffer.isBuffer(recipe.Image)) {
+          recipe.Image = recipe.Image.toString('base64'); // Convert to Base64 string
+        } else {
+          recipe.Image = null; // Handle case with no image or incorrect type
+        }
+      });
+    }
     return results;
   } catch (err) {
     throw new Error(`Error fetching recipe: ${err.message}`);
@@ -218,6 +254,18 @@ async function getPlannedMeals(userId) {
           ts.ID_User = ?`,
       [userId, userId]
     );
+    // Check if results contain any recipes
+    if (results.length > 0) {
+      // Loop through each recipe
+      results.forEach(recipe => {
+        // Ensure that recipe.Image is a Buffer before converting
+        if (recipe.Image && Buffer.isBuffer(recipe.Image)) {
+          recipe.Image = recipe.Image.toString('base64'); // Convert to Base64 string
+        } else {
+          recipe.Image = null; // Handle case with no image or incorrect type
+        }
+      });
+    }
     return meals;
   } catch (err) {
     throw new Error(`Error fetching planned meals: ${err.message}`);
