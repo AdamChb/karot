@@ -87,6 +87,28 @@ export default {
     },
   },  
 };
+
+// AI integration
+// import OpenAI from "openai";
+// const openai = new OpenAI({
+//   dangerouslyAllowBrowser: true
+// }
+
+// );
+
+// const completion = await openai.chat.completions.create({
+//     model: "gpt-3.5-turbo",
+//     messages: [
+//         { role: "system", content: "You are a cooking assistant." },
+//         {
+//           role: "user",
+//           content: "Give me a tip to enjoy my meal (add a special ingredient, a cooking technique, etc.)",
+//         },
+//     ],
+// });
+
+// console.log(completion.choices[0].message);
+
 </script>
 
 <template>
@@ -148,6 +170,9 @@ export default {
         <div class="photo">
           <!-- <img :src="recipe.image" :alt="recipe.name" /> -->
         </div>
+        <!-- <div class="ai">
+          <p>The Karot AI tip (based on OpenAI):</p>
+        </div> -->
       </div>
 
       <!-- Instructions -->

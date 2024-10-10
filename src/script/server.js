@@ -20,7 +20,6 @@ const api_db = require("../database/api_db");
 const init_db = require("../database/init_db");
 const account_db = require("../database/account_db");
 const like_db = require("../database/like_db");
-const account_db = require("../database/account_db");
 const recipe_db = require("../database/recipe_db");
 const to_require_db = require("../database/to_require_db");
 const ingredient_db = require("../database/ingredient_db");
