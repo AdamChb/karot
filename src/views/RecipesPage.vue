@@ -71,7 +71,7 @@ export default {
 
       <!-- Search bar -->
       <div id="input-box" class="container-fluid">
-        <input type="search" placeholder="Research a recipe" />
+        <input type="search" placeholder="Research a recipe" @keyup.enter="goSearch()"/>
         <img id="searchButton" :@click="goSearch()" src="../assets/loupe.png" alt="search" />
       </div>
       <div class="container-fluid">
