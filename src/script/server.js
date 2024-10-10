@@ -145,6 +145,17 @@ server.delete("/api/delete-allergy", async (req, res) => {
   }
 });
 
+// Get a user's allergies
+server.get("/api/get-allergies", async (req, res) => {
+  const userId = req.query.id_user;
+  try {
+    const result = await api_db.getAllergies(userId);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 // Get a user with his id
 server.get("/api/get-user", async (req, res) => {
   const id = req.query.id_user;
@@ -223,6 +234,12 @@ server.get("/api/get-planned-meals", async (req, res) => {
   res.send(await api_db.getPlannedMeals(userId));
 });
 
+// Get Liked Recipes
+server.get("/api/get-liked-recipes", async (req, res) => {
+  const userId = req.query.userId;
+  res.send(await api_db.getLikedRecipes(userId));
+});
+
 // Add a meal
 server.post("/api/add-meal", async (req, res) => {
   const { userId, recipeId } = req.body;
@@ -270,9 +287,9 @@ server.get("/api/get-recipe", async (req, res) => {
 
 // Like a recipe
 server.post("/api/like-recipe", async (req, res) => {
-  const info = req.body;
+  const {id_user, id_recipe} = req.body;
   try {
-    const result = to_like_db.likeRecipe(info);
+    const result = to_like_db.likeRecipe(id_user, id_recipe);
     res.send(result);
   } catch (error) {
     res.send(error);
@@ -281,12 +298,9 @@ server.post("/api/like-recipe", async (req, res) => {
 
 // Unlike a recipe
 server.delete("/api/unlike-recipe", async (req, res) => {
-  const info = {
-    id_user: req.query.id_user,
-    id_recipe: req.query.id_recipe,
-  };
+  const {id_user, id_recipe} = req.query;
   try {
-    const result = to_like_db.unlikeRecipe(info);
+    const result = to_like_db.unlikeRecipe(id_user, id_recipe);
     res.send(result);
   } catch (error) {
     res.send(error);

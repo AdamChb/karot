@@ -19,260 +19,36 @@ export default {
     RecipeCard,
     IngredientsBox,
   },
+  props:{
+    id_user: Number,
+    isLoggedIn: Boolean,
+  },
   data() {
-    // TEMP: Lier à la base de données pour éviter l'horreur qu'il y a juste en dessous...
     return {
-      ingredients: [
-        "Tomato",
-        "Onion",
-        "Garlic",
-        "Pasta",
-        "Olive oil",
-        "Salt",
-        "Pepper",
-        "Tomato",
-        "Onion",
-        "Garlic",
-        "Pasta",
-        "Olive oil",
-        "Salt",
-        "Pepper",
-        "Tomato",
-        "Onion",
-        "Garlic",
-        "Pasta",
-        "Olive oil",
-        "Salt",
-        "Pepper",
-      ],
-      allergies: [
-        "Gluten",
-        "Lactose",
-        "Peanuts",
-        "Onion",
-        "Garlic",
-        "Pasta",
-        "Olive oil",
-        "Salt",
-        "Pepper",
-        "Onion",
-        "Garlic",
-        "Pasta",
-        "Olive oil",
-        "Salt",
-        "Pepper",
-        "Onion",
-        "Garlic",
-        "Pasta",
-        "Olive oil",
-        "Salt",
-        "Pepper",
-        "Onion",
-        "Garlic",
-        "Pasta",
-        "Olive oil",
-        "Salt",
-        "Pepper",
-        "Onion",
-        "Garlic",
-        "Pasta",
-        "Olive oil",
-        "Salt",
-        "Pepper",
-        "Onion",
-        "Garlic",
-        "Pasta",
-        "Olive oil",
-        "Salt",
-        "Pepper",
-        "Onion",
-        "Garlic",
-        "Pasta",
-        "Olive oil",
-        "Salt",
-        "Pepper",
-      ],
-      recipes: [
-        {
-          id: 1,
-          name: "Pasta with tomato sauce",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "Adam",
-          like: 47,
-          liked: false,
-        },
-        {
-          id: 2,
-          name: "fdthrthfdghfghf",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "fgh",
-          like: 98,
-          liked: false,
-        },
-        {
-          id: 3,
-          name: "mkomlkmlmoopkmlko",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "oooo",
-          like: 349,
-          liked: false,
-        },
-        {
-          id: 4,
-          name: "efzazazsqsazSAZQS",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "aaaaaaa",
-          like: 3498,
-          liked: false,
-        },
-        {
-          id: 5,
-          name: "Pasta with tomato sauce",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "Adam",
-          like: 47,
-          liked: false,
-        },
-        {
-          id: 6,
-          name: "fdthrthfdghfghf",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "fgh",
-          like: 98,
-          liked: false,
-        },
-        {
-          id: 7,
-          name: "mkomlkmlmoopkmlko",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "oooo",
-          like: 349,
-          liked: false,
-        },
-        {
-          id: 8,
-          name: "efzazazsqsazSAZQS",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "aaaaaaa",
-          like: 3498,
-          liked: false,
-        },
-        {
-          id: 9,
-          name: "Pasta with tomato sauce",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "Adam",
-          like: 47,
-          liked: false,
-        },
-        {
-          id: 10,
-          name: "fdthrthfdghfghf",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "fgh",
-          like: 98,
-          liked: false,
-        },
-        {
-          id: 11,
-          name: "mkomlkmlmoopkmlko",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "oooo",
-          like: 349,
-          liked: false,
-        },
-        {
-          id: 12,
-          name: "efzazazsqsazSAZQS",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "aaaaaaa",
-          like: 3498,
-          liked: false,
-        },
-        {
-          id: 13,
-          name: "Pasta with tomato sauce",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "Adam",
-          like: 47,
-          liked: false,
-        },
-        {
-          id: 14,
-          name: "fdthrthfdghfghf",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "fgh",
-          like: 98,
-          liked: false,
-        },
-        {
-          id: 15,
-          name: "mkomlkmlmoopkmlko",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "oooo",
-          like: 349,
-          liked: false,
-        },
-        {
-          id: 16,
-          name: "efzazazsqsazSAZQS",
-          ingredients: ["pasta", "tomato sauce", "basil"],
-          instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-          image:
-            "https://img-3.journaldesfemmes.fr/r19xN3J12nIEOlRLgSpnwv0YRq8=/1500x/smart/07e886f7245740e588e429ef10d260aa/ccmcms-jdf/28567079.jpg",
-          author: "aaaaaaa",
-          like: 3498,
-          liked: false,
-        },
-      ],
+      ingredients: [],
+      allergies: [],
+      recipes: [],
     };
   },
+  async created() {
+    await this.fetchRecipes(); // Fetch recipes when the component is created
+    await this.fetchAllergies(); // Fetch allergies when the component is created
+  },
   methods: {
+    // Function to fetch the allergies of the user
+    async fetchAllergies() {
+      try {
+        const response = await fetch(`http://localhost:3000/api/get-allergies?userId=${this.id_user}`);
+        if (!response.ok) {
+          throw new Error(`Error fetching allergies: ${response.statusText}`);
+        }
+        const data = await response.json();
+        this.allergies = data;
+        console.log(this.allergies);
+      } catch (error) {
+        console.error("Error fetching allergies:", error);
+      }
+    },
     //Delete an allergy
     deleteAllergy(ingredientId) {
       const queryParams = new URLSearchParams({
@@ -298,6 +74,19 @@ export default {
           console.error("Error:", error);
         });
     },
+    // Function to fecth the liked recipes
+    async fetchRecipes() {
+      try {
+        const response = await fetch(`http://localhost:3000/api/get-liked-recipes?userId=${this.id_user}`);
+        if (!response.ok) {
+          throw new Error(`Error fetching liked recipes: ${response.statusText}`);
+        }
+        const data = await response.json();
+        this.recipes = data;
+      } catch (error) {
+        console.error("Error fetching liked recipes:", error);
+      }
+  },
   },
 };
 </script>
@@ -320,30 +109,13 @@ export default {
         </div>
       </div>
 
-      <!-- Ingredients in the user's fridge -->
-      <div id="ingredients" class="scrollable-parent">
-        <h2>Your ingredients</h2>
-        <div class="scrollable">
-          <div v-for="(ingredient, i) in ingredients" :key="i">
-            <div class="ingredient">
-              <p>{{ ingredient }}</p>
-              <p>x</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Allergies of the user -->
       <div id="allergies" class="scrollable-parent">
         <h2>Your allergies</h2>
         <div class="scrollable">
-          <div
-            v-for="(allergy, i) in allergies"
-            :key="i"
-            @click="deleteAllergy(ingredient)"
-          >
+          <div v-for="(allergy, i) in allergies" :key="i" @click="deleteAllergy(allergy.ID_Ingredient)">
             <div class="allergy">
-              <p>{{ allergy }}</p>
+              <p>{{ allergy.Name_Ingredient }}</p>
               <IngredientsBox />
             </div>
           </div>
@@ -355,7 +127,7 @@ export default {
     <div id="my-meals" class="scrollable-parent">
       <h2>Your liked recipes</h2>
       <div class="scrollable">
-        <div class="blue recipe-card" v-for="(recipe, i) in recipes" :key="i">
+        <div class="blue recipe-card" v-for="recipe in recipes" :key="recipe.ID_Recipe">
           <RecipeCard :recipe="recipe" />
         </div>
       </div>

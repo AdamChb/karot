@@ -62,7 +62,7 @@ export default {
 
     <!-- Information about the generated meal -->
     <div id="meal-info">
-      <p id="meal-name">Pasta with tomato sauce</p>
+      <p id="meal-name">Tagliatelle Carbonara</p>
       <div id="sub-info">
         <div>
           <p id="author">by Mathias</p>

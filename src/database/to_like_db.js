@@ -46,6 +46,7 @@ async function likeRecipe(id_user, id_recipe) {
       `INSERT INTO To_Like (ID_User, ID_Recipe) VALUES (?, ?);`,
       [id_user, id_recipe],
       (err, results) => {
+        console.log("liked " + id_recipe + " " + id_user);
         db.end();
         if (err) return reject(err);
         return resolve(results);
@@ -62,12 +63,12 @@ async function unlikeRecipe(id_user, id_recipe) {
     password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
     database: "uml-b-3",
   });
-  console.log("unlike_bd " + id_recipe + " " + id_user);
   return new Promise((resolve, reject) => {
     db.query(
       `DELETE FROM To_Like WHERE ID_User = ? AND ID_Recipe = ?;`,
       [id_user, id_recipe],
       (err, results) => {
+        console.log("unliked " + id_recipe + " " + id_user);
         db.end();
         if (err) return reject(err);
         return resolve(results);

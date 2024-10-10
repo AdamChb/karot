@@ -101,6 +101,28 @@ async function deleteAllergy(userId, ingredientId) {
   }
 }
 
+// Function to get the user's allergies
+async function getAllergies(userId) {
+  try {
+    const [allergies] = await pool.query(
+      `SELECT i.ID_Ingredient, i.Name_Ingredient
+       FROM To_Be_Allergic tba
+       JOIN Ingredient i ON tba.ID_Ingredient = i.ID_Ingredient
+       WHERE tba.ID_User = ?`,
+      [userId]
+    );
+
+    // Check if results contain any allergies
+    if (allergies.length > 0) {
+      return allergies;
+    } else {
+      return []; // Return an empty array if no allergies found
+    }
+  } catch (err) {
+    throw new Error(`Error fetching allergies: ${err.message}`);
+  }
+}
+
 // Function to get random recipes
 async function getRandomRecipes(limit, userId) {
   try {
@@ -309,6 +331,47 @@ async function checkMeal(userId, recipeId) {
   }
 }
 
+// Function to get the user's liked recipes
+async function getLikedRecipes(userId) {
+  try {
+    const [meals] = await pool.query(
+      `SELECT DISTINCT
+          r.ID_Recipe, 
+          r.Name_Recipe, 
+          r.Category,
+          r.Image,
+          r.ID_Creator,
+          ku.Username AS Author_Name,
+          (SELECT COUNT(*) FROM To_Like tl2 WHERE tl2.ID_Recipe = r.ID_Recipe) AS Likes_Count,
+          (CASE WHEN tl.ID_User IS NOT NULL THEN TRUE ELSE FALSE END) AS Has_Liked
+      FROM 
+          To_Like tl
+      JOIN 
+          Recipe r ON tl.ID_Recipe = r.ID_Recipe
+      JOIN 
+          Karot_User ku ON r.ID_Creator = ku.ID_User
+      WHERE 
+          tl.ID_User = ?`,
+      [userId, userId]
+    );
+    // Check if results contain any recipes
+    if (meals.length > 0) {
+      // Loop through each recipe
+      meals.forEach(recipe => {
+        // Ensure that recipe.Image is a Buffer before converting
+        if (recipe.Image && Buffer.isBuffer(recipe.Image)) {
+          recipe.Image = recipe.Image.toString('base64'); // Convert to Base64 string
+        } else {
+          recipe.Image = null; // Handle case with no image or incorrect type
+        }
+      });
+    }
+    return meals;
+  } catch (err) {
+    throw new Error(`Error fetching liked recipes: ${err.message}`);
+  }
+}
+
 // Export the functions
 module.exports = {
   getMostLiked,
@@ -321,4 +384,6 @@ module.exports = {
   getPlannedMeals,
   addMeal,
   getRecipe,
+  getLikedRecipes,
+  getAllergies
 };
