@@ -15,27 +15,27 @@ export default {
   props: {
     recipe: Object,
     isLoggedIn: Boolean,
-    id_user: Number
+    id_user: Number,
   },
   methods: {
     // Functions to like or dislike a recipe
     async toLike(recipe) {
-      if (!this.isLoggedIn){
+      if (!this.isLoggedIn) {
         alert("You need to be logged in to like a recipe!");
-        return
-      } 
+        return;
+      }
 
       recipe.Has_Liked = !recipe.Has_Liked;
       recipe.Likes_Count += 1;
-      
+
       const info = {
         id_user: this.id_user,
         id_recipe: recipe.ID_Recipe,
       };
       const options = {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(info),
       };
@@ -46,19 +46,22 @@ export default {
       }
     },
     async unLike(recipe) {
-      if (!this.isLoggedIn) return
+      if (!this.isLoggedIn) return;
 
       recipe.Has_Liked = !recipe.Has_Liked;
       recipe.Likes_Count -= 1;
-      
+
       const options = {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
-        }
+          "Content-Type": "application/json",
+        },
       };
       try {
-        await fetch(`http://127.0.0.1:3000/api/unlike-recipe?id_user=${this.id_user}&id_recipe=${recipe.ID_Recipe}`, options);
+        await fetch(
+          `http://127.0.0.1:3000/api/unlike-recipe?id_user=${this.id_user}&id_recipe=${recipe.ID_Recipe}`,
+          options
+        );
       } catch (err) {
         console.log(err);
       }
@@ -83,7 +86,7 @@ export default {
 
       <!-- Name and author of the recipe -->
       <h3>{{ recipe.Name_Recipe }}</h3>
-      <p class="author">{{ recipe.Author_Name}}</p>
+      <p class="author">by {{ recipe.Author_Name }}</p>
     </div>
 
     <!-- Like button -->

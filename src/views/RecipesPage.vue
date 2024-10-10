@@ -14,6 +14,10 @@ import RecipeCard from "../components/RecipeCard.vue";
 
 export default {
   name: "RecipesPage",
+  props: {
+    isLoggedIn: Boolean,
+    id_user: Number,
+  },
   components: {
     RecipeCard,
   },
@@ -21,6 +25,31 @@ export default {
     return {
       recipes: [],
     };
+  },
+
+  async beforeMount() {
+    var search = null;
+    try {
+      search = this.$route.query.search;
+    } catch {
+      search = false;
+    }
+
+    try {
+      const meal_reponse = await fetch(
+        `http://127.0.0.1:3000/api/get-search-results?userId=${this.id_user}` +
+          (search == null ? "" : "&search=" + search)
+      );
+      this.recipes = await meal_reponse.json();
+      console.log(this.recipes);
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    }
+  },
+  methods: {
+    search(filter) {
+      this.$router.push({ path: "/recipes", query: { filter } });
+    },
   },
 };
 </script>
@@ -41,8 +70,9 @@ export default {
       </div>
 
       <!-- Search bar -->
-      <div class="container-fluid">
+      <div id="input-box" class="container-fluid">
         <input type="search" placeholder="Research a recipe" />
+        <img id="searchButton" src="../assets/loupe.png" alt="search" />
       </div>
       <div class="container-fluid">
         <!-- List of all the recipes corresponding with the research -->
@@ -67,22 +97,49 @@ export default {
 .recipe {
   padding: 2em 1em;
 }
+
+#row-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 input {
-  width: 100%;
+  width: 95%;
+  padding: 0;
+  margin: 0;
+  transition: 0.3s;
+}
+
+input:focus {
+  outline: none;
+}
+
+#input-box {
+  display: flex;
+  width: 80%;
   padding: 0.3em 0.5em;
   margin: 1em 0;
   border-radius: 7px;
   border: 2px solid black;
+  background-color: white;
   transition: 0.3s;
+  justify-content: space-between;
 }
-input:focus {
-  outline: none;
+
+#input-box:has(input:focus) {
   transform: scale(1.02);
   transition: 0.3s;
 }
-input:hover {
+#input-box:hover {
   transform: scale(1.02);
   transition: 0.3s;
+}
+
+#searchButton {
+  width: 2em;
+  height: 2em;
 }
 
 .home {
@@ -103,6 +160,7 @@ h1 {
 
 .container-fluid {
   width: 75%;
+  justify-self: center;
   padding: 0.5em 0;
 }
 

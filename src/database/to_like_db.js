@@ -33,6 +33,93 @@ async function getMostLiked(limit) {
   });
 }
 
+//Function to like a recipe
+async function likeRecipe(id_user, id_recipe) {
+  const db = mysql.createConnection({
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
+  });
+  return new Promise((resolve, reject) => {
+    db.query(
+      `INSERT INTO To_Like (ID_User, ID_Recipe) VALUES (?, ?);`,
+      [id_user, id_recipe],
+      (err, results) => {
+        db.end();
+        if (err) return reject(err);
+        return resolve(results);
+      }
+    );
+  });
+}
+
+// Function to unlike a recipe
+async function unlikeRecipe(id_user, id_recipe) {
+  const db = mysql.createConnection({
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
+  });
+  console.log("unlike_bd " + id_recipe + " " + id_user);
+  return new Promise((resolve, reject) => {
+    db.query(
+      `DELETE FROM To_Like WHERE ID_User = ? AND ID_Recipe = ?;`,
+      [id_user, id_recipe],
+      (err, results) => {
+        db.end();
+        if (err) return reject(err);
+        return resolve(results);
+      }
+    );
+  });
+}
+
+async function getLikes(id_recipe) {
+  const db = mysql.createConnection({
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
+  });
+  return new Promise((resolve, reject) => {
+    db.query(
+      `SELECT COUNT(*) FROM To_Like WHERE ID_Recipe = ?;`,
+      [id_recipe],
+      (err, results) => {
+        db.end();
+        if (err) return reject(err);
+        return resolve(results);
+      }
+    );
+  });
+}
+
+async function isLiked(id_user, id_recipe) {
+  const db = mysql.createConnection({
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
+  });
+  return new Promise((resolve, reject) => {
+    db.query(
+      `SELECT COUNT(*) FROM To_Like WHERE ID_User = ? AND ID_Recipe = ?;`,
+      [id_user, id_recipe],
+      (err, results) => {
+        db.end();
+        if (err) return reject(err);
+        return resolve(results);
+      }
+    );
+  });
+}
+
 module.exports = {
   getMostLiked,
+  likeRecipe,
+  unlikeRecipe,
+  getLikes,
+  isLiked,
 };

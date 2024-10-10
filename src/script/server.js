@@ -17,9 +17,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const api_db = require("../database/api_db");
-const init_db = require("../database/init_db");
 const account_db = require("../database/account_db");
-const like_db = require("../database/like_db");
+const to_like_db = require("../database/to_like_db");
 const recipe_db = require("../database/recipe_db");
 const to_require_db = require("../database/to_require_db");
 const ingredient_db = require("../database/ingredient_db");
@@ -39,15 +38,33 @@ server.use(bodyParser.json());
 // Function to link to the request getMostLiked
 server.get("/api/get-most-liked", async (req, res) => {
   const userId = req.query.userId;
-  res.send(await api_db.getMostLiked(4,userId));
+  res.send(await api_db.getMostLiked(4, userId));
 });
 
-server.get("/getRecipe", async (req, res) => {
+server.get("/api/get-recipe", async (req, res) => {
   const { id } = req.query;
-  res.send(await recipe_db.getRecipe(id));
+  try {
+    res.send(await recipe_db.getRecipe(id));
+  } catch (error) {
+    res.status(500).send;
+  }
 });
 
-server.post("/insertRecipe", async (req, res) => {
+server.get("/api/get-recipes", async (req, res) => {
+  const { id_start, nb_recipes } = req.query;
+  try {
+    const answer = await recipe_db.getRecipes(id_start, nb_recipes);
+    answer.forEach((recipe) => {
+      recipe.Image = recipe.Image.toString("base64");
+    });
+    res.send(answer);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send;
+  }
+});
+
+server.post("/api/insert-recipe", async (req, res) => {
   let { name, ingredients, steps } = req.body;
   console.log(req.body);
   ingredients = ingredients.split("\n");
@@ -79,6 +96,38 @@ server.post("/insertRecipe", async (req, res) => {
   }
 });
 
+server.get("/api/search-recipe", async (req, res) => {
+  const { search } = req.query;
+  try {
+    const answer = await recipe_db.searchRecipe(search);
+    answer.forEach((recipe) => {
+      recipe.Image = recipe.Image.toString("base64");
+    });
+    res.send(answer);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send;
+  }
+});
+
+server.get("/api/search-ingredients", async (req, res) => {
+  const { search } = req.query;
+  try {
+    res.send(await ingredient_db.searchIngredient(search));
+  } catch (error) {
+    res.status(500).send;
+  }
+});
+
+server.get("/api/get-required-meal", async (req, res) => {
+  const { ingredientId } = req.query;
+  try {
+    res.send(await to_require_db.getRequiredMeal(ingredientId));
+  } catch (error) {
+    res.status(500).send;
+  }
+});
+
 // The same method exist with POST, PUT and DELETE
 // Request body is in req.body, it contains all the data sent by the client in the request body
 
@@ -101,6 +150,18 @@ server.delete("/api/delete-allergy", async (req, res) => {
     res.send(result);
   } catch (error) {
     res.status(400).send(error);
+  }
+});
+
+// Get a user with his id
+server.get("/api/get-user", async (req, res) => {
+  const id = req.query.id_user;
+
+  try {
+    const result = await account_db.getUsername(id);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
   }
 });
 
@@ -219,7 +280,7 @@ server.get("/api/get-recipe", async (req, res) => {
 server.post("/api/like-recipe", async (req, res) => {
   const info = req.body;
   try {
-    const result = await like_db.likeRecipe(info);
+    const result = to_like_db.likeRecipe(info);
     res.send(result);
   } catch (error) {
     res.send(error);
@@ -233,21 +294,97 @@ server.delete("/api/unlike-recipe", async (req, res) => {
     id_recipe: req.query.id_recipe,
   };
   try {
-    const result = await like_db.unlikeRecipe(info);
+    const result = to_like_db.unlikeRecipe(info);
     res.send(result);
   } catch (error) {
     res.send(error);
   }
 });
 
+server.get("/api/get-likes", async (req, res) => {
+  const id_recipe = req.query.id_recipe;
+  try {
+    const result = to_like_db.getLikes(id_recipe);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+server.get("/api/has-liked", async (req, res) => {
+  const { id_user, id_recipe } = req.query;
+  try {
+    const result = to_like_db.isLiked(id_user, id_recipe);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+server.get("/api/get-search-results", async (req, res) => {
+  const userId = req.query.userId;
+  var search = "";
+  try {
+    search = req.query.search;
+  } catch (error) {
+    search = "";
+  }
+  const id_start = 0;
+  const nb_recipes = 10;
+  try {
+    let recipe_result = await recipe_db.getRecipes(
+      id_start,
+      nb_recipes,
+      search
+    );
+    for (let i = 0; i < recipe_result.length; i++) {
+      recipe_result[i].Image = recipe_result[i].Image.toString("base64");
+      const hasLiked = (await to_like_db.isLiked(
+        userId,
+        recipe_result[i].ID_Recipe
+      ))
+        ? true
+        : false;
+      recipe_result[i].Has_Liked = hasLiked;
+      const likes_count = await to_like_db.getLikes(recipe_result[i].ID_Recipe);
+      recipe_result[i].Likes_Count = likes_count[0]["COUNT(*)"];
+      const author_name = await account_db.getUsername(
+        recipe_result[i].ID_Creator
+      );
+      recipe_result[i].Author_Name = author_name[0].Username;
+    }
+
+    if (recipe_result.length < 30) {
+      const ingredient_result = await ingredient_db.searchIngredients(search);
+      ingredient_result.forEach(async (ingredient) => {
+        const match_recipe_result = await to_require_db.getRequiredRecipe(
+          ingredient.ID_Ingredient
+        );
+        match_recipe_result.forEach(async (recipe) => {
+          recipe.Image = recipe.Image.toString("base64");
+          recipe.Has_Liked = (await to_like_db.isLiked(
+            userId,
+            recipe.ID_Recipe
+          ))
+            ? true
+            : false;
+          recipe.Likes_Count = await to_like_db.getLikes(recipe.ID_Recipe);
+          recipe.Author_Name = await account_db.getUsername(recipe.ID_Creator);
+          recipe_result.push(recipe);
+          if (recipe_result.length == 30) return;
+        });
+        if (recipe_result.length == 30) return;
+      });
+    }
+    res.send(recipe_result);
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+});
+
 // The same method exist with POST, PUT and DELETE
 // Request body is in req.body, it contains all the data sent by the client in the request body
-
-// Function to activate the initialisation of the database
-server.get("/initdb", async (req, res) => {
-  await init_db.doAll();
-  res.send("Database initialized");
-});
 
 //listen for request on port 3000, and as a callback function have the port listened on logged
 server.listen(port, hostname, () => {
