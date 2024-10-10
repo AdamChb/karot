@@ -255,9 +255,9 @@ async function getPlannedMeals(userId) {
       [userId, userId]
     );
     // Check if results contain any recipes
-    if (results.length > 0) {
+    if (meals.length > 0) {
       // Loop through each recipe
-      results.forEach(recipe => {
+      meals.forEach(recipe => {
         // Ensure that recipe.Image is a Buffer before converting
         if (recipe.Image && Buffer.isBuffer(recipe.Image)) {
           recipe.Image = recipe.Image.toString('base64'); // Convert to Base64 string
