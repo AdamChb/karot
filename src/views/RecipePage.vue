@@ -98,7 +98,7 @@ export default {
         <!-- TEMP - router vers la page précédente -->
         <router-link to="/category" style="text-decoration: none">
           <div class="cta-button">
-            <img src="@/assets/back-arrow.svg" alt="arrow icon" />
+            <!-- <img src="@/assets/back-arrow.svg" alt="arrow icon" /> -->
             Return
           </div>
         </router-link>
@@ -115,22 +115,22 @@ export default {
             </div>
             <!-- Like button -->
             <div class="head-likes">
-              <img
+              <!-- <img
                 v-show="!recipe.Has_Liked"
                 @click="
                 toLike
                 "
                 src="../assets/not-liked-orange.svg"
                 alt="like icon"
-              />
-              <img
+              /> -->
+              <!-- <img
                 v-show="recipe.Has_Liked"
                 @click="
                 unLike
                 "
                 src="../assets/liked-orange.svg"
                 alt="like icon"
-              />
+              /> -->
               <p>{{ recipe.Likes_Count }}</p>
             </div>
           </div>
