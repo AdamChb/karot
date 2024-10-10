@@ -35,12 +35,6 @@ export default {
 </script>
 
 <template>
-  <!-- TEMP: Ne pas oublier de supprimer cette chose !!!!! -->
-  <router-link to="/">HomePage</router-link> |
-  <router-link to="/logIn">LogIn</router-link> |
-  <router-link to="/signUp">SignUp</router-link> |
-  <router-link to="/myAccount">MyAccount</router-link> |
-
   <!-- General structure of the website -->
   <HeaderKarot :isLoggedIn="isLoggedIn"/>
   <router-view :isLoggedIn="isLoggedIn" :id_user="id_user" @loggedInUpdate="loggedInUpdate"/>
