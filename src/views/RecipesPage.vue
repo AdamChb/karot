@@ -24,21 +24,21 @@ export default {
   data() {
     return {
       recipes: [],
+      search: "",
     };
   },
 
   async beforeMount() {
-    var search = null;
     try {
-      search = this.$route.query.search;
+      this.search = this.$route.query.search;
     } catch {
-      search = false;
+      this.search = "";
     }
 
     try {
       const meal_reponse = await fetch(
         `http://127.0.0.1:3000/api/get-search-results?userId=${this.id_user}` +
-          (search == null ? "" : "&search=" + search)
+          (this.search == undefined ? "" : "&search=" + this.search)
       );
       this.recipes = await meal_reponse.json();
       console.log(this.recipes);
@@ -47,8 +47,8 @@ export default {
     }
   },
   methods: {
-    search(filter) {
-      this.$router.push({ path: "/recipes", query: { filter } });
+    goSearch() {
+      this.$router.push({ path: "/recipes", query: this.search });
     },
   },
 };
@@ -72,7 +72,7 @@ export default {
       <!-- Search bar -->
       <div id="input-box" class="container-fluid">
         <input type="search" placeholder="Research a recipe" />
-        <img id="searchButton" src="../assets/loupe.png" alt="search" />
+        <img id="searchButton" :@click="goSearch()" src="../assets/loupe.png" alt="search" />
       </div>
       <div class="container-fluid">
         <!-- List of all the recipes corresponding with the research -->
@@ -138,6 +138,7 @@ input:focus {
 }
 
 #searchButton {
+  cursor: pointer;
   width: 2em;
   height: 2em;
 }

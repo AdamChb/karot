@@ -41,14 +41,6 @@ server.get("/api/get-most-liked", async (req, res) => {
   res.send(await api_db.getMostLiked(4, userId));
 });
 
-server.get("/api/get-recipe", async (req, res) => {
-  const { id } = req.query;
-  try {
-    res.send(await recipe_db.getRecipe(id));
-  } catch (error) {
-    res.status(500).send;
-  }
-});
 
 server.get("/api/get-recipes", async (req, res) => {
   const { id_start, nb_recipes } = req.query;
@@ -330,7 +322,7 @@ server.get("/api/get-search-results", async (req, res) => {
     search = "";
   }
   const id_start = 0;
-  const nb_recipes = 10;
+  const nb_recipes = 5;
   try {
     let recipe_result = await recipe_db.getRecipes(
       id_start,
@@ -354,28 +346,29 @@ server.get("/api/get-search-results", async (req, res) => {
       recipe_result[i].Author_Name = author_name[0].Username;
     }
 
-    if (recipe_result.length < 30) {
-      const ingredient_result = await ingredient_db.searchIngredients(search);
-      ingredient_result.forEach(async (ingredient) => {
-        const match_recipe_result = await to_require_db.getRequiredRecipe(
-          ingredient.ID_Ingredient
-        );
-        match_recipe_result.forEach(async (recipe) => {
-          recipe.Image = recipe.Image.toString("base64");
-          recipe.Has_Liked = (await to_like_db.isLiked(
-            userId,
-            recipe.ID_Recipe
-          ))
-            ? true
-            : false;
-          recipe.Likes_Count = await to_like_db.getLikes(recipe.ID_Recipe);
-          recipe.Author_Name = await account_db.getUsername(recipe.ID_Creator);
-          recipe_result.push(recipe);
-          if (recipe_result.length == 30) return;
-        });
-        if (recipe_result.length == 30) return;
-      });
-    }
+    // if (recipe_result.length < nb_recipes) {
+    //   const ingredient_result = await ingredient_db.searchIngredients(search);
+    //   ingredient_result.forEach(async (ingredient) => {
+    //     const match_recipe_result = await to_require_db.getRequiredRecipe(
+    //       ingredient.ID_Ingredient
+    //     );
+    //     for (let j = 0; j < match_recipe_result.length; j++) {
+    //       match_recipe_result[j].Image = match_recipe_result[j].Image.toString("base64");
+    //       match_recipe_result[j].Has_Liked = (await to_like_db.isLiked(
+    //         userId,
+    //         match_recipe_result[j].ID_Recipe
+    //       ))
+    //         ? true
+    //         : false;
+    //         match_recipe_result[j].Likes_Count = await to_like_db.getLikes(match_recipe_result[j].ID_Recipe);
+    //         match_recipe_result[j].Author_Name = await account_db.getUsername(match_recipe_result[j].ID_Creator);
+    //       if (recipe_result.includes(match_recipe_result[j])) return;
+    //       recipe_result.push(match_recipe_result[j]);
+    //       if (recipe_result.length == nb_recipes) return;
+    //     };
+    //     if (recipe_result.length == nb_recipes) return;
+    //   });
+    // }
     res.send(recipe_result);
   } catch (error) {
     console.log(error);

@@ -11,37 +11,6 @@
 
 const mysql = require("mysql2");
 
-function getRecipe(id) {
-  const db = mysql.createConnection({
-    host: "concordia-db.docsystem.xyz",
-    user: "uml-b-3",
-    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
-    database: "uml-b-3",
-  });
-  return new Promise((resolve, reject) => {
-    db.query(
-      "SELECT * FROM Recipe WHERE ID_Recipe = ?",
-      [id],
-      (err, results) => {
-        // Check if a recipe was found
-        if (results.length > 0) {
-          let recipe = results[0]; // Get the first recipe
-
-          // Check if the image exists and is a buffer
-          if (recipe.Image) {
-            // Convert the binary image data to a base64 string
-            recipe.Image = recipe.Image.toString('base64');
-          }
-          console.log(recipe);
-        }
-        db.end();
-        if (err) return reject(err);
-        return resolve(recipe);
-      }
-    );
-  });
-}
-
 function getRecipes(id_start, nb_recipes, search = "") {
   const db = mysql.createConnection({
     host: "concordia-db.docsystem.xyz",
@@ -52,13 +21,13 @@ function getRecipes(id_start, nb_recipes, search = "") {
   const query =
     search === ""
       ? "SELECT * FROM Recipe LIMIT ?, ?"
-      : "SELECT * FROM Recipe WHERE Name_Recipe LIKE %?% LIMIT ?, ?";
+      : "SELECT * FROM Recipe WHERE Name_Recipe LIKE ? LIMIT ?, ?";
   return new Promise((resolve, reject) => {
     db.query(
       query,
       search === ""
         ? [parseInt(id_start), parseInt(nb_recipes)]
-        : [search, parseInt(id_start), parseInt(nb_recipes)],
+        : ['%' + search + '%', parseInt(id_start), parseInt(nb_recipes)],
       (err, results) => {
         db.end();
         if (err) return reject(err);
@@ -98,13 +67,13 @@ function searchRecipe(name = "") {
   const query =
     name === ""
       ? "SELECT * FROM Recipe"
-      : "SELECT * FROM Recipe WHERE Name_Recipe LIKE %?%";
+      : "SELECT * FROM Recipe WHERE Name_Recipe LIKE ?";
   return new Promise((resolve, reject) => {
-    db.query(query, name === "" ? [] : [name], (err, results) => {
+    db.query(query, name === "" ? [] : ['%' + name + '%'], (err, results) => {
       db.end();
       if (err) return reject(err);
       return resolve(results);
     });
   });
 }
-module.exports = { getRecipe, getRecipes, insertRecipe, searchRecipe };
+module.exports = { getRecipes, insertRecipe, searchRecipe };

@@ -60,7 +60,7 @@ async function getRequiredRecipe(ingredientId) {
   });
   return new Promise((resolve, reject) => {
     db.query(
-      "SELECT ID_Recipe FROM To_Require WHERE ID_Ingredient = ?",
+      "SELECT Recipe.* FROM To_Require JOIN Recipe ON To_Require.ID_Recipe = Recipe.ID_Recipe WHERE ID_Ingredient = ?",
       [ingredientId],
       (err, results) => {
         db.end();

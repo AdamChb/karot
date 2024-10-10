@@ -82,8 +82,8 @@ async function searchIngredients(search = "") {
     const query =
       search === ""
         ? "SELECT * FROM Ingredient"
-        : "SELECT * FROM Ingredient WHERE Name_Ingredient LIKE %?%";
-    db.query(query, search === "" ? null : [search], (err, results) => {
+        : "SELECT * FROM Ingredient WHERE Name_Ingredient LIKE ?";
+    db.query(query, search === "" ? null : ["%" + search + "%"], (err, results) => {
       db.end();
       if (err) return reject(err);
       return resolve(results);
