@@ -83,16 +83,38 @@ async function searchIngredients(search = "") {
       search === ""
         ? "SELECT * FROM Ingredient"
         : "SELECT * FROM Ingredient WHERE Name_Ingredient LIKE ?";
-    db.query(query, search === "" ? null : ["%" + search + "%"], (err, results) => {
+    db.query(
+      query,
+      search === "" ? null : ["%" + search + "%"],
+      (err, results) => {
+        db.end();
+        if (err) return reject(err);
+        return resolve(results);
+      }
+    );
+  });
+}
+
+async function getAllIngredients() {
+  const db = mysql.createConnection({
+    host: "concordia-db.docsystem.xyz",
+    user: "uml-b-3",
+    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
+    database: "uml-b-3",
+  });
+  return new Promise((resolve, reject) => {
+    db.query("SELECT * FROM Ingredient", (err, results) => {
       db.end();
       if (err) return reject(err);
       return resolve(results);
     });
   });
 }
+
 module.exports = {
   getIngredient,
   searchIngredient,
   insertIngredient,
   searchIngredients,
+  getAllIngredients,
 };

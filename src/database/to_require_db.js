@@ -71,7 +71,7 @@ async function getRequiredRecipe(ingredientId) {
   });
 }
 
-async function getGenerateMeals(ingredients) {
+async function getGenerateMeals(userId, ingredients) {
   const db = mysql.createConnection({
     host: "concordia-db.docsystem.xyz",
     user: "uml-b-3",
@@ -79,10 +79,50 @@ async function getGenerateMeals(ingredients) {
     database: "uml-b-3",
   });
   db.query(
-    "SELECT r.ID_Recipe FROM Recipe r WHERE NOT EXISTS ( SELECT 1 FROM To_Require tr WHERE tr.ID_Recipe = r.ID_Recipe AND tr.ID_Ingredient NOT IN (?)",
-    [ingredients],
+    `SELECT 
+          r.ID_Recipe,
+          r.Name_Recipe,
+          r.Steps,
+          r.Category,
+          r.Image,
+          ku.Username AS Author_Name,
+          (SELECT COUNT(*) FROM To_Like tl2 WHERE tl2.ID_Recipe = r.ID_Recipe) AS Likes_Count,
+          (CASE WHEN tl.ID_User IS NOT NULL THEN TRUE ELSE FALSE END) AS Has_Liked,
+          GROUP_CONCAT(CONCAT(i.Name_Ingredient, ' (', tr.Quantity, ')') SEPARATOR ', ') AS Ingredients_With_Quantity
+      FROM 
+          Recipe r
+      JOIN 
+          Karot_User ku ON r.ID_Creator = ku.ID_User
+      LEFT JOIN 
+          To_Like tl ON r.ID_Recipe = tl.ID_Recipe AND tl.ID_User = ?
+      LEFT JOIN 
+          To_Require tr ON r.ID_Recipe = tr.ID_Recipe
+      LEFT JOIN 
+          Ingredient i ON tr.ID_Ingredient = i.ID_Ingredient
+      WHERE 
+          r.ID_Recipe IN (
+            SELECT tr.ID_Recipe
+            FROM To_Require tr
+            WHERE tr.ID_Ingredient IN (?)
+            GROUP BY tr.ID_Recipe
+            HAVING COUNT(DISTINCT tr.ID_Ingredient) = (
+              SELECT COUNT(DISTINCT tr2.ID_Ingredient)
+              FROM To_Require tr2
+              WHERE tr2.ID_Recipe = tr.ID_Recipe
+            )
+          )
+      GROUP BY r.ID_Recipe, r.Name_Recipe, r.Steps, r.Category, r.Image, ku.Username, tl.ID_User`,
+    [userId, ingredients],
     (err, results) => {
       db.end();
+      results.forEach((recipe) => {
+        // Ensure that recipe.Image is a Buffer before converting
+        if (recipe.Image && Buffer.isBuffer(recipe.Image)) {
+          recipe.Image = recipe.Image.toString("base64"); // Convert to Base64 string
+        } else {
+          recipe.Image = null; // Handle case with no image or incorrect type
+        }
+      });
       if (err) return reject(err);
       return resolve(results);
     }

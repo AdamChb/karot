@@ -12,14 +12,12 @@
 <script>
 export default {
   name: "MealSectionCreateText",
-  props: ["generated"],
+  props: { generated: String },
   methods: {
     // Function to display the generated meal
     triggergenerate(state) {
       if (state === "false") {
         this.$emit("generate");
-      } else {
-        this.$emit("reset");
       }
     },
   },

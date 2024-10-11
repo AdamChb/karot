@@ -17,51 +17,13 @@ import IngredientsSearchBar from "./IngredientsSearchBar.vue";
 
 <script>
 export default {
+  props: {
+    ingredientsSelected: Array,
+    ingredientsUnselected: Array,
+  },
   data() {
     // TEMP: Je ne sais pas ce que c'est mais il va falloir le changer...
     return {
-      ingredientsSelected: [
-        {
-          id: 2,
-          name: "Cheese",
-        },
-        {
-          id: 4,
-          name: "Lettuce",
-        },
-        {
-          id: 5,
-          name: "Chicken",
-        },
-        {
-          id: 7,
-          name: "Milk",
-        },
-        {
-          id: 9,
-          name: "Bread",
-        },
-      ],
-
-      ingredientsUnselected: [
-        {
-          id: 1,
-          name: "Pasta",
-        },
-        {
-          id: 3,
-          name: "Oil",
-        },
-        {
-          id: 6,
-          name: "Meat",
-        },
-        {
-          id: 8,
-          name: "Flour",
-        },
-      ],
-
       activeColor: "#9abd36",
       inactiveColor: "#bfbfbf",
       searchfilter: "",
@@ -75,34 +37,11 @@ export default {
   methods: {
     // Function to unselect of an ingredient
     unselect(ingredientId) {
-      // Find the ingredient in the active list
-      const ingredient = this.ingredientsSelected.find(
-        (ingredient) => ingredient.id === ingredientId
-      );
-
-      // Add the ingredient to the unactive list
-      this.ingredientsUnselected.push(ingredient);
-
-      // Remove the ingredient from the active list
-      this.ingredientsSelected = this.ingredientsSelected.filter(
-        (ingredient) => ingredient.id !== ingredientId
-      );
+      this.$emit("unselect", ingredientId);
     },
 
-    // Function to select an ingredient
     select(ingredientId) {
-      // Find the ingredient in the unactive list
-      const ingredient = this.ingredientsUnselected.find(
-        (ingredient) => ingredient.id === ingredientId
-      );
-
-      // Add the ingredient to the active list
-      this.ingredientsSelected.push(ingredient);
-
-      // Remove the ingredient from the unactive list
-      this.ingredientsUnselected = this.ingredientsUnselected.filter(
-        (ingredient) => ingredient.id !== ingredientId
-      );
+      this.$emit("select", ingredientId);
     },
 
     updateSearchBar(value) {
@@ -116,7 +55,9 @@ export default {
         return this.ingredientsUnselected;
       } else {
         return this.ingredientsUnselected.filter((ingredient) =>
-          ingredient.name.toLowerCase().includes(ingredientName.toLowerCase())
+          ingredient.Name_Ingredient.toLowerCase().includes(
+            ingredientName.toLowerCase()
+          )
         );
       }
     },
@@ -183,34 +124,32 @@ export default {
   flex-direction: column;
   height: 70%;
   width: 70%;
+  text-wrap: pretty;
   background-color: #ffffff;
   color: white;
   justify-items: space-between;
   border-radius: 20px;
+  padding: 0.5em;
 }
 
 .container-half-ingredients {
   display: inline-block;
+  height: 50%;
   width: 100%;
+  overflow-y: scroll;
 }
 
 .container-component-ingredients {
   display: flex;
   width: 30%;
 }
-
-.ingredient-box {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
 /* Position of the ingredients in the containers */
 #items-inactive {
   display: flex;
   flex-wrap: wrap;
   align-items: start;
   align-content: start;
+  border-bottom: solid 1px #000000;
   height: 70%;
 }
 
@@ -219,6 +158,7 @@ export default {
   flex-wrap: wrap-reverse;
   align-items: end;
   align-content: end;
+  border-top: solid 1px #000000;
   height: 30%;
 }
 </style>

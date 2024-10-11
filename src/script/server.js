@@ -41,7 +41,6 @@ server.get("/api/get-most-liked", async (req, res) => {
   res.send(await api_db.getMostLiked(4, userId));
 });
 
-
 server.get("/api/get-recipes", async (req, res) => {
   const { id_start, nb_recipes } = req.query;
   try {
@@ -98,6 +97,14 @@ server.get("/api/search-recipe", async (req, res) => {
     res.send(answer);
   } catch (error) {
     console.log(error);
+    res.status(500).send;
+  }
+});
+
+server.get("/api/ingredients", async (req, res) => {
+  try {
+    res.send(await ingredient_db.getAllIngredients());
+  } catch (error) {
     res.status(500).send;
   }
 });
@@ -372,6 +379,17 @@ server.get("/api/get-search-results", async (req, res) => {
     res.send(recipe_result);
   } catch (error) {
     console.log(error);
+    res.send(error);
+  }
+});
+
+server.get("/api/generateMeal", async (req, res) => {
+  const userId = req.query.userId;
+  const ingredients = req.query.ingredients;
+  try {
+    const result = await to_require_db.getGenerateMeals(userId, ingredients);
+    res.send(result);
+  } catch (error) {
     res.send(error);
   }
 });

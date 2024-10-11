@@ -17,14 +17,23 @@ import MealSectionCreateResult from "./MealSectionCreateResult.vue";
 <script>
 export default {
   name: "MealSectionCreate",
-  props: ["generated"],
+  props: {
+    generated: String,
+  },
+  data() {
+    return {
+      meals_generated: [],
+      id: 0,
+    };
+  },
+
   methods: {
     // Functions to display the generated meal
-    generatechild() {
+    generate() {
       this.$emit("generate");
     },
-    resetchild() {
-      this.$emit("reset");
+    actualMeal() {
+      return this.meals_generated[this.id];
     },
   },
 };
@@ -32,10 +41,6 @@ export default {
 
 <template>
   <!-- Structure of the meal section creation -->
-  <MealSectionCreateText
-    :generated="generated"
-    @generate="generatechild"
-    @reset="resetchild"
-  />
-  <MealSectionCreateResult v-if="generated === 'true'" />
+  <MealSectionCreateText :generated="generated" @generate="generate" />
+  <MealSectionCreateResult v-if="generated === 'true'" :meal="actualMeal()" />
 </template>
