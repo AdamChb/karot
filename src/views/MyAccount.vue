@@ -363,7 +363,7 @@ export default {
   border-radius: 0.4em;
   background-color: white;
   color: black;
-  height: 75%;
+  height: 100%;
   overflow-y: scroll;
 }
 
