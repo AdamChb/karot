@@ -17,14 +17,10 @@ import MealSectionCreateResult from "./MealSectionCreateResult.vue";
 <script>
 export default {
   name: "MealSectionCreate",
+  emits: ["generate", "goNext", "addMeal"],
   props: {
     generated: String,
-  },
-  data() {
-    return {
-      meals_generated: [],
-      id: 0,
-    };
+    actualMeal: Object,
   },
 
   methods: {
@@ -32,8 +28,11 @@ export default {
     generate() {
       this.$emit("generate");
     },
-    actualMeal() {
-      return this.meals_generated[this.id];
+    goNext() {
+      this.$emit("goNext");
+    },
+    addMeal(recipeId) {
+      this.$emit("addMeal", recipeId);
     },
   },
 };
@@ -42,5 +41,11 @@ export default {
 <template>
   <!-- Structure of the meal section creation -->
   <MealSectionCreateText :generated="generated" @generate="generate" />
-  <MealSectionCreateResult v-if="generated === 'true'" :meal="actualMeal()" />
+  <MealSectionCreateResult
+    v-if="generated !== 'false'"
+    :meal="actualMeal"
+    :generated="generated"
+    @goNext="goNext"
+    @addMeal="addMeal"
+  />
 </template>

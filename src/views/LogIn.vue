@@ -37,17 +37,19 @@ export default {
         body: JSON.stringify(user),
       };
       try {
-        const response = await fetch(`http://127.0.0.1:3000/api/log-in`, options);
+        const response = await fetch(
+          `http://127.0.0.1:3000/api/log-in`,
+          options
+        );
         const data = await response.json();
         this.loggedInUpdate(data.ID_User);
         this.$router.push({ name: "HomePage" });
-      }
-      catch(err) {
+      } catch (err) {
         console.log(err);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <template>
@@ -57,14 +59,14 @@ export default {
 
       <!-- Form with the email and the password -->
       <form>
-        <label for="email" class="subject">Username</label>
-        <input 
-          class="input" 
-          type="email" 
-          id="email" 
-          name="email" 
-          v-model="email" 
-          required 
+        <label for="email" class="subject">Email</label>
+        <input
+          class="input"
+          type="email"
+          id="email"
+          name="email"
+          v-model="email"
+          required
         />
         <label for="password" class="subject">Password</label>
         <input

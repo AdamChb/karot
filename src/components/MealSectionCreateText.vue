@@ -27,20 +27,20 @@ export default {
 <template>
   <div
     class="container-text-meal"
-    :id="generated === 'true' ? 'container-text-meal-generated' : ''"
+    :id="generated !== 'false' ? 'container-text-meal-generated' : ''"
   >
     <div class="main-text">
       <!-- Title of the CreateMeal page -->
       <p
         class="title"
-        :id="generated === 'true' ? 'title-generated' : 'title-not-generated'"
+        :id="generated !== 'false' ? 'title-generated' : 'title-not-generated'"
       >
         Create meals
       </p>
       <p
         class="subtitle"
         :id="
-          generated === 'true'
+          generated !== 'false'
             ? 'subtitle-generated'
             : 'subtitletitle-not-generated'
         "

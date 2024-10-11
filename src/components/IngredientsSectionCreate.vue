@@ -29,7 +29,8 @@ export default {
       searchfilter: "",
     };
   },
-  name: "IngredientsCreate",
+  name: "IngredientsSectionCreate",
+  emits: ["unselect", "select"],
   components: {
     IngredientsBox,
     IngredientsSearchBar,
@@ -45,7 +46,6 @@ export default {
     },
 
     updateSearchBar(value) {
-      console.log(value);
       this.searchfilter = value;
     },
 

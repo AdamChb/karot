@@ -29,13 +29,15 @@ export default {
       generated: "false",
       ingredientsSelected: [],
       ingredientsUnselected: [],
+      mealsGenerated: [],
+      actualMeal: {},
+      id: 0,
     };
   },
   async beforeMount() {
     // Fetch the ingredients from the API
     try {
       const response = await fetch("http://localhost:3000/api/ingredients");
-      console.log(response);
       this.ingredientsUnselected = await response.json();
     } catch (error) {
       console.error("Error fetching ingredients:", error);
@@ -46,7 +48,7 @@ export default {
     async addMeal(recipeId) {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/check-meal?userId=${this.id_user}&recipeId=${recipeId}`,
+          `http://localhost:3000/api/add-meal?userId=${this.id_user}&recipeId=${recipeId}`,
           {
             method: "POST",
             headers: {
@@ -68,20 +70,32 @@ export default {
     },
     // Functions to display the generated meal
     async generate() {
-      this.generated = "true";
+      this.id++;
       const result_generate = await fetch(
-        "http://localhost:3000/api/generateMeal?ids=" +
+        "http://localhost:3000/api/generateMeal?userId=" +
+          this.id_user +
+          "&ids=" +
           this.ingredientsSelected
             .map((ingredient) => ingredient.ID_Ingredient)
             .join(",")
       );
-      this.actualMeal = await result_generate.json();
+      this.mealsGenerated = await result_generate.json();
+      this.actualMeal = this.mealsGenerated[0];
+      this.generated = "pending";
     },
+    // Function to go to the next meal
+    goNext() {
+      this.id++;
+      if (this.id === this.mealsGenerated.length) {
+        this.generated = "end";
+        return;
+      }
+      this.actualMeal = this.mealsGenerated[this.id];
+    },
+
     // Function to unselect of an ingredient
     unselect(ingredientId) {
       // Find the ingredient in the active list
-      console.log(ingredientId);
-      console.log(this.ingredientsSelected);
       const ingredient = this.ingredientsSelected.find(
         (ingredient) => ingredient.ID_Ingredient === ingredientId
       );
@@ -97,8 +111,6 @@ export default {
 
     // Function to select an ingredient
     select(ingredientId) {
-      console.log(ingredientId);
-      console.log(this.ingredientsUnselected);
       // Find the ingredient in the unactive list
       const ingredient = this.ingredientsUnselected.find(
         (ingredient) => ingredient.ID_Ingredient === ingredientId
@@ -130,7 +142,13 @@ export default {
 
     <!-- Component that contains the generated meal -->
     <div id="meal-section">
-      <MealSectionCreate :generated="generated" @generate="generate" />
+      <MealSectionCreate
+        :generated="generated"
+        :actualMeal="actualMeal"
+        @generate="generate"
+        @goNext="goNext"
+        @addMeal="addMeal"
+      />
     </div>
   </div>
 </template>

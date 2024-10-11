@@ -13,8 +13,10 @@
 export default {
   name: "MealSectionCreateResult",
   props: {
+    generated: String,
     meal: Object,
   },
+  emits: ["goNext", "addMeal"],
   methods: {
     // Functions to like or dislike a recipe
     async toLike(recipe) {
@@ -69,37 +71,45 @@ export default {
     goTo(id) {
       this.$router.push({ path: "/recipe", query: { id } });
     },
+
+    goNext() {
+      this.$emit("goNext");
+    },
+
+    addMeal() {
+      this.$emit("addMeal", this.meal.ID_Recipe);
+    },
   },
 };
 </script>
 
 <template>
   <!-- Generated meal -->
-  <div id="generated-meal">
+  <div v-if="generated === 'pending'" id="generated-meal">
     <!-- Image of the generated meal -->
     <div id="meal-img">
-      <img src="@/assets/meal.png" alt="meal" />
+      <img :src="'data:image/jpeg;base64,' + meal.Image" alt="meal" />
     </div>
 
     <!-- Information about the generated meal -->
     <div id="meal-info">
-      <p id="meal-name">Pasta with tomato sauce</p>
+      <p id="meal-name">{{ meal.Name_Recipe }}</p>
       <div id="sub-info">
         <div>
-          <p id="author">by Mathias</p>
+          <p id="author">by {{ meal.Autho }}</p>
         </div>
         <!-- Like button -->
         <div class="like">
           {{ meal.like }}
           <img
             v-show="!meal.liked"
-            @click="toLike(recipe)"
+            @click="toLike(meal)"
             src="../assets/not-liked-orange.svg"
             alt="like icon"
           />
           <img
             v-show="meal.liked"
-            @click="unLike(recipe)"
+            @click="unLike(meal)"
             src="../assets/liked-orange.svg"
             alt="like icon"
           />
@@ -110,26 +120,36 @@ export default {
         <ul id="ingredient-list">
           <li
             class="ingredient-required"
-            v-for="(quantity, name, i) in meal.ingredients"
+            v-for="(ingredient, i) in meal.Ingredients_With_Quantity.split(',')"
             :key="i"
           >
-            <span v-if="quantity === ''">{{ name }}</span>
-            <span v-else>{{ name }}: {{ quantity }}</span>
+            <p>{{ ingredient }}</p>
           </li>
         </ul>
       </div>
 
       <!-- More information about the meal -->
       <!-- TEMP: Mettre un VRAI lien vers une page recette -->
-      <p id="meal-more" @click="goTo(meal.id)">Click for more...</p>
+      <p id="meal-more" @click="goTo(meal.ID_Recipe)">Click for more...</p>
 
       <!-- Buttons to reload or add the meal to the user's meals -->
       <div id="buttons-generated">
         <!-- TEMP: Mettre des fonctions sur ces deux boutons -->
-        <button class="button-meal" id="reload">Reload</button>
-        <button class="button-meal" id="select">Add to My Meals</button>
+        <button class="button-meal" id="reload" @click="goNext()">
+          Reload
+        </button>
+        <button
+          class="button-meal"
+          id="select"
+          @click="addMeal(meal.ID_Recipe)"
+        >
+          Add to My Meals
+        </button>
       </div>
     </div>
+  </div>
+  <div v-else-if="generated === 'end'">
+    <p id="end-list">No more meals to show</p>
   </div>
 </template>
 
@@ -149,7 +169,7 @@ li {
   justify-content: space-around;
   align-items: center;
   min-height: fit-content;
-  height: 60%;
+  height: auto;
   width: 100%;
   background-color: #ffffff;
   border-radius: 20px;
@@ -218,7 +238,7 @@ li {
   display: flex;
   flex-direction: column;
   height: fit-content;
-  width: 50%;
+  width: 80%;
 }
 
 #ingredient-title {
@@ -266,5 +286,12 @@ li {
   border-radius: 10px;
   cursor: pointer;
   padding: 0.5em;
+}
+
+#end-list {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #7e7e7e;
+  margin: 0;
 }
 </style>

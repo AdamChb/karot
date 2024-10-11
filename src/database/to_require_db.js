@@ -78,8 +78,9 @@ async function getGenerateMeals(userId, ingredients) {
     password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
     database: "uml-b-3",
   });
-  db.query(
-    `SELECT 
+  return new Promise((resolve, reject) => {
+    const query =
+      `SELECT 
           r.ID_Recipe,
           r.Name_Recipe,
           r.Steps,
@@ -103,7 +104,10 @@ async function getGenerateMeals(userId, ingredients) {
           r.ID_Recipe IN (
             SELECT tr.ID_Recipe
             FROM To_Require tr
-            WHERE tr.ID_Ingredient IN (?)
+            WHERE tr.ID_Ingredient IN (` +
+      ingredients +
+      `
+            ) 
             GROUP BY tr.ID_Recipe
             HAVING COUNT(DISTINCT tr.ID_Ingredient) = (
               SELECT COUNT(DISTINCT tr2.ID_Ingredient)
@@ -111,9 +115,8 @@ async function getGenerateMeals(userId, ingredients) {
               WHERE tr2.ID_Recipe = tr.ID_Recipe
             )
           )
-      GROUP BY r.ID_Recipe, r.Name_Recipe, r.Steps, r.Category, r.Image, ku.Username, tl.ID_User`,
-    [userId, ingredients],
-    (err, results) => {
+      GROUP BY r.ID_Recipe, r.Name_Recipe, r.Steps, r.Category, r.Image, ku.Username, tl.ID_User`;
+    db.query(query, [userId], (err, results) => {
       db.end();
       results.forEach((recipe) => {
         // Ensure that recipe.Image is a Buffer before converting
@@ -125,8 +128,8 @@ async function getGenerateMeals(userId, ingredients) {
       });
       if (err) return reject(err);
       return resolve(results);
-    }
-  );
+    });
+  });
 }
 
 module.exports = {

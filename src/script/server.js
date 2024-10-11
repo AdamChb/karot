@@ -385,11 +385,12 @@ server.get("/api/get-search-results", async (req, res) => {
 
 server.get("/api/generateMeal", async (req, res) => {
   const userId = req.query.userId;
-  const ingredients = req.query.ingredients;
+  const ingredients = req.query.ids;
   try {
     const result = await to_require_db.getGenerateMeals(userId, ingredients);
     res.send(result);
   } catch (error) {
+    console.log(error);
     res.send(error);
   }
 });
