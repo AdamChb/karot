@@ -75,14 +75,13 @@ export default {
 
   <!-- Container for inactive ingredients -->
   <div id="container-all-ingredients">
-    <div class="container-half-ingredients" id="items-inactive">
+    <div class="scrollable" id="items-inactive">
       <div
-        class="container-component-ingredients"
         v-for="ingredient in filterSearchBar(searchfilter)"
         :key="ingredient.id"
       >
         <IngredientsBox
-          class="ingredient-box"
+          class="ingredient"
           :ingredient="ingredient"
           :active="false"
           :boxColor="inactiveColor"
@@ -92,14 +91,13 @@ export default {
     </div>
 
     <!-- Container for active ingredients -->
-    <div class="container-half-ingredients" id="items-active">
+    <div class="scrollable" id="items-active">
       <div
-        class="container-component-ingredients"
         v-for="ingredient in ingredientsSelected"
         :key="ingredient.id"
       >
         <IngredientsBox
-          class="ingredient-box"
+          class="ingredient"
           :ingredient="ingredient"
           :active="true"
           :boxColor="activeColor"
@@ -111,13 +109,40 @@ export default {
 </template>
 
 <style scoped>
+
+.scrollable {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: left;
+  padding: 1em;
+  width: 100%;
+  border-radius: 0.4em;
+  background-color: white;
+  color: black;
+  height: 75%;
+  overflow-y: scroll;
+}
+.ingredient {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5em;
+  width: fit-content;
+  padding: 0.3em 0.5em;
+  margin: 0.3em;
+  border-radius: 0.4em;
+}
+
 /* Position of the search bar */
 #box-search-bar {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20%;
-  width: 100%;
+  height: 10vh;
+  width: 70%;
 }
 
 /* Style of the container for the ingredients */
@@ -152,7 +177,7 @@ export default {
   align-items: start;
   align-content: start;
   border-bottom: solid 1px #000000;
-  height: 70%;
+  height: 30vh;
 }
 
 #items-active {

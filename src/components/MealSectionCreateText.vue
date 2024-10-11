@@ -15,10 +15,8 @@ export default {
   props: { generated: String },
   methods: {
     // Function to display the generated meal
-    triggergenerate(state) {
-      if (state === "false") {
+    triggergenerate() {
         this.$emit("generate");
-      }
     },
   },
 };

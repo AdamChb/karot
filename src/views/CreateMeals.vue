@@ -195,7 +195,7 @@ export default {
   margin-right: 10vw;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1100px) {
   #body-createmeal {
     flex-direction: column;
     min-height: 100vh;
@@ -210,6 +210,7 @@ export default {
   #meal-section {
     width: 100%;
     margin-right: 0;
+    margin-top: 5vh;
   }
 }
 </style>
