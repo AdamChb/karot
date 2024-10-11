@@ -72,18 +72,22 @@ async function addAllergy(userId, ingredientId) {
     );
 
     if (allergyCheck.length > 0) {
-      throw new Error("Allergy already present");
+      return "This allergy is already added";
     }
 
     await pool.query(
       `INSERT INTO To_Be_Allergic (ID_User, ID_Ingredient) VALUES (?, ?)`,
       [userId, ingredientId]
     );
+    
+    console.log(`Allergy added for user ${userId}, ingredient ${ingredientId}`);
     return "Allergy successfully added";
   } catch (err) {
     throw new Error(`Error when adding the allergy: ${err.message}`);
   }
 }
+
+
 
 // Function to delete an allergy
 async function deleteAllergy(userId, ingredientId) {
@@ -95,6 +99,7 @@ async function deleteAllergy(userId, ingredientId) {
     if (result.affectedRows === 0) {
       throw new Error("Allergy not found");
     }
+    console.log(`Allergy deleted for user ${userId}, ingredient ${ingredientId}`);
     return "Allergy successfully deleted";
   } catch (err) {
     throw new Error(`Error when deleting the allergy: ${err.message}`);
@@ -164,34 +169,52 @@ async function getRandomRecipes(limit, userId) {
 }
 
 // Function to add a recipe
-async function addRecipe(name, ingredients, steps, image, ID_Creator) {
+async function addRecipe(name, ingredients, steps, ID_Creator) {
   try {
+    // Insert the new recipe into the Recipe table
     const [result] = await pool.query(
-      `INSERT INTO Recipe (Name_Recipe, Steps, Image, ID_Creator) VALUES (?, ?, ?, ?)`,
-      [name, steps, image, ID_Creator]
+      `INSERT INTO Recipe (Name_Recipe, Steps, ID_Creator) VALUES (?, ?, ?)`,
+      [name, steps, ID_Creator]
     );
+    
     const recipeId = result.insertId;
+    console.log(`Added recipe with ID: ${recipeId}`);
 
+    // Array to hold promises for ingredient checks
     const ingredientPromises = ingredients.map(async (ingredient) => {
+      // Trim any extra spaces from the ingredient name
+      const trimmedIngredient = ingredient.trim();
+
+      // Check if the ingredient exists
       const [rows] = await pool.query(
         `SELECT ID_Ingredient FROM Ingredient WHERE Name_Ingredient = ?`,
-        [ingredient.trim()]
+        [trimmedIngredient]
       );
-      if (rows.length > 0) {
-        const ingredientId = rows[0].ID_Ingredient;
-        await pool.query(
-          `INSERT INTO To_Require (ID_Ingredient, ID_Recipe, Quantity) VALUES (?, ?, ?)`,
-          [ingredientId, recipeId, "1"]
-        );
+
+      // If the ingredient does not exist, throw an error
+      if (rows.length === 0) {
+        throw new Error(`Ingredient "${trimmedIngredient}" not found`);
       }
+
+      // If it exists, get the ingredient ID
+      const ingredientId = rows[0].ID_Ingredient;
+
+      // Insert the ingredient-recipe relationship into To_Require
+      await pool.query(
+        `INSERT INTO To_Require (ID_Ingredient, ID_Recipe, Quantity) VALUES (?, ?, ?)`,
+        [ingredientId, recipeId, " "]
+      );
     });
 
+    // Wait for all ingredient promises to resolve
     await Promise.all(ingredientPromises);
+    
     return "Recipe successfully added";
   } catch (err) {
     throw new Error(`Error adding recipe: ${err.message}`);
   }
 }
+
 
 // Function to get images for recipes
 async function getImagesRecipes(link) {

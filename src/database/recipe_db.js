@@ -37,26 +37,6 @@ function getRecipes(id_start, nb_recipes, search = "") {
   });
 }
 
-function insertRecipe(recipe) {
-  const db = mysql.createConnection({
-    host: "concordia-db.docsystem.xyz",
-    user: "uml-b-3",
-    password: "FSZFcNnSUwexhzXqfwO7oxHbJmYQteF9",
-    database: "uml-b-3",
-  });
-  return new Promise((resolve, reject) => {
-    db.query(
-      "INSERT INTO Recipe (Name_Recipe, Steps, Image, ID_Creator) VALUES (?, ?, BINARY(?), ?)",
-      [recipe.name, recipe.steps, recipe.image, recipe.userId],
-      (err, results) => {
-        db.end();
-        if (err) return reject(err);
-        return resolve(results);
-      }
-    );
-  });
-}
-
 function searchRecipe(name = "") {
   const db = mysql.createConnection({
     host: "concordia-db.docsystem.xyz",
@@ -76,4 +56,4 @@ function searchRecipe(name = "") {
     });
   });
 }
-module.exports = { getRecipes, insertRecipe, searchRecipe };
+module.exports = { getRecipes, searchRecipe };

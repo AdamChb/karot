@@ -56,37 +56,6 @@ server.get("/api/get-recipes", async (req, res) => {
   }
 });
 
-server.post("/api/insert-recipe", async (req, res) => {
-  let { name, ingredients, steps } = req.body;
-  console.log(req.body);
-  ingredients = ingredients.split("\n");
-  try {
-    const recipe_id = await recipe_db.insertRecipe({
-      name: name,
-      steps: steps,
-      image: null,
-      userId: 1,
-    });
-    console.log(recipe_id);
-    for (let ingredient of ingredients) {
-      ingredient = ingredient.split(":");
-      ingredient = ingredient.map((x) => x.trim());
-      let ingredient_id = await ingredient_db.searchIngredient();
-      if (ingredient_id == null) {
-        ingredient_id = await ingredient_db.insertIngredient(ingredient);
-      }
-      await to_require_db.insertRequiredIngredient({
-        recipeId: recipe_id,
-        ingredientId: ingredient_id,
-        quantity: ingredient[1],
-      });
-    }
-    res.send("Recipe inserted");
-  } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
-  }
-});
 
 server.get("/api/search-recipe", async (req, res) => {
   const { search } = req.query;
@@ -120,19 +89,17 @@ server.get("/api/get-required-meal", async (req, res) => {
   }
 });
 
-// The same method exist with POST, PUT and DELETE
-// Request body is in req.body, it contains all the data sent by the client in the request body
-
 // Add an allergy
 server.post("/api/add-allergy", async (req, res) => {
-  const { userId, ingredientId } = req.body; // Get the data sent by the form
+  const { userId, ingredientId } = req.body; // Expect data from the request body
   try {
     const result = await api_db.addAllergy(userId, ingredientId);
-    res.send(result);
+    res.status(200).send(result); // Send success response
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).json({ message: error.message }); // Send error response
   }
 });
+
 
 // Delete an allergy
 server.delete("/api/delete-allergy", async (req, res) => {
@@ -147,7 +114,7 @@ server.delete("/api/delete-allergy", async (req, res) => {
 
 // Get a user's allergies
 server.get("/api/get-allergies", async (req, res) => {
-  const userId = req.query.id_user;
+  const userId = req.query.userId;
   try {
     const result = await api_db.getAllergies(userId);
     res.send(result);
@@ -202,20 +169,16 @@ server.get("/api/random-recipes", async (req, res) => {
 
 // Add a recipe
 server.post("/api/add-recipe", async (req, res) => {
-  const { name, ingredients, steps, image, ID_Creator } = req.body; // Make sure to include the user ID if necessary
+  const { name, ingredients, steps, ID_Creator } = req.body; // Expect data from the request body
   try {
-    const result = await api_db.addRecipe(
-      name,
-      ingredients,
-      steps,
-      image,
-      ID_Creator
-    ); // Implement this function in api_db.js
-    res.json({ message: "Recipe added successfully!", recipe: result });
+    const result = await api_db.addRecipe(name, ingredients, steps, ID_Creator);
+    res.status(200).json({ message: result }); // Send success response as JSON
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).json({ message: error.message }); // Send error response as JSON
   }
 });
+
+
 
 // Check Meal
 server.delete("/api/check-meal", async (req, res) => {

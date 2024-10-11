@@ -28,6 +28,8 @@ export default {
       ingredients: [],
       allergies: [],
       recipes: [],
+      showInput: false,
+      newAllergy: "",
     };
   },
   async created() {
@@ -44,35 +46,50 @@ export default {
         }
         const data = await response.json();
         this.allergies = data;
-        console.log(this.allergies);
       } catch (error) {
         console.error("Error fetching allergies:", error);
       }
     },
     //Delete an allergy
-    deleteAllergy(ingredientId) {
-      const queryParams = new URLSearchParams({
-        userId: this.userId,
-        ingredientId: this.ingredient.id,
-      }).toString();
-
-      fetch(`http://localhost:3000/api/delete-allergy?${queryParams}`, {
-        method: "DELETE",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.message) {
-            // Remove the allergy from the list
-            this.allergies = this.allergies.filter(
-              (allergy) => allergy !== ingredientId
-            );
-          } else {
-            alert(data.error || "Error deleting allergy");
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
+    async deleteAllergy(ingredientId) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/delete-allergy?userId=${this.id_user}&ingredientId=${ingredientId}`, {
+          method: "DELETE",
         });
+        if (!response.ok) {
+          throw new Error(`Error deleting allergy: ${response.statusText}`);
+        }
+        await this.fetchAllergies(); // Refresh the allergies list after deletion
+      } catch (error) {
+        console.error("Error deleting allergy:", error);
+      }
+    },
+    // Function to add an allergy
+    async addNewAllergy() {
+      this.newAllergy ="";
+      try {
+        const response = await fetch("http://localhost:3000/api/add-allergy", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // Specify the content type
+          },
+          body: JSON.stringify({
+            userId: this.id_user, // Send data in the body
+            ingredientName: this.newAllergy,
+          }),
+        });
+        if (!response.ok) {
+          // Handle error response
+          const errorData = await response.json();
+          throw new Error(errorData.message); // Throw the error message returned from the backend
+        }
+        await this.fetchAllergies(); // Refresh allergies if successful
+      } catch (error) {
+        // Display error to the user
+        console.error("Error adding allergy:", error.message);
+        alert(error.message);
+        
+      }
     },
     // Function to fecth the liked recipes
     async fetchRecipes() {
@@ -112,13 +129,25 @@ export default {
       <!-- Allergies of the user -->
       <div id="allergies" class="scrollable-parent">
         <h2>Your allergies</h2>
-        <div class="scrollable">
+        <div class="scrollable" v-if="allergies">
           <div v-for="(allergy, i) in allergies" :key="i" @click="deleteAllergy(allergy.ID_Ingredient)">
             <div class="allergy">
-              <p>{{ allergy.Name_Ingredient }}</p>
-              <IngredientsBox />
+              <IngredientsBox :ingredient="allergy" :active="true"/>
             </div>
           </div>
+        </div>
+      </div>
+      <!-- Button to display the input to add an allergy -->
+      <div v-show="!showInput" class="cta-button" @click="showInput=true">
+          <img src="@/assets/add.svg" alt="arrow icon" />
+          Add allergy
+      </div>
+
+      <!-- Input to add an allergy -->
+      <div v-show="showInput" id="inputAllergy">
+        <div class="input-group" style="margin-bottom: 0;">
+          <input type="text" v-model="newAllergy" @keyup.enter="addNewAllergy" placeholder="Research an ingredient" />
+          <button @click="addNewAllergy">click</button>
         </div>
       </div>
     </div>
@@ -128,7 +157,7 @@ export default {
       <h2>Your liked recipes</h2>
       <div class="scrollable">
         <div class="blue recipe-card" v-for="recipe in recipes" :key="recipe.ID_Recipe">
-          <RecipeCard :recipe="recipe" />
+          <RecipeCard :recipe="recipe" :isLoggedIn="isLoggedIn" :id_user="id_user" />
         </div>
       </div>
     </div>
@@ -136,6 +165,34 @@ export default {
 </template>
 
 <style scoped>
+/* Style for the add allergy button */
+.cta-button {
+  box-sizing: border-box;
+  border: 2px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4em 1em 0.4em 0.7em;
+  text-align: center;
+  border-radius: 0.4em;
+  color: white;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: 0.3s;
+  margin-bottom: 1em;
+  animation: fadeInLeft ease 1s;
+  cursor: pointer;
+}
+.cta-button:hover {
+  transform: scale(1.04);
+  transition: 0.3s;
+}
+
+.cta-button img {
+  width: 20px;
+  margin-right: 10px;
+}
+
 /* Style of the page MyAccount */
 #my-account {
   display: flex;
@@ -171,6 +228,20 @@ export default {
   padding: 1em 0 1em 1em;
 }
 
+#inputAllergy{
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  align-items: flex-start;
+  height: auto;
+  border-radius: 0.4em;
+  margin: 2vh 0;
+  width: 100%;
+  color: black;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+  padding: 1em 0 1em 1em;
+}
+
 #account {
   height: 25vh;
   padding: 1em;
@@ -185,6 +256,12 @@ export default {
   flex-direction: row;
   justify-content: center;
   margin-bottom: 1em;
+}
+
+.input-group-allergy {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .input-group input {

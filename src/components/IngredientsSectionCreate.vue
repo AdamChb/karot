@@ -23,42 +23,42 @@ export default {
       ingredientsSelected: [
         {
           id: 2,
-          name: "Cheese",
+          Name_Ingredient: "Cheese",
         },
         {
           id: 4,
-          name: "Lettuce",
+          Name_Ingredient: "Lettuce",
         },
         {
           id: 5,
-          name: "Chicken",
+          Name_Ingredient: "Chicken",
         },
         {
           id: 7,
-          name: "Milk",
+          Name_Ingredient: "Milk",
         },
         {
           id: 9,
-          name: "Bread",
+          Name_Ingredient: "Bread",
         },
       ],
 
       ingredientsUnselected: [
         {
           id: 1,
-          name: "Pasta",
+          Name_Ingredient: "Pasta",
         },
         {
           id: 3,
-          name: "Oil",
+          Name_Ingredient: "Oil",
         },
         {
           id: 6,
-          name: "Meat",
+          Name_Ingredient: "Meat",
         },
         {
           id: 8,
-          name: "Flour",
+          Name_Ingredient: "Flour",
         },
       ],
 
@@ -116,7 +116,7 @@ export default {
         return this.ingredientsUnselected;
       } else {
         return this.ingredientsUnselected.filter((ingredient) =>
-          ingredient.name.toLowerCase().includes(ingredientName.toLowerCase())
+          ingredient.Name_Ingredient.toLowerCase().includes(ingredientName.toLowerCase())
         );
       }
     },

@@ -85,7 +85,7 @@ export default {
           </div>
           <div v-for="recipe in recipes" :key="recipe.ID_Recipe" class="recipe">
             <p @click="deleteMeal(recipe.ID_Recipe)">×</p>
-            <RecipeCard :recipe="recipe"/>
+            <RecipeCard :recipe="recipe" :isLoggedIn="isLoggedIn" :id_user="id_user"/>
           </div>
         </div>
       </div>

@@ -25,8 +25,8 @@ export default {
 
 <template>
   <!-- Structure of the ingredient box -->
-  <div class="ingredient-box" v-bind:style="{ 'background-color': boxColor }">
-    <p class="ingredient-name">{{ ingredient.name }}</p>
+  <div class="ingredient-box" :style="{ 'background-color': boxColor }">
+    <p class="ingredient-name">{{ ingredient.Name_Ingredient }}</p>
     <div id="img-box" @click="changeState()">
       <img v-if="active" src="@/assets/cross.svg" alt="remove" />
       <img v-else src="@/assets/add.svg" alt="add" />
@@ -44,9 +44,11 @@ export default {
   height: fit-content;
   border-radius: 7px;
   margin: 0.4em 1em 0.4em 1em;
+  color: white;
 }
 p {
   margin-bottom: 0;
+  padding-right: 1em;
 }
 img {
   width: 0.5em;
