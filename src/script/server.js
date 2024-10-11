@@ -332,25 +332,17 @@ server.get("/api/get-search-results", async (req, res) => {
   const nb_recipes = 5;
   try {
     let recipe_result = await recipe_db.getRecipes(
+      userId,
       id_start,
       nb_recipes,
       search
     );
     for (let i = 0; i < recipe_result.length; i++) {
-      recipe_result[i].Image = recipe_result[i].Image.toString("base64");
-      const hasLiked = (await to_like_db.isLiked(
-        userId,
-        recipe_result[i].ID_Recipe
-      ))
-        ? true
-        : false;
-      recipe_result[i].Has_Liked = hasLiked;
-      const likes_count = await to_like_db.getLikes(recipe_result[i].ID_Recipe);
-      recipe_result[i].Likes_Count = likes_count[0]["COUNT(*)"];
-      const author_name = await account_db.getUsername(
-        recipe_result[i].ID_Creator
-      );
-      recipe_result[i].Author_Name = author_name[0].Username;
+      if (recipe_result[i].Image == null) {
+        recipe_result[i].Image = null;
+      } else {
+        recipe_result[i].Image = recipe_result[i].Image.toString("base64");
+      }
     }
 
     // if (recipe_result.length < nb_recipes) {

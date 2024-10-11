@@ -85,7 +85,7 @@ export default {
 
 <template>
   <!-- Generated meal -->
-  <div v-if="generated === 'pending'" id="generated-meal">
+  <div v-if="generated === 'searched'" id="generated-meal">
     <!-- Image of the generated meal -->
     <div id="meal-img">
       <img :src="'data:image/jpeg;base64,' + meal.Image" alt="meal" />
@@ -148,6 +148,7 @@ export default {
       </div>
     </div>
   </div>
+  <div v-else-if="generated === 'pending'" class="loader container-fluid"></div>
   <div v-else-if="generated === 'end'">
     <p id="end-list">No more meals to show</p>
   </div>
@@ -291,7 +292,29 @@ li {
 #end-list {
   font-size: 1.5em;
   font-weight: 600;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 2em;
   color: #7e7e7e;
   margin: 0;
+}
+
+.loader {
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #ea5b0c; /* Blue */
+  border-radius: 50%;
+  box-sizing: border-box;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

@@ -76,6 +76,7 @@ export default {
 }
 
 #container-text-meal-generated {
+  height: 60%;
   text-align: center;
 }
 

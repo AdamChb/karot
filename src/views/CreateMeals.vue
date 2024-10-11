@@ -70,7 +70,12 @@ export default {
     },
     // Functions to display the generated meal
     async generate() {
+      if (this.ingredientsSelected.length === 0) {
+        alert("You need to select at least one ingredient!");
+        return;
+      }
       this.id++;
+      this.generated = "pending";
       const result_generate = await fetch(
         "http://localhost:3000/api/generateMeal?userId=" +
           this.id_user +
@@ -80,8 +85,12 @@ export default {
             .join(",")
       );
       this.mealsGenerated = await result_generate.json();
+      if (this.mealsGenerated.length === 0) {
+        this.generated = "end";
+        return;
+      }
       this.actualMeal = this.mealsGenerated[0];
-      this.generated = "pending";
+      this.generated = "searched";
     },
     // Function to go to the next meal
     goNext() {
@@ -188,8 +197,9 @@ export default {
 
 @media screen and (max-width: 1024px) {
   #body-createmeal {
-    flex-direction: column-reverse;
-    height: 100vh;
+    flex-direction: column;
+    min-height: 100vh;
+    height: auto;
   }
 
   #ingredients-section {

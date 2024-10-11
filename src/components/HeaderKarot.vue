@@ -27,7 +27,7 @@ export default {
   props: {
     isLoggedIn: Boolean,
   },
-}
+};
 </script>
 
 <template>
@@ -40,11 +40,19 @@ export default {
 
       <!-- Navigation bar for pc -->
       <nav id="header_nav">
-        <router-link to="/createMeals">Create meals</router-link>
+        <router-link v-if="isLoggedIn" to="/createMeals"
+          >Create meals</router-link
+        >
+        <router-link
+          v-else
+          to=""
+          onclick="alert('You must be logged in to create meal')"
+          >Create meals</router-link
+        >
         <router-link to="/recipes">Recipes</router-link>
         <router-link to="/myMeals">My meals</router-link>
         <router-link :to="isLoggedIn ? '/myAccount' : '/logIn'">
-          {{ isLoggedIn ? 'My account' : 'Log In' }}
+          {{ isLoggedIn ? "My account" : "Log In" }}
         </router-link>
       </nav>
       <!-- TEMP: Modifier le header quand un utilisateur est connecté -->
@@ -67,11 +75,19 @@ export default {
 
       <!-- Navigation bar for mobile -->
       <nav id="header_nav_burger" style="display: none">
-        <router-link to="/createMeals">Create meals</router-link>
+        <router-link v-if="isLoggedIn" to="/createMeals"
+          >Create meals</router-link
+        >
+        <router-link
+          v-else
+          to=""
+          onclick="alert('You must be logged in to create meal')"
+          >Create meals</router-link
+        >
         <router-link to="/recipes">Recipes</router-link>
         <router-link to="/myMeals">My meals</router-link>
         <router-link :to="isLoggedIn ? '/myAccount' : '/logIn'">
-          {{ isLoggedIn ? 'My account' : 'Log In' }}
+          {{ isLoggedIn ? "My account" : "Log In" }}
         </router-link>
       </nav>
       <!-- TEMP: Modifier le header quand un utilisateur est connecté -->
@@ -134,7 +150,7 @@ header #pc,
   height: 2em;
   min-width: 5em;
   max-width: 9em;
-  padding: 0 .5em;
+  padding: 0 0.5em;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -81,7 +81,14 @@ export default {
     <div @click="goTo(recipe.ID_Recipe)">
       <!-- Image of the recipe -->
       <div class="img">
-        <img :src="`data:image/jpeg;base64,${recipe.Image}`" alt="recipe image" />
+        <img
+          :src="
+            recipe.Image
+              ? `data:image/jpeg;base64,${recipe.Image}`
+              : require('@/assets/meal.png')
+          "
+          alt="recipe image"
+        />
       </div>
 
       <!-- Name and author of the recipe -->

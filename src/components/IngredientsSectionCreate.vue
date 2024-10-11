@@ -124,7 +124,7 @@ export default {
   flex-direction: column;
   height: 70%;
   width: 70%;
-  text-wrap: pretty;
+  text-wrap: wrap;
   background-color: #ffffff;
   color: white;
   justify-items: space-between;

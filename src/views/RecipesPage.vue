@@ -25,30 +25,28 @@ export default {
     return {
       recipes: [],
       search: "",
+      awaitresponse: false,
     };
   },
 
   async beforeMount() {
-    try {
-      this.search = this.$route.query.search;
-    } catch {
-      this.search = "";
-    }
-
-    try {
-      const meal_reponse = await fetch(
-        `http://127.0.0.1:3000/api/get-search-results?userId=${this.id_user}` +
-          (this.search == undefined ? "" : "&search=" + this.search)
-      );
-      this.recipes = await meal_reponse.json();
-      console.log(this.recipes);
-    } catch (error) {
-      console.error("Error fetching recipes:", error);
-    }
+    this.searchRecipe();
   },
+
   methods: {
-    goSearch() {
-      this.$router.push({ path: "/recipes", query: this.search });
+    async searchRecipe() {
+      try {
+        this.recipes = [];
+        this.awaitresponse = true;
+        const meal_reponse = await fetch(
+          `http://127.0.0.1:3000/api/get-search-results?userId=${this.id_user}` +
+            (this.search == "" ? "" : "&search=" + this.search)
+        );
+        this.recipes = await meal_reponse.json();
+        this.awaitresponse = false;
+      } catch (error) {
+        console.error("Error fetching recipes:", error);
+      }
     },
   },
 };
@@ -71,10 +69,21 @@ export default {
 
       <!-- Search bar -->
       <div id="input-box" class="container-fluid">
-        <input type="search" placeholder="Research a recipe" @keyup.enter="goSearch()"/>
-        <img id="searchButton" :@click="goSearch()" src="../assets/loupe.png" alt="search" />
+        <input
+          v-model="search"
+          type="search"
+          placeholder="Research a recipe"
+          @keyup.enter="searchRecipe()"
+        />
+        <img
+          id="searchButton"
+          @click="searchRecipe()"
+          src="../assets/loupe.png"
+          alt="search"
+        />
       </div>
       <div class="container-fluid">
+        <div v-if="awaitresponse" class="loader container-fluid"></div>
         <!-- List of all the recipes corresponding with the research -->
         <div class="container-recipes">
           <div v-for="recipe in recipes" :key="recipe.id" class="recipe-card">
@@ -201,5 +210,23 @@ h1 {
   background-color: #2f4858;
   margin: 1em;
   border-radius: 0.4em;
+}
+
+.loader {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid #ea5b0c; /* Blue */
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
