@@ -12,36 +12,57 @@
 <script>
 export default {
   name: "MealSectionCreateResult",
-  data() {
-    return {
-      recipe: { // TEMP: Base de données temporaire avant de connecter à la base de données
-        name: "Tagliatelle Carbonara",
-        ingredients: {
-          Pasta: "300g",
-          Bacon: "50g",
-          Eggs: "3",
-          Salt: "",
-          Pepper: "",
-          Parmesan: "",
-        },
-        instructions: ["Boil the pasta", "Add the tomato sauce", "Add basil"],
-        like: 47,
-        liked: false,
-        id: 1,
-      }
-    };
+  props: {
+    meal: Object,
   },
   methods: {
     // Functions to like or dislike a recipe
-    toLike() {
-      this.recipe.liked = !this.recipe.liked;
-      this.recipe.like += 1;
-      // TEMP: Mettre à jour dans la database
+    async toLike(recipe) {
+      if (!this.isLoggedIn) {
+        alert("You need to be logged in to like a recipe!");
+        return;
+      }
+
+      recipe.Has_Liked = !recipe.Has_Liked;
+      recipe.Likes_Count += 1;
+
+      const info = {
+        id_user: this.id_user,
+        id_recipe: recipe.ID_Recipe,
+      };
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(info),
+      };
+      try {
+        await fetch(`http://127.0.0.1:3000/api/like-recipe`, options);
+      } catch (err) {
+        console.log(err);
+      }
     },
-    unLike() {
-      this.recipe.liked = !this.recipe.liked;
-      this.recipe.like -= 1;
-      // TEMP: Mettre à jour dans la database
+    async unLike(recipe) {
+      if (!this.isLoggedIn) return;
+
+      recipe.Has_Liked = !recipe.Has_Liked;
+      recipe.Likes_Count -= 1;
+
+      const options = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      try {
+        await fetch(
+          `http://127.0.0.1:3000/api/unlike-recipe?id_user=${this.id_user}&id_recipe=${recipe.ID_Recipe}`,
+          options
+        );
+      } catch (err) {
+        console.log(err);
+      }
     },
 
     // Function to go to the recipe page
@@ -69,15 +90,15 @@ export default {
         </div>
         <!-- Like button -->
         <div class="like">
-          {{ recipe.like }}
+          {{ meal.like }}
           <img
-            v-show="!recipe.liked"
+            v-show="!meal.liked"
             @click="toLike(recipe)"
             src="../assets/not-liked-orange.svg"
             alt="like icon"
           />
           <img
-            v-show="recipe.liked"
+            v-show="meal.liked"
             @click="unLike(recipe)"
             src="../assets/liked-orange.svg"
             alt="like icon"
@@ -89,7 +110,7 @@ export default {
         <ul id="ingredient-list">
           <li
             class="ingredient-required"
-            v-for="(quantity, name, i) in recipe.ingredients"
+            v-for="(quantity, name, i) in meal.ingredients"
             :key="i"
           >
             <span v-if="quantity === ''">{{ name }}</span>
@@ -99,8 +120,8 @@ export default {
       </div>
 
       <!-- More information about the meal -->
-       <!-- TEMP: Mettre un VRAI lien vers une page recette -->
-      <p id="meal-more" @click="goTo(recipe.id)">Click for more...</p>
+      <!-- TEMP: Mettre un VRAI lien vers une page recette -->
+      <p id="meal-more" @click="goTo(meal.id)">Click for more...</p>
 
       <!-- Buttons to reload or add the meal to the user's meals -->
       <div id="buttons-generated">

@@ -9,10 +9,12 @@
   This view is the page to create meals.
 ------------------------------ -->
 
-<script>
+<script setup>
 import IngredientsSectionCreate from "@/components/IngredientsSectionCreate.vue";
 import MealSectionCreate from "@/components/MealSectionCreate.vue";
+</script>
 
+<script>
 export default {
   name: "createMeals",
   components: {
@@ -25,22 +27,37 @@ export default {
   data() {
     return {
       generated: "false",
+      ingredientsSelected: [],
+      ingredientsUnselected: [],
     };
   },
+  async beforeMount() {
+    // Fetch the ingredients from the API
+    try {
+      const response = await fetch("http://localhost:3000/api/ingredients");
+      console.log(response);
+      this.ingredientsUnselected = await response.json();
+    } catch (error) {
+      console.error("Error fetching ingredients:", error);
+    }
+  },
   methods: {
-     // Add meal to the user's planned meals
-     async addMeal(recipeId) {
+    // Add meal to the user's planned meals
+    async addMeal(recipeId) {
       try {
-        const response = await fetch(`http://localhost:3000/api/check-meal?userId=${this.id_user}&recipeId=${recipeId}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: this.id_user,
-            recipeId,
-          }),
-        });
+        const response = await fetch(
+          `http://localhost:3000/api/check-meal?userId=${this.id_user}&recipeId=${recipeId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: this.id_user,
+              recipeId,
+            }),
+          }
+        );
         if (!response.ok) {
           throw new Error(`Error adding meal: ${response.statusText}`);
         }
@@ -50,11 +67,50 @@ export default {
       }
     },
     // Functions to display the generated meal
-    generate() {
+    async generate() {
       this.generated = "true";
+      const result_generate = await fetch(
+        "http://localhost:3000/api/generateMeal?ids=" +
+          this.ingredientsSelected
+            .map((ingredient) => ingredient.ID_Ingredient)
+            .join(",")
+      );
+      this.actualMeal = await result_generate.json();
     },
-    reset() {
-      this.generated = "false";
+    // Function to unselect of an ingredient
+    unselect(ingredientId) {
+      // Find the ingredient in the active list
+      console.log(ingredientId);
+      console.log(this.ingredientsSelected);
+      const ingredient = this.ingredientsSelected.find(
+        (ingredient) => ingredient.ID_Ingredient === ingredientId
+      );
+
+      // Add the ingredient to the unactive list
+      this.ingredientsUnselected.push(ingredient);
+
+      // Remove the ingredient from the active list
+      this.ingredientsSelected = this.ingredientsSelected.filter(
+        (ingredient) => ingredient.ID_Ingredient !== ingredientId
+      );
+    },
+
+    // Function to select an ingredient
+    select(ingredientId) {
+      console.log(ingredientId);
+      console.log(this.ingredientsUnselected);
+      // Find the ingredient in the unactive list
+      const ingredient = this.ingredientsUnselected.find(
+        (ingredient) => ingredient.ID_Ingredient === ingredientId
+      );
+
+      // Add the ingredient to the active list
+      this.ingredientsSelected.push(ingredient);
+
+      // Remove the ingredient from the unactive list
+      this.ingredientsUnselected = this.ingredientsUnselected.filter(
+        (ingredient) => ingredient.ID_Ingredient !== ingredientId
+      );
     },
   },
 };
@@ -64,16 +120,17 @@ export default {
   <div id="body-createmeal">
     <!-- Component that contains the selection of ingredients -->
     <div id="ingredients-section">
-      <IngredientsSectionCreate />
+      <IngredientsSectionCreate
+        :ingredientsSelected="ingredientsSelected"
+        :ingredientsUnselected="ingredientsUnselected"
+        @select="select"
+        @unselect="unselect"
+      />
     </div>
 
     <!-- Component that contains the generated meal -->
     <div id="meal-section">
-      <MealSectionCreate
-        :generated="generated"
-        @generate="generate"
-        @reset="reset"
-      />
+      <MealSectionCreate :generated="generated" @generate="generate" />
     </div>
   </div>
 </template>
