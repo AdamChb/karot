@@ -42,17 +42,17 @@
         <input
           type="text"
           v-model="recipeName"
-          placeholder="Enter the name of the recipe"
+          placeholder="Name of the recipe"
           class="recipe-input"
         />
         <textarea
           v-model="ingredients"
-          placeholder="Enter the ingredients. Ex: 2 cucumbers, 3 tomatoes..."
+          placeholder="Ingredients separed by a coma (ex: cucumbers, tomatoes...)"
           class="ingredients-input"
         ></textarea>
         <textarea
           v-model="steps"
-          placeholder="Enter the steps. Ex: Cut the tomatoes..."
+          placeholder="Steps (ex: cut the pineapple, then add it on the pizza...)"
           class="steps-input"
         ></textarea>
         <button class="submit-btn" @click="submitRecipe">Submit Recipe</button>
@@ -71,6 +71,14 @@ export default {
       fileName: "", // Store file name instead of image preview
       dragActive: false,
     };
+  },
+  props: {
+    id_user: {
+      type: Number,
+    },
+    isLoggedIn: {
+      type: Boolean,
+    }
   },
   methods: {
     onFileChange(event) {
@@ -108,9 +116,7 @@ export default {
         name: this.recipeName,
         ingredients: this.ingredients.split(","), // Convert string to array
         steps: this.steps,
-        image: this.fileName, // Adjust this if you are handling the image differently
-        // Include ID_Creator if necessary; make sure to get the current user's ID
-        // ID_Creator: currentUserId,
+        ID_Creator: this.id_user,
       };
 
       try {
@@ -131,7 +137,7 @@ export default {
           this.steps = "";
           this.fileName = "";
         } else {
-          alert(data.error || "Error adding recipe");
+          alert(data.error || "Some ingredients are not valid, but your recipe has been created!");
         }
       } catch (error) {
         console.error("Error:", error);

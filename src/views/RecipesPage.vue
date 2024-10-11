@@ -87,7 +87,7 @@ export default {
         <!-- List of all the recipes corresponding with the research -->
         <div class="container-recipes">
           <div v-for="recipe in recipes" :key="recipe.id" class="recipe-card">
-            <RecipeCard :recipe="recipe" />
+            <RecipeCard :recipe="recipe" :isLoggedIn="isLoggedIn" :id_user="id_user"/>
           </div>
         </div>
       </div>
@@ -101,7 +101,7 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
 }
 .recipe {
   padding: 2em 1em;
@@ -191,12 +191,12 @@ h1 {
 }
 
 #start-now {
-  font-size: 1.3em;
+  font-size: 1.2em;
   font-weight: 500;
-  padding: 0 0.8em;
-  height: 2em;
-  border-radius: 10px;
-  border: 3px solid white;
+  padding: .1em .8em;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid white;
   color: white;
   background-color: rgba(255, 255, 255, 0.2);
   transition: 0.3s;
@@ -227,6 +227,12 @@ h1 {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1080px) {
+  #hook {
+    flex-direction: column;
   }
 }
 </style>

@@ -96,18 +96,16 @@ export default {
 
 // );
 
-// const completion = await openai.chat.completions.create({
+// const ai_tip = await openai.chat.completions.create({
 //     model: "gpt-3.5-turbo",
 //     messages: [
-//         { role: "system", content: "You are a cooking assistant." },
-//         {
-//           role: "user",
-//           content: "Give me a tip to enjoy my meal (add a special ingredient, a cooking technique, etc.)",
-//         },
+//         { role: "system", content: "You are an assistant in a cooking app. I will give you a recipe and you should provide tips to the user to enjoy the meal (add a special ingredient, a cooking technique, a drink etc.)" },
+//         { role: "system", content: "Recipe name :" + this.recipe.Name_Recipe },
+//         { role: "system", content: "Ingredients :" + this.recipe.Ingredients_With_Quantity },
+//         { role: "system", content: "Steps :" + this.recipe.Steps },
+//         { role: "user", content: "What is your tip for this recipe?" },
 //     ],
 // });
-
-// console.log(completion.choices[0].message);
 
 </script>
 
@@ -165,14 +163,17 @@ export default {
             </ul>
           </div>
         </div>
-
-        <!-- Meal image -->
-        <div class="photo">
-          <img :src="`data:image/jpeg;base64,${recipe.Image}`" :alt="recipe.Name_Recipe" />
-        </div>
-        <!-- <div class="ai">
-          <p>The Karot AI tip (based on OpenAI):</p>
-        </div> -->
+        <div>
+          <!-- Meal image -->
+          <div class="photo">
+            <img :src="`data:image/jpeg;base64,${recipe.Image}`" :alt="recipe.Name_Recipe" />
+          </div>
+          <!-- AI tip -->
+          <div class="ai">
+            <p>The Karot AI tip (based on OpenAI):</p>
+            <!-- <p>{{ ai_tip.choices[0].message }}</p> -->
+          </div>
+      </div>
       </div>
 
       <!-- Instructions -->
@@ -285,6 +286,10 @@ export default {
   margin-right: 10px;
 }
 
+.ai{
+  margin-top: 1em;
+}
+
 
 /* Responsive design for smaller screens */
 @media (max-width: 1024px) {
@@ -314,6 +319,9 @@ export default {
   .recipe-steps p {
     font-size: 1em;
   }
+  .container-button {
+  align-items: center;
+}
 }
 
 @media (max-width: 480px) {

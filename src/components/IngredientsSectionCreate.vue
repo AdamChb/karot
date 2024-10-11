@@ -56,7 +56,7 @@ export default {
       } else {
         return this.ingredientsUnselected.filter((ingredient) =>
           ingredient.Name_Ingredient.toLowerCase().includes(
-            ingredientName.toLowerCase()
+            ingredientName.toLowerCase() || ''
           )
         );
       }
@@ -68,7 +68,9 @@ export default {
 <template>
   <!-- Ingredient's search bar -->
   <div id="box-search-bar">
-    <IngredientsSearchBar @search="updateSearchBar" />
+    <IngredientsSearchBar
+      @search="updateSearchBar"
+    />
   </div>
 
   <!-- Container for inactive ingredients -->

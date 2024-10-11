@@ -133,9 +133,9 @@ export default {
 }
 
 #submit {
-  padding: 0.5em;
-  width: 17%;
-  border-radius: 15px;
+  padding: .3em .6em;
+  width: auto;
+  border-radius: 8px;
   background-color: #ea5b0c;
   color: white;
   font-weight: 600;

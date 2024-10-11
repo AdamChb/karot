@@ -72,18 +72,22 @@ async function addAllergy(userId, ingredientId) {
     );
 
     if (allergyCheck.length > 0) {
-      throw new Error("Allergy already present");
+      return "This allergy is already added";
     }
 
     await pool.query(
       `INSERT INTO To_Be_Allergic (ID_User, ID_Ingredient) VALUES (?, ?)`,
       [userId, ingredientId]
     );
+    
+    console.log(`Allergy added for user ${userId}, ingredient ${ingredientId}`);
     return "Allergy successfully added";
   } catch (err) {
     throw new Error(`Error when adding the allergy: ${err.message}`);
   }
 }
+
+
 
 // Function to delete an allergy
 async function deleteAllergy(userId, ingredientId) {
@@ -95,9 +99,32 @@ async function deleteAllergy(userId, ingredientId) {
     if (result.affectedRows === 0) {
       throw new Error("Allergy not found");
     }
+    console.log(`Allergy deleted for user ${userId}, ingredient ${ingredientId}`);
     return "Allergy successfully deleted";
   } catch (err) {
     throw new Error(`Error when deleting the allergy: ${err.message}`);
+  }
+}
+
+// Function to get the user's allergies
+async function getAllergies(userId) {
+  try {
+    const [allergies] = await pool.query(
+      `SELECT i.ID_Ingredient, i.Name_Ingredient
+       FROM To_Be_Allergic tba
+       JOIN Ingredient i ON tba.ID_Ingredient = i.ID_Ingredient
+       WHERE tba.ID_User = ?`,
+      [userId]
+    );
+
+    // Check if results contain any allergies
+    if (allergies.length > 0) {
+      return allergies;
+    } else {
+      return []; // Return an empty array if no allergies found
+    }
+  } catch (err) {
+    throw new Error(`Error fetching allergies: ${err.message}`);
   }
 }
 
@@ -142,34 +169,52 @@ async function getRandomRecipes(limit, userId) {
 }
 
 // Function to add a recipe
-async function addRecipe(name, ingredients, steps, image, ID_Creator) {
+async function addRecipe(name, ingredients, steps, ID_Creator) {
   try {
+    // Insert the new recipe into the Recipe table
     const [result] = await pool.query(
-      `INSERT INTO Recipe (Name_Recipe, Steps, Image, ID_Creator) VALUES (?, ?, ?, ?)`,
-      [name, steps, image, ID_Creator]
+      `INSERT INTO Recipe (Name_Recipe, Steps, ID_Creator) VALUES (?, ?, ?)`,
+      [name, steps, ID_Creator]
     );
+    
     const recipeId = result.insertId;
+    console.log(`Added recipe with ID: ${recipeId}`);
 
+    // Array to hold promises for ingredient checks
     const ingredientPromises = ingredients.map(async (ingredient) => {
+      // Trim any extra spaces from the ingredient name
+      const trimmedIngredient = ingredient.trim();
+
+      // Check if the ingredient exists
       const [rows] = await pool.query(
         `SELECT ID_Ingredient FROM Ingredient WHERE Name_Ingredient = ?`,
-        [ingredient.trim()]
+        [trimmedIngredient]
       );
-      if (rows.length > 0) {
-        const ingredientId = rows[0].ID_Ingredient;
-        await pool.query(
-          `INSERT INTO To_Require (ID_Ingredient, ID_Recipe, Quantity) VALUES (?, ?, ?)`,
-          [ingredientId, recipeId, "1"]
-        );
+
+      // If the ingredient does not exist, throw an error
+      if (rows.length === 0) {
+        throw new Error(`Ingredient "${trimmedIngredient}" not found`);
       }
+
+      // If it exists, get the ingredient ID
+      const ingredientId = rows[0].ID_Ingredient;
+
+      // Insert the ingredient-recipe relationship into To_Require
+      await pool.query(
+        `INSERT INTO To_Require (ID_Ingredient, ID_Recipe, Quantity) VALUES (?, ?, ?)`,
+        [ingredientId, recipeId, " "]
+      );
     });
 
+    // Wait for all ingredient promises to resolve
     await Promise.all(ingredientPromises);
+    
     return "Recipe successfully added";
   } catch (err) {
     throw new Error(`Error adding recipe: ${err.message}`);
   }
 }
+
 
 // Function to get images for recipes
 async function getImagesRecipes(link) {
@@ -309,6 +354,47 @@ async function checkMeal(userId, recipeId) {
   }
 }
 
+// Function to get the user's liked recipes
+async function getLikedRecipes(userId) {
+  try {
+    const [meals] = await pool.query(
+      `SELECT DISTINCT
+          r.ID_Recipe, 
+          r.Name_Recipe, 
+          r.Category,
+          r.Image,
+          r.ID_Creator,
+          ku.Username AS Author_Name,
+          (SELECT COUNT(*) FROM To_Like tl2 WHERE tl2.ID_Recipe = r.ID_Recipe) AS Likes_Count,
+          (CASE WHEN tl.ID_User IS NOT NULL THEN TRUE ELSE FALSE END) AS Has_Liked
+      FROM 
+          To_Like tl
+      JOIN 
+          Recipe r ON tl.ID_Recipe = r.ID_Recipe
+      JOIN 
+          Karot_User ku ON r.ID_Creator = ku.ID_User
+      WHERE 
+          tl.ID_User = ?`,
+      [userId, userId]
+    );
+    // Check if results contain any recipes
+    if (meals.length > 0) {
+      // Loop through each recipe
+      meals.forEach(recipe => {
+        // Ensure that recipe.Image is a Buffer before converting
+        if (recipe.Image && Buffer.isBuffer(recipe.Image)) {
+          recipe.Image = recipe.Image.toString('base64'); // Convert to Base64 string
+        } else {
+          recipe.Image = null; // Handle case with no image or incorrect type
+        }
+      });
+    }
+    return meals;
+  } catch (err) {
+    throw new Error(`Error fetching liked recipes: ${err.message}`);
+  }
+}
+
 // Export the functions
 module.exports = {
   getMostLiked,
@@ -321,4 +407,6 @@ module.exports = {
   getPlannedMeals,
   addMeal,
   getRecipe,
+  getLikedRecipes,
+  getAllergies
 };
