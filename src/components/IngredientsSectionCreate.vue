@@ -17,6 +17,8 @@ import IngredientsSearchBar from "./IngredientsSearchBar.vue";
 
 <script>
 export default {
+  name: "IngredientsCreate",
+  emits: ["unselect", "select", "addAllergy"],
   props: {
     ingredientsSelected: Array,
     ingredientsUnselected: Array,
@@ -24,54 +26,11 @@ export default {
   data() {
     // TEMP: Je ne sais pas ce que c'est mais il va falloir le changer...
     return {
-      ingredientsSelected: [
-        {
-          id: 2,
-          Name_Ingredient: "Cheese",
-        },
-        {
-          id: 4,
-          Name_Ingredient: "Lettuce",
-        },
-        {
-          id: 5,
-          Name_Ingredient: "Chicken",
-        },
-        {
-          id: 7,
-          Name_Ingredient: "Milk",
-        },
-        {
-          id: 9,
-          Name_Ingredient: "Bread",
-        },
-      ],
-
-      ingredientsUnselected: [
-        {
-          id: 1,
-          Name_Ingredient: "Pasta",
-        },
-        {
-          id: 3,
-          Name_Ingredient: "Oil",
-        },
-        {
-          id: 6,
-          Name_Ingredient: "Meat",
-        },
-        {
-          id: 8,
-          Name_Ingredient: "Flour",
-        },
-      ],
-
       activeColor: "#9abd36",
       inactiveColor: "#bfbfbf",
       searchfilter: "",
     };
   },
-  name: "IngredientsCreate",
   components: {
     IngredientsBox,
     IngredientsSearchBar,
@@ -87,8 +46,11 @@ export default {
     },
 
     updateSearchBar(value) {
-      console.log(value);
-      this.searchfilter = value;
+      if (value && value.target) {
+        this.searchfilter = value.target.value;
+      } else {
+        this.searchfilter = value;
+      }
     },
 
     // Function to search an ingredient with the search bar
@@ -98,7 +60,7 @@ export default {
       } else {
         return this.ingredientsUnselected.filter((ingredient) =>
           ingredient.Name_Ingredient.toLowerCase().includes(
-            ingredientName.toLowerCase()
+            ingredientName.toLowerCase() || ''
           )
         );
       }
@@ -110,7 +72,9 @@ export default {
 <template>
   <!-- Ingredient's search bar -->
   <div id="box-search-bar">
-    <IngredientsSearchBar @search="updateSearchBar" />
+    <IngredientsSearchBar
+      @search="updateSearchBar"
+    />
   </div>
 
   <!-- Container for inactive ingredients -->

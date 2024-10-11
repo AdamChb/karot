@@ -235,7 +235,7 @@ h1 {
 
   #hook {
     margin: 0;
-    padding: 0;
+    padding: 2em 1.7em;
     width: 100%;
   }
 
@@ -250,10 +250,10 @@ h1 {
   #start-now {
     font-size: 4.5vw;
     font-weight: 500;
-    width: 27vw;
+    width: auto;
     height: 9vw;
     border-radius: 10px;
-    border: 3px solid white;
+    border: 2px solid white;
     color: white;
     background-color: rgba(255, 255, 255, 0.2);
   }

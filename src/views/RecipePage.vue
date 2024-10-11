@@ -319,6 +319,9 @@ export default {
   .recipe-steps p {
     font-size: 1em;
   }
+  .container-button {
+  align-items: center;
+}
 }
 
 @media (max-width: 480px) {

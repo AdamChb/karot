@@ -10,9 +10,9 @@
 ------------------------------ -->
 
 <script>
-// TEMP: Connect to the database
 export default {
   name: "IngredientsSearchBar",
+  emits: ["search"],
   methods: {
     // Function to search an ingredient
     search(event) {
@@ -46,10 +46,11 @@ export default {
 .searchbar {
   height: 2em;
   box-sizing: border-box;
-  width: 70%;
+  width: 100%;
   border: solid 2px #2f4858;
   border-radius: 7px;
   padding: 1em;
+  margin-bottom: .5em;
   transition: 0.3s;
 }
 

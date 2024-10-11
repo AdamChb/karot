@@ -98,6 +98,7 @@ server.get("/api/get-required-meal", async (req, res) => {
 
 // Add an allergy
 server.post("/api/add-allergy", async (req, res) => {
+  console.log(req.body);
   const { userId, ingredientId } = req.body; // Expect data from the request body
   try {
     const result = await api_db.addAllergy(userId, ingredientId);

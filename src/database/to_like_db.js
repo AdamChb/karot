@@ -46,7 +46,7 @@ async function likeRecipe(id_user, id_recipe) {
       `INSERT INTO To_Like (ID_User, ID_Recipe) VALUES (?, ?);`,
       [id_user, id_recipe],
       (err, results) => {
-        console.log("liked " + id_recipe + " " + id_user);
+        console.log("liked recipe" + id_recipe + " by user " + id_user);
         db.end();
         if (err) return reject(err);
         return resolve(results);
@@ -68,7 +68,7 @@ async function unlikeRecipe(id_user, id_recipe) {
       `DELETE FROM To_Like WHERE ID_User = ? AND ID_Recipe = ?;`,
       [id_user, id_recipe],
       (err, results) => {
-        console.log("unliked " + id_recipe + " " + id_user);
+        console.log("unliked recipe " + id_recipe + " by user " + id_user);
         db.end();
         if (err) return reject(err);
         return resolve(results);

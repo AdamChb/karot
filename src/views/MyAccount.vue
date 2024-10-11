@@ -12,14 +12,16 @@
 <script>
 import IngredientsBox from "@/components/IngredientsBox.vue";
 import RecipeCard from "@/components/RecipeCard.vue";
+import IngredientsAllergy from "@/components/IngredientsAllergy.vue";
 
 export default {
   name: "MyAccount",
   components: {
     RecipeCard,
     IngredientsBox,
+    IngredientsAllergy,
   },
-  props:{
+  props: {
     id_user: Number,
     isLoggedIn: Boolean,
   },
@@ -28,19 +30,22 @@ export default {
       ingredients: [],
       allergies: [],
       recipes: [],
-      showInput: false,
-      newAllergy: "",
+      ingredientsSelected: [],
+      ingredientsUnselected: [],
     };
   },
   async created() {
     await this.fetchRecipes(); // Fetch recipes when the component is created
     await this.fetchAllergies(); // Fetch allergies when the component is created
+    await this.fetchIngredients(); // Fetch ingredients when the component is created
   },
   methods: {
     // Function to fetch the allergies of the user
     async fetchAllergies() {
       try {
-        const response = await fetch(`http://localhost:3000/api/get-allergies?userId=${this.id_user}`);
+        const response = await fetch(
+          `http://localhost:3000/api/get-allergies?userId=${this.id_user}`
+        );
         if (!response.ok) {
           throw new Error(`Error fetching allergies: ${response.statusText}`);
         }
@@ -51,11 +56,14 @@ export default {
       }
     },
     //Delete an allergy
-    async deleteAllergy(ingredientId) {
+    async removeAllergy(ingredientId) {
       try {
-        const response = await fetch(`http://localhost:3000/api/delete-allergy?userId=${this.id_user}&ingredientId=${ingredientId}`, {
-          method: "DELETE",
-        });
+        const response = await fetch(
+          `http://localhost:3000/api/delete-allergy?userId=${this.id_user}&ingredientId=${ingredientId}`,
+          {
+            method: "DELETE",
+          }
+        );
         if (!response.ok) {
           throw new Error(`Error deleting allergy: ${response.statusText}`);
         }
@@ -65,8 +73,7 @@ export default {
       }
     },
     // Function to add an allergy
-    async addNewAllergy() {
-      this.newAllergy ="";
+    async addNewAllergy(ingredientId) {
       try {
         const response = await fetch("http://localhost:3000/api/add-allergy", {
           method: "POST",
@@ -75,7 +82,7 @@ export default {
           },
           body: JSON.stringify({
             userId: this.id_user, // Send data in the body
-            ingredientName: this.newAllergy,
+            ingredientId: ingredientId,
           }),
         });
         if (!response.ok) {
@@ -88,22 +95,35 @@ export default {
         // Display error to the user
         console.error("Error adding allergy:", error.message);
         alert(error.message);
-        
       }
     },
     // Function to fecth the liked recipes
     async fetchRecipes() {
       try {
-        const response = await fetch(`http://localhost:3000/api/get-liked-recipes?userId=${this.id_user}`);
+        const response = await fetch(
+          `http://localhost:3000/api/get-liked-recipes?userId=${this.id_user}`
+        );
         if (!response.ok) {
-          throw new Error(`Error fetching liked recipes: ${response.statusText}`);
+          throw new Error(
+            `Error fetching liked recipes: ${response.statusText}`
+          );
         }
         const data = await response.json();
         this.recipes = data;
       } catch (error) {
         console.error("Error fetching liked recipes:", error);
       }
-  },
+    },
+    async fetchIngredients() {
+      // Fetch the ingredients from the API
+      try {
+        const response = await fetch("http://localhost:3000/api/ingredients");
+        console.log(response);
+        this.ingredientsUnselected = await response.json();
+      } catch (error) {
+        console.error("Error fetching ingredients:", error);
+      }
+    },
   },
 };
 </script>
@@ -129,25 +149,22 @@ export default {
       <!-- Allergies of the user -->
       <div id="allergies" class="scrollable-parent">
         <h2>Your allergies</h2>
+        <IngredientsAllergy
+          :ingredientsSelected="ingredientsSelected"
+          :ingredientsUnselected="ingredientsUnselected"
+          @newAllergy="addNewAllergy"
+          @removeAllergy="removeAllergy"
+        />
         <div class="scrollable" v-if="allergies">
-          <div v-for="(allergy, i) in allergies" :key="i" @click="deleteAllergy(allergy.ID_Ingredient)">
+          <div
+            v-for="(allergy, i) in allergies"
+            :key="i"
+            @click="removeAllergy(allergy.ID_Ingredient)"
+          >
             <div class="allergy">
-              <IngredientsBox :ingredient="allergy" :active="true"/>
+              <IngredientsBox :ingredient="allergy" :active="true" />
             </div>
           </div>
-        </div>
-      </div>
-      <!-- Button to display the input to add an allergy -->
-      <div v-show="!showInput" class="cta-button" @click="showInput=true">
-          <img src="@/assets/add.svg" alt="arrow icon" />
-          Add allergy
-      </div>
-
-      <!-- Input to add an allergy -->
-      <div v-show="showInput" id="inputAllergy">
-        <div class="input-group" style="margin-bottom: 0;">
-          <input type="text" v-model="newAllergy" @keyup.enter="addNewAllergy" placeholder="Research an ingredient" />
-          <button @click="addNewAllergy">click</button>
         </div>
       </div>
     </div>
@@ -155,9 +172,17 @@ export default {
     <!-- List of all the user's liked meals -->
     <div id="my-meals" class="scrollable-parent">
       <h2>Your liked recipes</h2>
-      <div class="scrollable">
-        <div class="blue recipe-card" v-for="recipe in recipes" :key="recipe.ID_Recipe">
-          <RecipeCard :recipe="recipe" :isLoggedIn="isLoggedIn" :id_user="id_user" />
+      <div class="scrollable-recipes">
+        <div
+          class="blue recipe-card"
+          v-for="recipe in recipes"
+          :key="recipe.ID_Recipe"
+        >
+          <RecipeCard
+            :recipe="recipe"
+            :isLoggedIn="isLoggedIn"
+            :id_user="id_user"
+          />
         </div>
       </div>
     </div>
@@ -165,33 +190,6 @@ export default {
 </template>
 
 <style scoped>
-/* Style for the add allergy button */
-.cta-button {
-  box-sizing: border-box;
-  border: 2px solid white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.4em 1em 0.4em 0.7em;
-  text-align: center;
-  border-radius: 0.4em;
-  color: white;
-  backdrop-filter: blur(3px);
-  background-color: rgba(255, 255, 255, 0.3);
-  transition: 0.3s;
-  margin-bottom: 1em;
-  animation: fadeInLeft ease 1s;
-  cursor: pointer;
-}
-.cta-button:hover {
-  transform: scale(1.04);
-  transition: 0.3s;
-}
-
-.cta-button img {
-  width: 20px;
-  margin-right: 10px;
-}
 
 /* Style of the page MyAccount */
 #my-account {
@@ -212,23 +210,22 @@ export default {
   width: 30vw;
 }
 
-#account,
 #ingredients,
 #allergies {
   display: flex;
   background-color: white;
   flex-direction: column;
   align-items: flex-start;
-  height: 35vh;
+  height: 65vh;
   border-radius: 0.4em;
   margin: 2vh 0;
   width: 100%;
   color: black;
   box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
-  padding: 1em 0 1em 1em;
+  padding: 2em;
 }
 
-#inputAllergy{
+#inputAllergy {
   display: flex;
   background-color: white;
   flex-direction: column;
@@ -243,12 +240,21 @@ export default {
 }
 
 #account {
-  height: 25vh;
-  padding: 1em;
+  height: auto;
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 0.4em;
+  margin: 2vh 0;
+  width: 100%;
+  color: black;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+  padding: 2em;
 }
 
 #account h2 {
-  margin-bottom: 0.3em;
+  margin-bottom: 0.5em;
 }
 
 .input-group {
@@ -329,6 +335,23 @@ export default {
 
 .scrollable {
   display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: left;
+  padding: 1em;
+  width: 100%;
+  border-radius: 0.4em;
+  background-color: white;
+  color: black;
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.scrollable-recipes {
+  display: flex;
   justify-content: center;
   align-items: flex-start;
   align-content: flex-start;
@@ -336,12 +359,11 @@ export default {
   flex-wrap: wrap;
   text-align: left;
   padding: 1em;
-  padding-left: 0;
   width: 100%;
   border-radius: 0.4em;
   background-color: white;
   color: black;
-  height: 95%;
+  height: 75%;
   overflow-y: scroll;
 }
 
@@ -370,7 +392,7 @@ export default {
   #my-account {
     display: flex;
     flex-direction: column;
-    height: 220vh;
+    height: auto;
   }
 
   #container1 {
@@ -380,6 +402,10 @@ export default {
 
   #my-meals {
     width: 100%;
+    margin-top: 3vh;
+  }
+  #account{
+    height: fit-content;
   }
 }
 </style>

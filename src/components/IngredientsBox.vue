@@ -26,7 +26,7 @@ export default {
   <!-- Structure of the ingredient box -->
   <div class="ingredient-box" v-bind:style="{ 'background-color': boxColor }">
     <div id="text_box">
-      <p class="ingredient-name">{{ ingredient.Name_Ingredient }}</p>
+      <p class="ingredient-name">{{ this.ingredient.Name_Ingredient }}</p>
     </div>
     <div id="img-box" @click="changeState()">
       <img v-if="active" src="@/assets/cross.svg" alt="remove" />
@@ -43,10 +43,7 @@ export default {
   justify-content: space-evenly;
   align-items: center;
   height: fit-content;
-  border-radius: 7px;
-  margin: 0.4em 1em 0.4em 1em;
   color: white;
-  padding: 0.2em;
   width: 100%;
 }
 p {
